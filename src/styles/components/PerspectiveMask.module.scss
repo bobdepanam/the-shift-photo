@@ -1,0 +1,114 @@
+// 🎭 MULTISTEP MASK – multimask.module.scss
+
+// 🌈 Variables SCSS locales
+$mask-url: '/images/mask/mask.svg';
+$mask-size: 80%;
+$mask-position: 52.35% center;
+
+// 🧱 CONTAINER PRINCIPAL
+.main {
+  margin-bottom: 0vh;
+}
+
+.container {
+  position: relative;
+  height: 300vh;
+  background-color: var(--background-color); // ← via thème global
+  transition: background-color 0.4s ease;
+}
+
+// 🎞️ ÉTAPE 1 – IMAGE INITIALE STICKY
+.initialImage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  text-align: center;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.4),
+      rgba(0, 0, 0, 0.8)
+    );
+    z-index: 2;
+    pointer-events: none;
+
+    html.light-mode & {
+      background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.4),
+        rgba(255, 255, 255, 0.8)
+      );
+    }
+  }
+}
+
+// 🧾 TITRE CENTRAL
+.title {
+  position: absolute;
+  z-index: 3;
+  color: var(--text-color);
+  font-size: 10vh;
+  line-height: 0.9;
+  font-weight: 500;
+  margin-bottom: 9vh;
+  transition: color 0.4s ease;
+
+  @media (max-width: 768px) {
+    font-size: 6vh;
+    margin-bottom: 5vh;
+  }
+}
+
+// ✍️ DESCRIPTION
+.description {
+  position: absolute;
+  z-index: 3;
+  margin-top: 15vh;
+  font-size: 1.1rem;
+  font-weight: 300;
+  max-width: 600px;
+  text-align: center;
+  color: var(--text-color);
+  transition: color 0.4s ease;
+
+  @media (max-width: 768px) {
+    font-size: 0.95rem;
+    margin-top: 10vh;
+    padding: 0 1rem;
+  }
+}
+
+// 🌀 ÉTAPE 2 – MASQUE CENTRAL STICKY
+.maskWrapper {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  mask-image: url($mask-url);
+  -webkit-mask-image: url($mask-url);
+  mask-position: $mask-position;
+  -webkit-mask-position: $mask-position;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-size: $mask-size;
+  -webkit-mask-size: $mask-size;
+}

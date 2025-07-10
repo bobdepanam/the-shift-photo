@@ -1,0 +1,28 @@
+/* ------------------------------------
+   🎞️ PIXEL TRANSITION BACKGROUND
+------------------------------------- */
+
+.pixelBackground {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.column {
+  width: 5vw;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.block {
+  width: 100%;
+  height: 5vw;
+  background-color: var(--background-color); // ← theme-driven via :root
+  transition: background-color 0.3s ease;
+}

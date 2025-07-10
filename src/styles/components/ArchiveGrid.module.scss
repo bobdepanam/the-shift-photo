@@ -1,0 +1,91 @@
+/* src/styles/components/Archive.module.scss */
+/* -------------------------------
+   🧱 WRAPPER
+--------------------------------- */
+.archiveWrapper {
+  position: relative;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  --zoom: 1;
+  color: var(--text-color); // dynamique via CSS var
+}
+
+/* -------------------------------
+   🎞️ GRILLE VERTICALE D'ARCHIVE
+--------------------------------- */
+.archiveGridVertical {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr)); // 120px
+  gap: 2rem;
+  padding: 4rem 2rem;
+  width: 100%;
+  max-width: 100%;
+
+  .gridItem {
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 0;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.03);
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+      transition: filter 0.3s ease;
+    }
+  }
+}
+
+/* -------------------------------
+   🔍 PREVIEW CENTER FIXED
+--------------------------------- */
+.previewCenter {
+  position: fixed;
+  top: 30%;
+  left: 35%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .previewContent {
+    position: relative;
+    z-index: 2;
+    width: 30vw;
+    max-height: 35vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      display: block;
+    }
+  }
+}
+
+/* -------------------------------
+   🧊 BACKDROP LÉGER FLOU (DARK/LIGHT)
+--------------------------------- */
+.previewBackdropGlobal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(2px);
+  z-index: -1;
+  pointer-events: none;
+}

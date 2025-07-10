@@ -1,0 +1,13 @@
+/* -------------------------------
+   🪧 PAGE INTRO – Titre & Sous-titre
+--------------------------------- */
+
+.pageIntro {
+  max-width: 100%;
+  color: var(--text-color); // utilise la variable dynamique définie dans _base.scss
+
+
+  body.light-mode & {
+    color: inherit
+  }
+}

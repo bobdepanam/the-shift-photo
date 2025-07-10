@@ -1,0 +1,57 @@
+/* -------------------------------
+   📦 STRUCTURE PRINCIPALE
+--------------------------------- */
+.body {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 40px;
+  max-width: 100%;
+  color: var(--text-color); // explicite (hérite des variables globales)
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  p {
+    margin: 0;
+    display: flex;
+    overflow: hidden;
+    font-size: 12px;
+    padding-right: 30px;
+    padding-top: 10px;
+    font-weight: 300;
+    color: inherit;
+  }
+}
+
+/* -------------------------------
+   📱 RESPONSIVE ADAPTATIONS
+--------------------------------- */
+@media (min-width: 390px) {
+  .body {
+    max-width: 1200px;
+    margin-top: 80px;
+
+    p {
+      font-size: 6vw;
+      padding-right: 2vw;
+    }
+  }
+}
+
+@media (min-width: 700px) {
+  .body {
+    p {
+      font-size: 8vw;
+    }
+  }
+}
+
+@media (min-width: 1000px) {
+  .body {
+    p {
+      font-size: 10vw;
+    }
+  }
+}

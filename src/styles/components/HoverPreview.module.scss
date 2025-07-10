@@ -1,0 +1,27 @@
+/* -----------------------------
+   🖱️ HOVER PREVIEW STYLE (Light/Dark Mode Ready)
+----------------------------- */
+
+.preview {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 25vw;
+  height: 30vw;
+  pointer-events: none;
+  border-radius: 0vw;
+  object-fit: cover;
+  z-index: 9999;
+
+  // Couleurs dynamiques via CSS custom properties
+  background-color: var(--background-color); // ← suit le thème (défini dans :root / html.light-mode)
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+
+  html.light-mode & {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  }
+
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
