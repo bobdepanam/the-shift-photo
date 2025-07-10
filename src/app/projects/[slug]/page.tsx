@@ -5,13 +5,6 @@ import { getAllProjects } from '@/data/projects/getAllProjects'
 import ProjectPageClient from './ProjectPageClient'
 import { Project } from '@/types/project'
 
-type Props = {
-  params: {
-    slug: string
-  }
-}
-
-// Génération statique des slugs (SSG)
 export async function generateStaticParams() {
   const projects = await getAllProjects()
   return projects.map((project: Project) => ({
@@ -19,8 +12,12 @@ export async function generateStaticParams() {
   }))
 }
 
-// Page serveur statique pour chaque projet
-export default async function ProjectPage({ params }: Props) {
+// ✅ Typage direct dans la signature
+export default async function ProjectPage({
+  params,
+}: {
+  params: { slug: string }
+}) {
   const projects = await getAllProjects()
   const project = projects.find((p) => p.slug === params.slug)
 
