@@ -1,38 +1,30 @@
 // src/data/project/getAllProjects.ts
-import fs from 'fs'
-import path from 'path'
-import matter from 'gray-matter'
 
-export type MediaItem = {
-  type: 'image' | 'video'
-  src: string
-}
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
+import { Project } from '@/types/project';
 
-export type Project = {
-  title: string
-  slug: string
-  category: string
-  media: MediaItem[]
-  content: string
-}
+const PROJECTS_DIR = path.join(process.cwd(), 'src/data/projects');
 
-const projectsDirectory = path.join(process.cwd(), 'src/data/projects')
-
+/**
+ * Charge tous les projets en excluant 'archive.md'
+ */
 export function getAllProjects(): Project[] {
-  const files = fs.readdirSync(projectsDirectory)
-    .filter((file) => file.endsWith('.md') && file !== 'archive.md') // Exclure le fichier archive.md
+  const fileNames = fs.readdirSync(PROJECTS_DIR)
+    .filter((file) => file.endsWith('.md') && file !== 'archive.md');
 
-  return files.map((fileName) => {
-    const fullPath = path.join(projectsDirectory, fileName)
-    const fileContents = fs.readFileSync(fullPath, 'utf8')
-    const { data, content } = matter(fileContents)
+  return fileNames.map((fileName) => {
+    const filePath = path.join(PROJECTS_DIR, fileName);
+    const fileContent = fs.readFileSync(filePath, 'utf8');
+    const { data, content } = matter(fileContent);
 
     return {
       title: data.title,
       slug: data.slug || fileName.replace(/\.md$/, ''),
       category: data.category,
       media: data.media,
-      content: content.trim()
-    } as Project
-  })
+      content: content.trim(),
+    };
+  });
 }

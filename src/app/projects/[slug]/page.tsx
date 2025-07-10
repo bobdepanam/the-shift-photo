@@ -1,30 +1,26 @@
 import { notFound } from 'next/navigation'
-import { getAllProjects } from '@/data/projects/getAllProjects'
+import { getProjectBySlug, getAllProjectSlugs } from '@/lib/project'
 import ProjectPageClient from './ProjectPageClient'
-import type { Project } from '@/types/project'
+import { Project } from '@/types/project'
 
-type PageProps = {
-  params: { slug: string }
-}
+// Props = Promise avec params car Next.js 15+ passe props sous forme de Promise
+type Props = Promise<{ params: { slug: string } }>
 
 export async function generateStaticParams() {
-  const projects = await getAllProjects()
-  return projects.map((project: Project) => ({
-    slug: project.slug,
-  }))
+  const slugs = await getAllProjectSlugs()
+  return slugs.map(({ slug }) => ({ slug }))
 }
 
-export default async function ProjectPage({ params }: PageProps) {
-  const { slug } = params
+export default async function Page(props: Props) {
+  // Obligé d'attendre props avant d'accéder à params
+  const { params } = await props
+  const slug = params.slug
 
-  const projects = await getAllProjects()
-  const project = projects.find((p) => p.slug === slug)
+  if (!slug) return notFound()
+
+  const project: Project | null = await getProjectBySlug(slug)
 
   if (!project) return notFound()
 
-  return (
-    <main>
-      <ProjectPageClient project={project} />
-    </main>
-  )
+  return <ProjectPageClient project={project} />
 }
