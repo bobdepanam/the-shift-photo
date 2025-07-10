@@ -3,9 +3,15 @@
 import { notFound } from 'next/navigation'
 import { getAllProjects } from '@/data/projects/getAllProjects'
 import ProjectPageClient from './ProjectPageClient'
-import { Project } from '@/types/project'
+import type { Project } from '@/types/project'
 
-// Génération statique des slugs
+// Typage safe et accepté par Next.js 15.3
+interface Props {
+  params?: {
+    slug?: string
+  }
+}
+
 export async function generateStaticParams() {
   const projects = await getAllProjects()
   return projects.map((project: Project) => ({
@@ -13,14 +19,13 @@ export async function generateStaticParams() {
   }))
 }
 
-// ✅ Typage explicite sans créer de type custom
-export default async function ProjectPage({
-  params,
-}: {
-  params: { slug: string }
-}) {
+export default async function ProjectPage({ params }: Props) {
+  const slug = params?.slug
+
+  if (!slug) return notFound()
+
   const projects = await getAllProjects()
-  const project = projects.find((p) => p.slug === params.slug)
+  const project = projects.find((p) => p.slug === slug)
 
   if (!project) return notFound()
 
