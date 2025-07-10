@@ -5,6 +5,7 @@ import { getAllProjects } from '@/data/projects/getAllProjects'
 import ProjectPageClient from './ProjectPageClient'
 import { Project } from '@/types/project'
 
+// Génération statique des slugs
 export async function generateStaticParams() {
   const projects = await getAllProjects()
   return projects.map((project: Project) => ({
@@ -12,12 +13,13 @@ export async function generateStaticParams() {
   }))
 }
 
-// ✅ Typage direct dans la signature
-export default async function ProjectPage({
-  params,
-}: {
+// Typage correct pour Next.js 15 app router
+type PageProps = {
   params: { slug: string }
-}) {
+}
+
+// Composant page avec params bien attendus
+export default async function ProjectPage({ params }: Awaited<Promise<PageProps>>) {
   const projects = await getAllProjects()
   const project = projects.find((p) => p.slug === params.slug)
 

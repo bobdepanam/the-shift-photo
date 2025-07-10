@@ -18,11 +18,16 @@ import stylesAlt from '@/styles/components/ProjectPageAlt.module.scss'
 
 gsap.registerPlugin(ScrollTrigger)
 
-export default function ProjectPageClient({ project }: { project: Project }) {
+type Props = {
+  project: Project
+}
+
+export default function ProjectPageClient({ project }: Props) {
   const mediaRef = useRef<HTMLDivElement>(null)
   const sidebarRef = useRef<HTMLDivElement>(null)
   const [layout, setLayout] = useState<'classic' | 'alt'>('classic')
 
+  // GSAP classic layout animation
   useEffect(() => {
     if (!mediaRef.current || layout !== 'classic') return
 
@@ -54,13 +59,13 @@ export default function ProjectPageClient({ project }: { project: Project }) {
     return () => ctx.revert()
   }, [layout])
 
+  // Hooks d’animation
   useGsapScrollFade(`.${stylesClassic.sidebar}`)
   useGsapParallax(`.${stylesClassic.image}`)
   useGsapHorizontalScroll(`.${stylesAlt.layout}`, `.${stylesAlt.altTrack}`)
 
   return (
     <>
-
       <ViewToggle
         layout={layout === 'classic' ? 'default' : 'alt'}
         onToggleLayout={() =>
@@ -78,8 +83,7 @@ export default function ProjectPageClient({ project }: { project: Project }) {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
               >
-                 <Breadcrumb path={['projects', project.slug]} />
-
+                <Breadcrumb path={['projects', project.slug]} />
                 <h1>{project.title}</h1>
                 <p className={stylesClassic.category}>{project.category}</p>
                 {project.content && (
