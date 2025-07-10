@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, HTMLMotionProps } from 'framer-motion'
+import { motion, MotionProps } from 'framer-motion'
 import { ElementType } from 'react'
 
 interface SplitTextProps {
@@ -10,7 +10,7 @@ interface SplitTextProps {
 }
 
 export default function SplitText({ text, delay = 0.05, as = 'p' }: SplitTextProps) {
-  const Tag = motion[as as keyof typeof motion] as ElementType<HTMLMotionProps<any>>
+  const Tag = motion[as as keyof typeof motion] as ElementType<MotionProps>
   const words = text.split(' ')
 
   return (
@@ -32,7 +32,7 @@ export default function SplitText({ text, delay = 0.05, as = 'p' }: SplitTextPro
           key={i}
           style={{ display: 'inline-block', marginRight: '0.25em' }}
           variants={{
-            hidden: { opacity: 0, y: `100%` },
+            hidden: { opacity: 0, y: '100%' },
             visible: { opacity: 1, y: 0 },
           }}
           transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
