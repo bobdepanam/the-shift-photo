@@ -5,24 +5,13 @@ import { getAllProjects } from '@/data/projects/getAllProjects'
 import ProjectPageClient from './ProjectPageClient'
 import type { Project } from '@/types/project'
 
-// Typage safe et accepté par Next.js 15.3
-interface Props {
-  params?: {
-    slug?: string
-  }
-}
-
-export async function generateStaticParams() {
-  const projects = await getAllProjects()
-  return projects.map((project: Project) => ({
-    slug: project.slug,
-  }))
-}
-
-export default async function ProjectPage({ params }: Props) {
-  const slug = params?.slug
-
-  if (!slug) return notFound()
+// ✅ Typage large mais explicite — et accepté par Next
+export default async function ProjectPage({
+  params,
+}: {
+  params: { slug: string }
+}) {
+  const { slug } = params
 
   const projects = await getAllProjects()
   const project = projects.find((p) => p.slug === slug)
@@ -34,4 +23,11 @@ export default async function ProjectPage({ params }: Props) {
       <ProjectPageClient project={project} />
     </main>
   )
+}
+
+export async function generateStaticParams() {
+  const projects = await getAllProjects()
+  return projects.map((project: Project) => ({
+    slug: project.slug,
+  }))
 }
