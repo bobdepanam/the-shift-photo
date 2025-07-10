@@ -13,13 +13,12 @@ export async function generateStaticParams() {
   }))
 }
 
-// Typage correct pour Next.js 15 app router
-type PageProps = {
+// ✅ Typage explicite sans créer de type custom
+export default async function ProjectPage({
+  params,
+}: {
   params: { slug: string }
-}
-
-// Composant page avec params bien attendus
-export default async function ProjectPage({ params }: Awaited<Promise<PageProps>>) {
+}) {
   const projects = await getAllProjects()
   const project = projects.find((p) => p.slug === params.slug)
 
