@@ -19,6 +19,7 @@ async function getData(slug: string): Promise<Project | null> {
 
 // ✅ Étape 4 – composant principal Page (⛔️ doit rester synchrone pour Next.js 15)
 export default function Page({ params }: { params: { slug: string } }) {
+    console.log('🛠️ Rebuild Vercel – ' + new Date().toISOString()) // 🔥 ici !
   const projectPromise = getData(params.slug)
 
   return (
