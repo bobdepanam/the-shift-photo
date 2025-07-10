@@ -1,16 +1,20 @@
-// src/app/projects/[slug]/page.tsx
-
 import { notFound } from 'next/navigation'
 import { getAllProjects } from '@/data/projects/getAllProjects'
 import ProjectPageClient from './ProjectPageClient'
 import type { Project } from '@/types/project'
 
-// ✅ Typage large mais explicite — et accepté par Next
-export default async function ProjectPage({
-  params,
-}: {
+type PageProps = {
   params: { slug: string }
-}) {
+}
+
+export async function generateStaticParams() {
+  const projects = await getAllProjects()
+  return projects.map((project: Project) => ({
+    slug: project.slug,
+  }))
+}
+
+export default async function ProjectPage({ params }: PageProps) {
   const { slug } = params
 
   const projects = await getAllProjects()
@@ -23,11 +27,4 @@ export default async function ProjectPage({
       <ProjectPageClient project={project} />
     </main>
   )
-}
-
-export async function generateStaticParams() {
-  const projects = await getAllProjects()
-  return projects.map((project: Project) => ({
-    slug: project.slug,
-  }))
 }
