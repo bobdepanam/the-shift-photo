@@ -1,10 +1,11 @@
+import { ReactElement } from 'react'
 import { getAllProjects } from '@/data/projects/getAllProjects'
 import ProjectGridWrapper from '@/components/ProjectGrid/ProjectGridWrapper'
 import type { Project } from '@/components/ProjectGrid/ProjectGrid'
 import ParallaxText from '@/components/Parallaxtext/Parallaxtext'
 import Description from '@/components/Slow/Description/description'
 
-export default function Home(): JSX.Element {
+export default function Home(): ReactElement {
   const projects: Project[] = getAllProjects()
 
   return (
