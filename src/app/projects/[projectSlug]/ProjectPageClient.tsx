@@ -6,6 +6,7 @@ import ScrollTrigger from 'gsap/ScrollTrigger'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Project } from '@/types/project'
+
 import Breadcrumb from '@/components/Beadcrumb/Breadcrumb'
 import ViewToggle from '@/components/ViewToggle/ViewToggle'
 
@@ -16,6 +17,7 @@ import { useGsapHorizontalScroll } from '@/hooks/useGsapHorizontalScroll'
 import stylesClassic from '@/styles/components/ProjectPageClassic.module.scss'
 import stylesAlt from '@/styles/components/ProjectPageAlt.module.scss'
 
+// ✅ Enregistrement de ScrollTrigger dans GSAP (important)
 gsap.registerPlugin(ScrollTrigger)
 
 type Props = {
@@ -27,7 +29,7 @@ export default function ProjectPageClient({ project }: Props) {
   const sidebarRef = useRef<HTMLDivElement>(null)
   const [layout, setLayout] = useState<'classic' | 'alt'>('classic')
 
-  // GSAP classic layout animation
+  // ✅ Animation GSAP spécifique au layout "classic"
   useEffect(() => {
     if (!mediaRef.current || layout !== 'classic') return
 
@@ -59,7 +61,7 @@ export default function ProjectPageClient({ project }: Props) {
     return () => ctx.revert()
   }, [layout])
 
-  // Hooks d’animation
+  // ✅ Hooks personnalisés GSAP (animations génériques)
   useGsapScrollFade(`.${stylesClassic.sidebar}`)
   useGsapParallax(`.${stylesClassic.image}`)
   useGsapHorizontalScroll(`.${stylesAlt.layout}`, `.${stylesAlt.altTrack}`)
@@ -74,6 +76,7 @@ export default function ProjectPageClient({ project }: Props) {
       />
 
       {layout === 'classic' ? (
+        // ✅ Layout CLASSIC avec sidebar à gauche et grille d’images
         <div className={stylesClassic.projectPage}>
           <div className={stylesClassic.layout}>
             <aside className={stylesClassic.sidebar} ref={sidebarRef}>
@@ -86,6 +89,7 @@ export default function ProjectPageClient({ project }: Props) {
                 <Breadcrumb path={['projects', project.slug]} />
                 <h1>{project.title}</h1>
                 <p className={stylesClassic.category}>{project.category}</p>
+
                 {project.content && (
                   <div className={stylesClassic.description}>
                     <p>{project.content}</p>
@@ -143,6 +147,7 @@ export default function ProjectPageClient({ project }: Props) {
           </div>
         </div>
       ) : (
+        // ✅ Layout ALT avec scroll horizontal et visuels en track
         <div className={stylesAlt.projectPage}>
           <div className={stylesAlt.layout}>
             <aside className={stylesAlt.sidebar}>
@@ -154,6 +159,7 @@ export default function ProjectPageClient({ project }: Props) {
               >
                 <h1>{project.title}</h1>
                 <p className={stylesAlt.category}>{project.category}</p>
+
                 {project.content && (
                   <div className={stylesAlt.description}>
                     <p>{project.content}</p>

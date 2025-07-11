@@ -1,3 +1,5 @@
+// src/lib/project.ts
+
 import fs from 'fs/promises'
 import path from 'path'
 import matter from 'gray-matter'
@@ -7,6 +9,7 @@ const projectsDir = path.join(process.cwd(), 'src/data/projects')
 
 export async function getAllProjectSlugs(): Promise<{ slug: string }[]> {
   const files = await fs.readdir(projectsDir)
+
   return files
     .filter((file) => file.endsWith('.md') && file !== 'archive.md')
     .map((file) => ({

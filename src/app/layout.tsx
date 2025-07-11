@@ -1,4 +1,5 @@
 // src/app/layout.tsx
+
 import type { Metadata } from 'next';
 import { ThemeProvider } from '@/context/ThemeContext';
 import HtmlThemeWrapper from '@/components/Theme/HtmlThemeWrapper';
@@ -11,9 +12,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr">
-      <ThemeProvider>
-        <HtmlThemeWrapper>{children}</HtmlThemeWrapper>
-      </ThemeProvider>
+      <body>
+        <ThemeProvider>
+          <HtmlThemeWrapper>{children}</HtmlThemeWrapper>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
