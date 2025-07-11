@@ -1,14 +1,15 @@
 'use client'
 
-import styles from '@/styles/components/About.module.scss'
 import Image from 'next/image'
+import styles from '@/styles/components/About.module.scss'
+
 import PageIntro from '@/components/PageIntro/PageIntro'
 import Breadcrumb from '@/components/Beadcrumb/Breadcrumb'
 import PerspectiveMask from '@/components/PerspectiveMask/PerspectiveMask'
 import SplitText from '@/components/AnimText/SplitText'
 import FadeInUpBlock from '@/components/AnimText/FadeInUpBlock'
 
-export default function AboutPage(): JSX.Element {
+export default function AboutPage() {
   return (
     <div className={styles.aboutWrapper}>
       {/* 🧭 Breadcrumb */}
@@ -72,15 +73,20 @@ export default function AboutPage(): JSX.Element {
           <div>
             <h4>Toolset & Technologies</h4>
             <ul>
-              <li>Adobe Creative Suite <br></br>(Photoshop, Illustrator, InDesign, After Effects)</li>
-               <li>wordpress,js, Next.js</li>
+              <li>
+                Adobe Creative Suite <br />
+                (Photoshop, Illustrator, InDesign, After Effects)
+              </li>
+              <li>WordPress, JS, Next.js</li>
               <li>Figma</li>
               <li>Premiere Pro / Resolve</li>
               <li>Lottie / Spline</li>
               <li>Notion / Jira / Airtable</li>
-              <li>AI Prompt Crafting <br></br>(ChatGPT, Midjourney, Firefly, Runway)</li>
+              <li>
+                AI Prompt Crafting <br />
+                (ChatGPT, Midjourney, Firefly, Runway)
+              </li>
               <li>Basic HTML, CSS, Framer, Webflow</li>
-
             </ul>
           </div>
         </FadeInUpBlock>
@@ -97,21 +103,6 @@ export default function AboutPage(): JSX.Element {
           </div>
         </FadeInUpBlock>
       </div>
-
-      {/* 📫 Contact */}
-      {/* <FadeInUpBlock>
-        <div className={styles.contactSection}>
-          <h4>Further Information</h4>
-          <ul>
-            <li>Passion in visual & digital culture</li>
-            <li>Available for collaborations and commissions</li>
-            <li>
-              Contact:{' '}
-              <a href="mailto:hello@bastardz.fr">hello@bastardz.fr</a>
-            </li>
-          </ul>
-        </div>
-      </FadeInUpBlock> */}
 
       {/* 🎭 Outro animation */}
       <PerspectiveMask
