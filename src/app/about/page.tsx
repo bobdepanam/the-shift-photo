@@ -6,7 +6,6 @@ import styles from '@/styles/components/About.module.scss'
 import PageIntro from '@/components/PageIntro/PageIntro'
 import Breadcrumb from '@/components/Beadcrumb/Breadcrumb'
 import PerspectiveMask from '@/components/PerspectiveMask/PerspectiveMask'
-import SplitText from '@/components/AnimText/SplitText'
 import FadeInUpBlock from '@/components/AnimText/FadeInUpBlock'
 
 export default function AboutPage() {
@@ -22,17 +21,20 @@ export default function AboutPage() {
       />
 
       {/* ✍️ Intro line */}
-      <SplitText
-        text="I’m a multidisciplinary art director crafting motion design, digital experiences, brand identities, and bold illustrations—blending concept, precision, and instinct."
-        as="h2"
-      />
+<FadeInUpBlock>
+      <div className={styles.statementSection}>
+            <h1>I’m a multidisciplinary art director crafting motion design, digital experiences, brand identities, and bold illustrations—blending concept, precision, and instinct.</h1>
+          </div>
+        </FadeInUpBlock>
 
       {/* 📄 Statements */}
+<FadeInUpBlock>
       <div className={styles.statementSection}>
-        <SplitText text="I develop a versatile creative practice that spans branding, digital design, motion graphics, and illustration. My work combines structure, striking aesthetics, and narrative rhythm to build impactful visual systems." />
-        <SplitText text="I master the full spectrum of design tools—from the Adobe Creative Suite to Figma and 3D workflows—allowing me to shape projects from concept to execution with autonomy and attention to detail." />
-        <SplitText text="My approach bridges strategy and experimentation, always aiming to create immersive and intentional design experiences. Whether it’s a brand, an interface, or a visual story, I bring form and depth to every layer." />
-      </div>
+            <p>I develop a versatile creative practice that spans branding, digital design, motion graphics, and illustration. My work combines structure, striking aesthetics, and narrative rhythm to build impactful visual systems.</p>
+            <p>I master the full spectrum of design tools—from the Adobe Creative Suite to Figma and 3D workflows—allowing me to shape projects from concept to execution with autonomy and attention to detail.</p>
+            <p>My approach bridges strategy and experimentation, always aiming to create immersive and intentional design experiences. Whether it’s a brand, an interface, or a visual story, I bring form and depth to every layer.</p>
+          </div>
+        </FadeInUpBlock>
 
       {/* 🧩 Blocks grid */}
       <div className={styles.gridBlocks}>
