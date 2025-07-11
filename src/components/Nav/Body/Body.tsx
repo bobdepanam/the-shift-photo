@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import styles from '@/styles/components/Body.module.scss'
 import { blur, translate } from '@/scripts/anim'
-import React from 'react'
+import React, { type ReactElement } from 'react'
 
 type LinkItem = {
   title: string
@@ -27,8 +27,8 @@ export default function Body({
   links,
   selectedLink,
   setSelectedLink,
-  onClose // 👈 ici c’était manquant
-}: BodyProps): JSX.Element {
+  onClose
+}: BodyProps): ReactElement {
   const getChars = (word: string) => {
     return word.split('').map((char, i) => (
       <motion.span

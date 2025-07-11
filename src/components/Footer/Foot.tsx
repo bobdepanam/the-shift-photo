@@ -1,9 +1,8 @@
-// components/Footer/Foot.tsx
-import React from 'react'
+import { ReactElement } from 'react'
 import styles from '@/styles/components/Footer.module.scss'
 import Link from 'next/link'
 
-export default function Foot(): JSX.Element {
+export default function Foot(): ReactElement {
   return (
     <div className={styles.footContainer}>
       <div className={styles.footColumn}>

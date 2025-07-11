@@ -1,6 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+'use client'
+
+import { useEffect, useState, type ReactElement } from 'react'
 import Image from 'next/image'
 import { AnimatePresence, motion } from 'framer-motion'
 
@@ -18,6 +20,7 @@ import { useGsapScrollFade } from '@/hooks/useGsapScrollFade'
 
 import FilterOn from '@/icons/filter_on.svg'
 import FilterOff from '@/icons/filter_off.svg'
+
 
 type GridItem = {
   slug: string
@@ -45,7 +48,8 @@ type ProjectGridProps = {
   onToggleLayout: () => void
 }
 
-export default function ProjectGrid({ projects, layout, onToggleLayout }: ProjectGridProps): JSX.Element {
+export default function ProjectGrid({ projects, layout, onToggleLayout }: ProjectGridProps): ReactElement {
+
   const router = useRouter()
   const [gridItems, setGridItems] = useState<GridItem[]>([])
   const [activeCategory, setActiveCategory] = useState<string>('all')

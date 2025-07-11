@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { type ReactElement } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import styles from '@/styles/components/Images.module.scss'
@@ -11,7 +11,7 @@ type IndexProps = {
   isActive: boolean
 }
 
-export default function Images({ src, isActive }: IndexProps): JSX.Element {
+export default function Images({ src, isActive }: IndexProps): ReactElement {
   return (
     <motion.div
       variants={opacity}

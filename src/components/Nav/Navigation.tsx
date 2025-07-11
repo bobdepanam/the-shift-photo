@@ -1,7 +1,7 @@
 'use client'
 
 import styles from '@/styles/components/Navigation.module.scss'
-import { useState } from 'react'
+import { useState, type ReactElement } from 'react'
 import { motion } from 'framer-motion'
 import { height } from '@/scripts/anim'
 import Body from '@/components/Nav/Body/Body'
@@ -41,7 +41,7 @@ const links: LinkItem[] = [
   },
 ]
 
-export default function Navigation({ onClose }: NavigationProps): JSX.Element {
+export default function Navigation({ onClose }: NavigationProps): ReactElement {
   const [selectedLink, setSelectedLink] = useState<SelectedLink>({
     isActive: false,
     index: 0

@@ -7,8 +7,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { opacity, background } from '@/scripts/anim'
 import Navigation from '@/components/Nav/Navigation'
 import DarkToggle from '@/components/DarkToggle/DarkToggle'
+import type { ReactElement } from 'react'
 
-export default function Header(): JSX.Element {
+export default function Header(): ReactElement {
   const [isActive, setIsActive] = useState<boolean>(false)
 
   return (
@@ -49,9 +50,9 @@ export default function Header(): JSX.Element {
         className={styles.background}
       ></motion.div>
 
-<AnimatePresence mode="wait">
-  {isActive && <Navigation onClose={() => setIsActive(false)} />}
-</AnimatePresence>
+      <AnimatePresence mode="wait">
+        {isActive && <Navigation onClose={() => setIsActive(false)} />}
+      </AnimatePresence>
     </div>
   )
 }

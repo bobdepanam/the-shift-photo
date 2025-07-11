@@ -1,4 +1,5 @@
 // src/components/PageIntro/PageIntro.tsx
+import { type ReactElement } from 'react'
 import styles from '@/styles/components/PageIntro.module.scss'
 
 type PageIntroProps = {
@@ -6,7 +7,7 @@ type PageIntroProps = {
   subtitle?: string
 }
 
-export default function PageIntro({ title, subtitle }: PageIntroProps): JSX.Element {
+export default function PageIntro({ title, subtitle }: PageIntroProps): ReactElement {
   return (
     <div className={styles.pageIntro}>
       <h1>{title}</h1>
@@ -14,4 +15,3 @@ export default function PageIntro({ title, subtitle }: PageIntroProps): JSX.Elem
     </div>
   )
 }
-

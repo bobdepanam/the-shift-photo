@@ -1,10 +1,10 @@
 'use client'
 
-import React from 'react'
+import { ReactElement } from 'react'
 import Content from './Content'
 import styles from '@/styles/components/Footer.module.scss'
 
-export default function Footer(): JSX.Element {
+export default function Footer(): ReactElement {
   return (
     <div className={styles.footerWrapper}>
       <div className={styles.footerStickyContainer}>

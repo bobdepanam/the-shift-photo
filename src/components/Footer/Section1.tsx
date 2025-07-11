@@ -1,9 +1,8 @@
 // components/Footer/Section1.tsx
-import React from 'react'
+import { ReactElement } from 'react'
 import Foot from './Foot'
 
-
-export default function Section1(): JSX.Element {
+export default function Section1(): ReactElement {
   return (
     <div>
       <Foot />
