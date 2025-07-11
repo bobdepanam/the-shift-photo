@@ -1,7 +1,7 @@
 'use client'
 
 import styles from '@/styles/components/ProjectFilters.module.scss'
-import { motion } from 'framer-motion'
+import { motion, Variants } from 'framer-motion'
 
 const categories = [
   'all',
@@ -16,7 +16,11 @@ type Props = {
   onSelect: (category: string) => void
 }
 
-const filterVariants = {
+// ✅ Easing cubic bezier typé correctement
+const easing: [number, number, number, number] = [0.76, 0, 0.24, 1]
+
+// ✅ Typage explicite des variants pour éviter les erreurs TS
+const filterVariants: Variants = {
   hidden: {
     opacity: 0,
     y: -10
@@ -26,7 +30,7 @@ const filterVariants = {
     y: 0,
     transition: {
       duration: 0.4,
-      ease: [0.76, 0, 0.24, 1]
+      ease: easing
     }
   },
   exit: {
@@ -34,12 +38,12 @@ const filterVariants = {
     y: -10,
     transition: {
       duration: 0.3,
-      ease: [0.76, 0, 0.24, 1]
+      ease: easing
     }
   }
 }
 
-export default function ProjectFilter({ activeCategory, onSelect }: Props) {
+export default function ProjectFilter({ activeCategory, onSelect }: Props): JSX.Element {
   return (
     <motion.div
       className={styles.filters}
