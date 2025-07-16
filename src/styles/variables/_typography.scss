@@ -1,0 +1,46 @@
+// src/styles/variables/_typography.scss
+// 🧩 TYPOGRAPHY VARIABLES – scalable, claire, prête pour design system
+
+// ----------------------------------
+// 🔤 FONT FAMILY
+// ----------------------------------
+
+$font-family-base: 'Helvetica Now Display', sans-serif;
+
+// ----------------------------------
+// 🔠 FONT SIZES (rem)
+// ----------------------------------
+
+$font-size-xs: 0.75rem;   // 12px
+$font-size-sm: 0.875rem;  // 14px
+$font-size-base: 1rem;    // 16px — par défaut
+$font-size-md: 1.125rem;  // 18px
+$font-size-lg: 1.25rem;   // 20px
+$font-size-xl: 1.5rem;    // 24px
+$font-size-xxl: 2.25rem;  // 36px
+$font-size-xxxl: 3.5rem;  // 56px
+
+// ----------------------------------
+// 📏 LINE HEIGHTS
+// ----------------------------------
+
+$line-height-base: 1.6;      // Paragraphe standard
+$line-height-tight: 1.2;     // Titre compact
+$line-height-heading: 1.1;   // Titres larges
+
+// ----------------------------------
+// 📐 LETTER SPACING
+// ----------------------------------
+
+$letter-spacing-base: normal;
+$letter-spacing-tight: -0.01em;
+$letter-spacing-wide: 0.05em;
+
+// ----------------------------------
+// 🏋️ FONT WEIGHTS
+// ----------------------------------
+
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-bold: 700;
+$font-weight-black: 900;

@@ -1,0 +1,90 @@
+/* -------------------------------
+   🧱 WRAPPER GÉNÉRAL
+--------------------------------- */
+.footerWrapper {
+  position: relative;
+  height: 600px;
+  clip-path: polygon(0% 0, 100% 0%, 100% 100%, 0 100%);
+}
+
+/* -------------------------------
+   📌 STICKY CONTAINER
+--------------------------------- */
+.footerStickyContainer {
+  position: relative;
+  height: calc(100vh + 600px);
+  top: -100vh;
+}
+
+.footerStickyContent {
+  position: sticky;
+  top: calc(100vh - 400px);
+  height: 600px;
+}
+
+/* -------------------------------
+   📦 CONTENU PRINCIPAL DU FOOTER
+--------------------------------- */
+.content {
+  background-color: inherit; // hérite de body/html
+  outline: 0px dashed limegreen; // <- temporaire pour voir le bloc
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: inherit; // ← support dark/light
+}
+
+/* -------------------------------
+   🧭 BLOC INFOS BAS DE PAGE
+--------------------------------- */
+.section2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+/* -------------------------------
+   🔠 TITRE DU FOOTER
+--------------------------------- */
+.footerTitle {
+  line-height: 0.8;
+  margin-top: 0;
+  font-weight: 700;
+  color: inherit;
+  font-size: 14vw;
+  // ou utilise un mixin : @include heading-xl;
+}
+
+/* -------------------------------
+   © COPYRIGHT & INFOS
+--------------------------------- */
+.footerCopyright {
+  font-size: 0.7rem;
+  color: inherit;
+}
+
+/* -------------------------------
+   🧱 COLONNES DE LIENS
+--------------------------------- */
+.footContainer {
+  display: flex;
+  gap: 5rem;
+  padding:3vh;
+  flex-shrink: 0;
+}
+
+.footColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footTitle {
+  margin-bottom: 0;
+  color: #999; // gris moyen compatible light/dark
+  font-size: 0.875rem;
+  font-weight: 500;
+}

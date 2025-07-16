@@ -1,0 +1,67 @@
+/* -------------------------------
+   🎬 FULLSCREEN SECTION WRAPPER
+--------------------------------- */
+
+.sectionWrapper {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  clip-path: polygon(0% 0, 100% 0%, 100% 100%, 0 100%);
+  background-color: var(--background-color); // ← dynamique via root
+}
+
+/* -------------------------------
+   📄 CONTENU CENTRAL
+--------------------------------- */
+
+.sectionContent {
+  position: relative;
+  z-index: 10;
+  padding: 5vw;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: var(--text-color);
+
+  .quote {
+    width: 50vw;
+    font-size: 2vw;
+    text-transform: uppercase;
+    align-self: flex-end;
+    line-height: 1.4;
+    color: var(--text-color);
+    opacity: 0.9;
+  }
+
+  .title {
+    font-size: 5vw;
+    text-transform: uppercase;
+    line-height: 1.1;
+    color: var(--text-color);
+    font-weight: 600;
+  }
+}
+
+/* -------------------------------
+   🖼️ BACKGROUND IMAGE
+--------------------------------- */
+
+.sectionBackground {
+  position: fixed;
+  top: -10vh;
+  left: 0;
+  width: 100%;
+  height: 120vh;
+  z-index: 0;
+
+  .imageWrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+}

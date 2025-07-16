@@ -1,0 +1,33 @@
+/* -------------------------------
+   🧭 NAVIGATION (Dark/Light Mode Ready)
+--------------------------------- */
+.nav {
+  overflow: hidden;
+  background-color: var(--background-color); // ← support thème global
+  color: var(--text-color);                  // ← support texte global
+  transition: background-color 0.4s ease, color 0.4s ease;
+
+  .wrapper {
+    display: flex;
+    gap: 50px;
+    margin-bottom: 80px;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+}
+
+/* -------------------------------
+   📱 RESPONSIVE (desktop)
+--------------------------------- */
+@media only screen and (min-width: 1000px) {
+  .nav {
+    .wrapper {
+      margin-bottom: 0px;
+      justify-content: space-between;
+    }
+  }
+}

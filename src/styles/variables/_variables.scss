@@ -1,0 +1,31 @@
+// src/styles/variables/_variables.scss
+// 🎨 GLOBAL DESIGN VARIABLES – couleurs & thèmes adaptatifs
+
+// ----------------------------------
+// 🌗 PALETTE PAR MODE
+// ----------------------------------
+
+// 🌑 Dark Mode
+$color-bg-dark: #000;
+$color-text-dark: #fff;
+
+// 🌕 Light Mode
+$color-bg-light: #fff;
+$color-text-light: #000;
+
+// ----------------------------------
+// 🧱 COULEURS PAR DÉFAUT
+// ----------------------------------
+
+// Couleurs par défaut utilisées selon le mode (surchargeables)
+$primary-color: $color-bg-dark;
+$secondary-color: $color-text-dark;
+
+// ----------------------------------
+// 🖍️ COULEURS COMPLÉMENTAIRES (optionnel à enrichir)
+// ----------------------------------
+
+//$accent-color: #ff0055;
+//$border-color: #cccccc;
+//$highlight-color: #ffee00;
+//$muted-text: #888888;

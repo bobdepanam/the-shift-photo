@@ -1,0 +1,67 @@
+// src/styles/base/_typography.scss
+// 🅰️ TYPOGRAPHY BASE STYLES — Light/Dark mode ready
+
+@use '../variables/typography' as *;
+
+// -------------------------
+// 🌐 BASE
+// -------------------------
+
+body {
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  font-weight: $font-weight-regular;
+  line-height: $line-height-base;
+  letter-spacing: $letter-spacing-base;
+  color: var(--text-color); // <- cohérent avec _base.scss
+}
+
+// -------------------------
+// 🅰️ TITRES
+// -------------------------
+
+h1, .heading-xl {
+  font-size: $font-size-xxxl;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-heading;
+}
+
+h2, .heading-lg {
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-heading;
+}
+
+h3, .heading-md {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-medium;
+  line-height: $line-height-heading;
+}
+
+h4, .heading-sm {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-medium;
+  line-height: $line-height-heading;
+}
+
+// -------------------------
+// 📄 PARAGRAPHES
+// -------------------------
+
+p, .text-base {
+  font-size: $font-size-base;
+  font-weight: $font-weight-regular;
+  line-height: $line-height-base;
+}
+
+// -------------------------
+// 🔠 PETITS TEXTES
+// -------------------------
+
+.caption, .small {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-regular;
+  line-height: 1.4;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}

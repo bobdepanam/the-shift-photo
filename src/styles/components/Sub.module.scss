@@ -1,0 +1,44 @@
+/* -------------------------------
+   🦶 FOOTER GLOBAL STYLE (Dark/Light Ready)
+--------------------------------- */
+
+.footer {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  font-size: 11px;
+  margin-top: 40px;
+  color: var(--text-color); // ← couleur dynamique
+
+  ul {
+    width: 50%;
+    margin-top: 10px;
+    overflow: hidden;
+    list-style-type: none;
+    padding: 0;
+  }
+
+  li {
+    span {
+      color: #ccc; // par défaut dark
+
+      body.light-mode & {
+        color: #666;
+      }
+    }
+  }
+}
+
+/* -------------------------------
+   📱 RESPONSIVE (≥1000px)
+--------------------------------- */
+
+@media only screen and (min-width: 1000px) {
+  .footer {
+    justify-content: space-between;
+
+    ul {
+      width: auto;
+    }
+  }
+}

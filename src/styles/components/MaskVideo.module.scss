@@ -1,0 +1,65 @@
+// 🎭 STICKY MASK MODULE — styles/mask.module.scss
+
+// 🌈 Variables personnalisées
+$mask-position: 52.35% center;
+$mask-size: 80%;
+
+// 🌑 Mode sombre par défaut
+$bg-dark: #000000;
+$bg-light: #ffffff;
+
+// 🧱 Conteneur global
+.main {
+  margin-bottom: 0; // ← évite l'espace inutile sous la section
+}
+
+.container {
+  position: relative;
+  height: 300vh; // ← scroll long pour effet de zoom/défilement
+  background-color: $bg-dark;
+
+  body.light-mode & {
+    background-color: $bg-light;
+  }
+}
+
+// 🎭 Bloc sticky contenant le masque SVG
+.stickyMask {
+  position: sticky;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  max-width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  // Masque SVG appliqué à la vidéo ou image
+  mask-image: url('/images/mask/mask.svg');
+  -webkit-mask-image: url('/images/mask/mask.svg');
+  mask-position: $mask-position;
+  -webkit-mask-position: $mask-position;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-size: $mask-size;
+  -webkit-mask-size: $mask-size;
+}
+
+// 🎥 Vidéo masquée
+.maskVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  max-width: 100vw;
+}
+
+// 🖼 Image masquée
+.maskImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  max-width: 100vw;
+}

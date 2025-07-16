@@ -1,0 +1,5 @@
+// src/styles/mixins/_index.scss
+
+@use 'mixins/mixin' as mix;
+// Optionnel si tu veux exposer tous les mixins à d'autres @use
+@forward 'mixins/mixin';
