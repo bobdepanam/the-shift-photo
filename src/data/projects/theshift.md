@@ -4,7 +4,9 @@ slug: "theshift"
 category: "theshift"
 media:
   - type: image
-    src: "/images/theshift/theshift_1.jpg"
+    src: "/images/theshift/theshift_0.jpg"
+  - type: image
+    src: "/images/theshift/theshift_1.jpg"  
   - type: image
     src: "/images/theshift/theshift_2.jpg"
   - type: image

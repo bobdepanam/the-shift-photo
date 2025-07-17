@@ -21,7 +21,5 @@ media:
     src: "/images/bastardz/bastardz_84.png"
   - type: image
     src: "/images/bastardz/bastardz_93.png"
-  - type: video
-    src: "/images/video/TTSxBSTRDZ.mp4"
 ---
 **Bastardz** - Visual series exploring ink, gesture, and contrast—where analogue textures meet digital refinements - 2024.

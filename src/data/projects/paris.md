@@ -18,6 +18,8 @@ media:
   - type: image
     src: "/images/paris/paris_30.jpg"
   - type: image
-    src: "/images/paris/paris_34.jpg"                  
+    src: "/images/paris/paris_34.jpg"
+  - type: image
+    src: "/images/paris/paris_38.jpg" 
 ---
 Paris – 35mm photography captured on Ilford HP5 with Canon AE-1 — textures of light and shadow in everyday Paris – 2015 & 2024.

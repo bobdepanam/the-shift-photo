@@ -14,7 +14,7 @@ export default function Home(): ReactElement {
       <ParallaxText
         sections={[
           {
-            imageSrc: '/images/bastardz/bastardz_27.png',
+            imageSrc: '/images/name/dark.png',
             subheading: '',
             heading: 'The Shift',
             headingColor: 'white',
