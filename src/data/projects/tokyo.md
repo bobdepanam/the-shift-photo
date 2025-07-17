@@ -1,6 +1,6 @@
 ---
 title: "Tokyo"
-slug: "Tokyo"
+slug: "tokyo"
 category: "photography"
 media:
   - type: image
