@@ -28,7 +28,7 @@ export default function Home(): ReactElement {
 
       {/* 🐢 Section "Slow" */}
       <Description
-        imageSrc="/images/london/london_9.jpg"
+        imageSrc="/images/london/london_9.webp"
         text="La lenteur est une forme de luxe dans un monde pressé."
         title="Slow Living"
         textColor="inherit"

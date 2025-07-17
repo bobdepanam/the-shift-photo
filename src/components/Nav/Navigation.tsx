@@ -27,17 +27,17 @@ const links: LinkItem[] = [
   {
     title: 'index',
     href: '/',
-    src: 'bastardz/bastardz_1.jpg'
+    src: 'bastardz/bastardz_1.webp'
   },
   {
     title: 'about',
     href: '/about',
-    src: 'theshift/theshift_7.jpg'
+    src: 'theshift/theshift_7.webp'
   },
   {
     title: 'archive',
     href: '/archive',
-    src: 'tokyo/tokyo_45.jpg'
+    src: 'tokyo/tokyo_45.webp'
   },
 ]
 

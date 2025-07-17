@@ -6,15 +6,15 @@ import styles from '@/styles/components/IntroReveal.module.scss'
 import { translate } from '@/scripts/anim'
 
 const images = [
-  '/images/london/london_1.jpg',
-  '/images/london/london_2.jpg',
-  '/images/london/london_3.jpg',
-  '/images/london/london_4.jpg',
-  '/images/london/london_5.jpg',
-  '/images/london/london_6.jpg',
-  '/images/london/london_7.jpg',
-  '/images/london/london_8.jpg',
-  '/images/london/london_9.jpg',
+  '/images/london/london_1.webp',
+  '/images/london/london_2.webp',
+  '/images/london/london_3.webp',
+  '/images/london/london_4.webp',
+  '/images/london/london_5.webp',
+  '/images/london/london_6.webp',
+  '/images/london/london_7.webp',
+  '/images/london/london_8.webp',
+  '/images/london/london_9.webp',
 ]
 
 type IntroRevealProps = {

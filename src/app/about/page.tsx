@@ -44,7 +44,7 @@ export default function AboutPage() {
         <FadeInUpBlock>
           <div>
             <Image
-              src="/images/beast-collect/beast_4.jpg"
+              src="/images/beast-collect/beast_4.webp"
               alt="Portrait"
               width={500}
               height={600}
@@ -55,7 +55,7 @@ export default function AboutPage() {
         <FadeInUpBlock>
           <div>
             <Image
-              src="/images/london/london_27.jpg"
+              src="/images/london/london_27.webp"
               alt="Portrait"
               width={500}
               height={600}
@@ -66,7 +66,7 @@ export default function AboutPage() {
         <FadeInUpBlock>
           <div>
             <Image
-              src="/images/tokyo/tokyo_37.jpg"
+              src="/images/tokyo/tokyo_37.webp"
               alt="Portrait"
               width={500}
               height={600}
@@ -77,7 +77,7 @@ export default function AboutPage() {
         <FadeInUpBlock>
           <div>
             <Image
-              src="/images/craft/craft_03.jpg"
+              src="/images/craft/craft_03.webp"
               alt="Portrait"
               width={500}
               height={600}
@@ -89,7 +89,7 @@ export default function AboutPage() {
 
       {/* 🎭 Outro animation */}
       <PerspectiveMask
-        initialImage="/images/london/london_9.jpg"
+        initialImage="/images/london/london_9.webp"
         title="Revealed"
         description="A trip through the light dunes and storms of memory."
       />
