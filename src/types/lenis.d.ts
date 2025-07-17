@@ -1,4 +1,4 @@
-declare module '@studio-freight/lenis' {
+declare module 'lenis' {
     export interface LenisScrollEvent {
       scroll: number
       progress: number
