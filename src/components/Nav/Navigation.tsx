@@ -37,7 +37,7 @@ const links: LinkItem[] = [
   {
     title: 'archive',
     href: '/archive',
-    src: 'name/name_1.jpg'
+    src: 'tokyo/tokyo_45.jpg'
   },
 ]
 

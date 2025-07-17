@@ -8,8 +8,7 @@ const categories = [
   'all',
   'bastardz',
   'photography',
-  'craft',
-  'theshift'
+  'craft'
 ]
 
 type Props = {

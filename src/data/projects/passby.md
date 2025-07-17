@@ -40,4 +40,4 @@ media:
   - type: image
     src: "/images/shore/shore_18.jpg"
 ---
-World - 35mm photography captured with Canon AE-1 – 2013 & 2012.
+World - 35mm photography captured with Canon AE-1 – 2013 & 2022.

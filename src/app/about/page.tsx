@@ -44,7 +44,7 @@ export default function AboutPage() {
         <FadeInUpBlock>
           <div>
             <Image
-              src="/images/bastardz/bastardz_18.png"
+              src="/images/beast-collect/beast_4.jpg"
               alt="Portrait"
               width={500}
               height={600}
@@ -55,7 +55,7 @@ export default function AboutPage() {
         <FadeInUpBlock>
           <div>
             <Image
-              src="/images/theshift/theshift_116.jpg"
+              src="/images/london/london_27.jpg"
               alt="Portrait"
               width={500}
               height={600}
