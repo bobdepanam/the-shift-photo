@@ -8,8 +8,6 @@ media:
   - type: image
     src: "/images/bastardz/bastardz_2.webp"
   - type: image
-    src: "/images/bastardz/bastardz_3.webp"
-  - type: image
     src: "/images/bastardz/bastardz_4.webp"
   - type: image
     src: "/images/bastardz/bastardz_5.webp"
@@ -21,10 +19,6 @@ media:
     src: "/images/bastardz/bastardz_8.webp"
   - type: image
     src: "/images/bastardz/bastardz_9.webp"
-  - type: image
-    src: "/images/bastardz/bastardz_10.webp"
-  - type: image
-    src: "/images/bastardz/bastardz_11.webp"
   - type: image
     src: "/images/bastardz/bastardz_12.webp"
   - type: image
@@ -45,20 +39,6 @@ media:
     src: "/images/bastardz/bastardz_20.webp"
   - type: image
     src: "/images/bastardz/bastardz_21.webp"
-  - type: image
-    src: "/images/bastardz/bastardz_22.webp"
-  - type: image
-    src: "/images/bastardz/bastardz_23.webp"
-  - type: image
-    src: "/images/bastardz/bastardz_24.webp"
-  - type: image
-    src: "/images/bastardz/bastardz_25.webp"
-  - type: image
-    src: "/images/bastardz/bastardz_26.webp"
-  - type: image
-    src: "/images/bastardz/bastardz_27.webp"
-  - type: image
-    src: "/images/bastardz/bastardz_28.webp"
   - type: image
     src: "/images/bastardz/bastardz_29.webp"
   - type: image

@@ -14,6 +14,8 @@ import ProjectFilter from '@/components/ProjectGrid/ProjectFilter'
 import shuffleArray from '@/utils/shuffleArray'
 import { useRouter } from 'next/navigation'
 import ViewToggle from '@/components/ViewToggle/ViewToggle'
+import HoverPreview from './HoverPreview'
+import useHoverPreview from '@/hooks/useHoverPreview'
 import { useGsapScrollFade } from '@/hooks/useGsapScrollFade'
 
 import FilterOn from '@/icons/filter_on.svg'
@@ -53,7 +55,8 @@ export default function ProjectGrid({ projects, layout, onToggleLayout }: Projec
   const [activeCategory, setActiveCategory] = useState<string>('all')
   const [showFilters, setShowFilters] = useState<boolean>(false)
   const [hasMounted, setHasMounted] = useState(false)
-  
+  const { media, position, isMobile, setMedia, clearMedia } = useHoverPreview()
+
   useGsapScrollFade(`.${stylesDefault.gridItem}`)
   useGsapScrollFade(`.${stylesAlt.thumbItem}`)
 
@@ -203,7 +206,12 @@ export default function ProjectGrid({ projects, layout, onToggleLayout }: Projec
                       transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
                       layout
                       onClick={() => handleNavigate(`/projects/${item.slug}`)}
-                      
+                      onMouseEnter={() => {
+                        if (!isMobile && (item.mediaType === 'image' || item.mediaType === 'video')) {
+                          setMedia({ type: item.mediaType, src: item.src })
+                        }
+                      }}
+                      onMouseLeave={clearMedia}
                     >
                       {item.mediaType === 'image' ? (
                         <Image
@@ -227,7 +235,7 @@ export default function ProjectGrid({ projects, layout, onToggleLayout }: Projec
                   )
                 })}
               </AnimatePresence>
-              
+              <HoverPreview media={media} position={position} />
             </div>
           </motion.div>
         )}

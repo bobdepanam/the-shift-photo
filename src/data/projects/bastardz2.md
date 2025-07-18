@@ -6,8 +6,6 @@ media:
   - type: image
     src: "/images/bastardz/bastardz_33.webp"
   - type: image
-    src: "/images/bastardz/bastardz_34.webp"
-  - type: image
     src: "/images/bastardz/bastardz_35.webp"
   - type: image
     src: "/images/bastardz/bastardz_36.webp"
@@ -29,26 +27,6 @@ media:
     src: "/images/bastardz/bastardz_44.webp"
   - type: image
     src: "/images/bastardz/bastardz_45.webp"
-  - type: image
-    src: "/images/bastardz/bastardz_46.webp"
-  - type: image
-    src: "/images/bastardz/bastardz_47.webp"
-  - type: image
-    src: "/images/bastardz/bastardz_48.webp"
-  - type: image
-    src: "/images/bastardz/bastardz_49.webp"
-  - type: image
-    src: "/images/bastardz/bastardz_50.webp"
-  - type: image
-    src: "/images/bastardz/bastardz_51.webp"
-  - type: image
-    src: "/images/bastardz/bastardz_52.webp"
-  - type: image
-    src: "/images/bastardz/bastardz_53.webp"
-  - type: image
-    src: "/images/bastardz/bastardz_54.webp"
-  - type: image
-    src: "/images/bastardz/bastardz_55.webp"
   - type: image
     src: "/images/bastardz/bastardz_56.webp"
   - type: image
