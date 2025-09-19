@@ -4,7 +4,7 @@ import ArchiveGrid from '@/components/Archive/ArchiveGrid'
 import Breadcrumb from '@/components/Beadcrumb/Breadcrumb'
 import Section from '@/components/Slow/Section/Section'
 import type { Project } from '@/types/project'
-import styles from '@/styles/components/Archive.module.scss'
+import styles from '@/styles/components/ArchivePage.module.scss'
 
 export default function ArchivePage() {
   const allProjects: Project[] = getAllProjects()
@@ -32,7 +32,7 @@ export default function ArchivePage() {
 
       {/* 📜 Citation immersive */}
       <Section
-        imageSrc="/images/bastardz/bastardz_18.png"
+        imageSrc="/images/craft/macshift_02.gif"
         quote="Beauty and quality need the right time to be conceived and realised even in a world that is in too much of a hurry."
         title="Show me"
       />

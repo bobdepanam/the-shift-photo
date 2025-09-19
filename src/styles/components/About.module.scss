@@ -1,5 +1,4 @@
 // src/styles/components/About.module.scss
-
 @use '../mixins' as mix;
 
 /* -------------------------------
@@ -10,75 +9,176 @@
   flex-direction: column;
   gap: 4rem;
   padding: 4rem 2rem;
-  max-width: 90rem;
+  max-width: 90rem; /* ~1440px */
   margin: 0 auto;
   color: inherit; // hérite du body (dark/light)
 }
 
 /* -------------------------------
-   🪾 STATEMENT SECTION
+   🏷️ HEADER HERO
 --------------------------------- */
-.statementSection {
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  max-width: 60rem;
-  margin: 0 auto;
-  color: inherit;
+.headerHero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: end;
+  gap: 2rem;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+}
+
+.heroTitle {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+  font-weight: 700;
+  font-size: clamp(3rem, 12vw, 8rem); // très grand
+}
+
+.heroKicker {
+  justify-self: end;
+  max-width: 32rem;
+  text-align: right;
   @include mix.text-base;
+
+  @media (max-width: 900px) {
+    justify-self: start;
+    text-align: left;
+  }
 }
 
 /* -------------------------------
-   📂 GRID BLOCKS (5 COLONNES)
+   ➖ FILET
 --------------------------------- */
-.gridBlocks {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(13.75rem, 1fr));
-  gap: 3rem;
-  margin-top: 2rem;
+.rule {
+  border: 0;
+  border-top: 1px solid var(--border, rgba(255, 255, 255, 0.12));
+  margin: 2rem 0;
+}
 
-  h4 {
+/* -------------------------------
+   📂 META GRID (texte / listes / image)
+--------------------------------- */
+.metaGrid {
+  display: grid;
+  grid-template-columns: 1.4fr 0.8fr 1fr; // proportion proche de la maquette 1440
+  gap: 2.5rem;
+  align-items: start;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.metaColText {
+  max-width: 52rem;
+
+  p {
+    margin-bottom: 1.25rem;
+    line-height: 1.65;
+    @include mix.text-base;
+  }
+}
+
+.metaColLists {
+  h3 {
     @include mix.heading-sm;
-    margin-bottom: 1rem;
+    margin: 0 0 0.75rem;
   }
 
   ul {
     list-style: none;
     padding: 0;
-    margin: 0;
-
-    li {
-      margin-bottom: 0.5rem;
-      color: inherit;
-      @include mix.text-base;
-    }
+    margin: 0 0 1.75rem;
   }
 
-  a {
-    color: inherit;
-    text-decoration: underline;
+  li {
+    @include mix.text-base;
+    margin-bottom: 0.4rem;
+  }
+}
 
-    &:hover {
-      opacity: 0.7;
-    }
+.metaColImage {
+  img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
   }
 }
 
 /* -------------------------------
-   📂 FOOTER BLOCK
+   ✍️ BIG STATEMENT TYPO
 --------------------------------- */
-.footerBlock {
-  margin-top: 4rem;
+.bigStatement {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  align-items: center;
+  margin: 6rem 0 4rem;
 
-  h2 {
-    @include mix.heading-lg;
-    margin-bottom: 2rem;
+  @media (max-width: 1000px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+.bigLeft h2 {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: -0.025em;
+  font-weight: 800;
+  line-height: 0.92;
+  font-size: clamp(3rem, 12vw, 10rem); // bloc gauche énorme
+}
+
+.bigRight h3 {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  font-weight: 300;
+  line-height: 0.92;
+  text-align: right;
+  font-size: clamp(2.5rem, 10vw, 8rem);
+
+  @media (max-width: 1000px) {
+    text-align: left;
+  }
+}
+
+/* -------------------------------
+   🖼️ THUMB STRIP (mini-vignettes)
+--------------------------------- */
+.thumbStrip {
+  margin: 1.5rem 0 4rem;
+
+  ul {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(160px, 1fr);
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
   }
 
-  .galleryRow {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
+  li {
+    scroll-snap-align: start;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
   }
 }

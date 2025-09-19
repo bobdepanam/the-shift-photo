@@ -14,7 +14,9 @@ export default function Home(): ReactElement {
       <ParallaxText
         sections={[
           {
-            imageSrc: '/images/name/dark.png',
+            imageSrc: '/images/craft/macshift_03.gif',
+            // videoSrc: '/videos/intro_shift.mp4',   
+            // poster: '/images/name/dark_poster.webp',    
             subheading: '',
             heading: 'The Shift',
             headingColor: 'white',
