@@ -5,7 +5,7 @@
 .pageIntro {
   max-width: 100%;
   color: var(--text-color); // utilise la variable dynamique définie dans _base.scss
-
+padding: 1rem;
 
   body.light-mode & {
     color: inherit

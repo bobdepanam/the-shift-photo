@@ -3,10 +3,10 @@
 --------------------------------- */
 
 .header {
-  position: sticky;
-  top: 2px;
+  position: fixed;
+  top: 0px;
   width: 100%;
-  background-color: none; // var(--background-color);  ← s'aligne avec le body
+  background-color: var(--background-color); 
   color: var(--text-color);
   z-index: 50;
   padding: 10px;
@@ -34,10 +34,11 @@
     }
 
     .center {
-      flex: 0;
+      flex: none;
       display: flex;
       justify-content: center;
       align-items: center;
+
     }
 
     .sideRight {

@@ -1,8 +1,6 @@
 'use client'
 
-'use client'
-
-import { useEffect, useState, type ReactElement } from 'react'
+import { useEffect, useMemo, useState, type ReactElement } from 'react'
 import Image from 'next/image'
 import { AnimatePresence, motion } from 'framer-motion'
 
@@ -15,10 +13,9 @@ import shuffleArray from '@/utils/shuffleArray'
 import { useRouter } from 'next/navigation'
 import ViewToggle from '@/components/ViewToggle/ViewToggle'
 import { useGsapScrollFade } from '@/hooks/useGsapScrollFade'
-
 import FilterOn from '@/icons/filter_on.svg'
 import FilterOff from '@/icons/filter_off.svg'
-
+import HoverInfo from '@/components/ProjectGrid/HoverInfo'
 
 type GridItem = {
   slug: string
@@ -33,10 +30,7 @@ export type Project = {
   title: string
   slug: string
   category: string
-  media: {
-    type: 'image' | 'video'
-    src: string
-  }[]
+  media: { type: 'image' | 'video'; src: string }[]
   content: string
 }
 
@@ -46,72 +40,111 @@ type ProjectGridProps = {
   onToggleLayout: () => void
 }
 
-export default function ProjectGrid({ projects, layout, onToggleLayout }: ProjectGridProps): ReactElement {
-
+export default function ProjectGrid({
+  projects,
+  layout,
+  onToggleLayout,
+}: ProjectGridProps): ReactElement {
   const router = useRouter()
+
+  // Tooltip uniquement en vue "alt"
+  const enableHoverInfo = layout === 'alt'
+
+  const [hoverInfo, setHoverInfo] = useState<{ title?: string; category?: string } | null>(null)
+  const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(null)
+
+  // === Grid / filters state ===
   const [gridItems, setGridItems] = useState<GridItem[]>([])
   const [activeCategory, setActiveCategory] = useState<string>('all')
   const [showFilters, setShowFilters] = useState<boolean>(false)
   const [hasMounted, setHasMounted] = useState(false)
-  
+
   useGsapScrollFade(`.${stylesDefault.gridItem}`)
   useGsapScrollFade(`.${stylesAlt.thumbItem}`)
 
-  useEffect(() => {
-    if (!projects || projects.length === 0) return
+  // ✅ Catégories dynamiques
+  const categories = useMemo(() => {
+    const set = new Set<string>()
+    for (const p of projects || []) if (p?.category) set.add(p.category)
+    const order = ['photography', 'design', 'craft', 'bastardz']
+    const sorted = Array.from(set).sort((a, b) => {
+      const ia = order.indexOf(a), ib = order.indexOf(b)
+      return (ia === -1 ? 1e9 : ia) - (ib === -1 ? 1e9 : ib) || a.localeCompare(b)
+    })
+    return ['all', ...sorted]
+  }, [projects])
 
+  // ✅ Items + spacers
+  useEffect(() => {
+    if (!projects?.length) return
     const allMedia: GridItem[] = projects.flatMap((project) =>
       project.media.map((media) => ({
         slug: project.slug,
         title: project.title,
         category: project.category,
         mediaType: media.type,
-        src: media.src
+        src: media.src,
       }))
     )
-
-    const shuffled = shuffleArray(allMedia)
+    const shuffled = shuffleArray(allMedia.slice())
     const total = shuffled.length
     const spacerCount = Math.floor(total * 0.1)
-
-    for (let i = 0; i < spacerCount; i++) {
-      const index = Math.floor(Math.random() * shuffled.length)
-      shuffled.splice(index, 0, {
-        slug: `spacer-${i}`,
-        category: 'spacer',
-        mediaType: 'spacer',
-        src: ''
-      })
-    }
-
-    setGridItems(shuffled)
+    const interval = Math.max(8, Math.floor(total / Math.max(1, spacerCount)))
+    const withSpacers: GridItem[] = []
+    shuffled.forEach((it, i) => {
+      if (i > 0 && i % interval === 0) {
+        withSpacers.push({ slug: `spacer-${i}`, category: 'spacer', mediaType: 'spacer', src: '' })
+      }
+      withSpacers.push(it)
+    })
+    setGridItems(withSpacers)
   }, [projects])
 
+  // Mount / responsive filters
   useEffect(() => {
-    const isMobileScreen = window.innerWidth < 768
-    setShowFilters(!isMobileScreen)
+    const isMobile = window.innerWidth < 768
+    setShowFilters(!isMobile)
     setHasMounted(true)
   }, [])
 
-  const visibleItems =
-    activeCategory === 'all'
-      ? gridItems
-      : gridItems.filter((item) => item.category === activeCategory)
+  // Reset catégorie si invalide
+  useEffect(() => {
+    if (!categories.includes(activeCategory)) setActiveCategory('all')
+  }, [categories, activeCategory])
 
-  const handleNavigate = (href: string) => {
-    router.push(href)
+  // Filtrage visible
+  const visibleItems = useMemo(
+    () => (activeCategory === 'all' ? gridItems : gridItems.filter((i) => i.category === activeCategory)),
+    [gridItems, activeCategory]
+  )
+
+  const handleNavigate = (href: string) => router.push(href)
+
+  // === Handlers hover (tooltip) ===
+  const onEnter = (item: GridItem) => {
+    if (!enableHoverInfo || item.mediaType === 'spacer') return
+    setHoverInfo({ title: item.title, category: item.category })
+  }
+  const onLeave = () => {
+    if (!enableHoverInfo) return
+    setHoverInfo(null)
+  }
+  const onMove: React.MouseEventHandler<HTMLDivElement> = (e) => {
+    if (!enableHoverInfo) return
+    setMousePos({ x: e.clientX, y: e.clientY })
   }
 
   return (
     <>
       <ViewToggle onToggleLayout={onToggleLayout} layout={layout} />
 
-      {/* Zone boutons filtre + catégories */}
+      {/* Filtres */}
       <div className={stylesFilters.filtersWrapper}>
         <button
           className={stylesFilters.filtersButton}
           onClick={() => setShowFilters(!showFilters)}
-          aria-label="Toggle filters"
+          aria-label="Afficher/masquer les filtres"
+          type="button"
         >
           {showFilters ? <FilterOff /> : <FilterOn />}
         </button>
@@ -122,12 +155,13 @@ export default function ProjectGrid({ projects, layout, onToggleLayout }: Projec
               key="filters"
               activeCategory={activeCategory}
               onSelect={setActiveCategory}
+              categories={categories}
             />
           )}
         </AnimatePresence>
       </div>
 
-      {/* Zone affichage grilles avec AnimatePresence */}
+      {/* Grilles */}
       <AnimatePresence mode="wait">
         {layout === 'default' ? (
           <motion.div
@@ -141,12 +175,11 @@ export default function ProjectGrid({ projects, layout, onToggleLayout }: Projec
             <AnimatePresence mode="popLayout">
               {visibleItems.map((item, index) => {
                 if (item.mediaType === 'spacer') {
-                  return <div key={`spacer-${index}`} className={stylesDefault.gridSpacer}></div>
+                  return <div key={`spacer-${index}`} className={stylesDefault.gridSpacer} />
                 }
-
                 return (
                   <motion.div
-                    key={`project-${item.slug}-${item.src}-${index}`}
+                    key={`${item.slug}-${item.src}-${index}`}
                     className={`${stylesDefault.gridItem} string`}
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -154,20 +187,26 @@ export default function ProjectGrid({ projects, layout, onToggleLayout }: Projec
                     transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
                     layout
                     onClick={() => handleNavigate(`/projects/${item.slug}`)}
+                    onMouseEnter={() => onEnter(item)}
+                    onMouseLeave={onLeave}
+                    onMouseMove={onMove}
                   >
                     {item.mediaType === 'image' ? (
                       <Image
                         src={item.src}
-                        alt={item.slug}
+                        alt={item.title ?? item.slug}
                         width={500}
                         height={600}
                         style={{ objectFit: 'contain', width: '100%', height: 'auto' }}
+                        loading="lazy"
+                        unoptimized
                       />
                     ) : (
                       <video
                         src={item.src}
-                        controls
                         muted
+                        playsInline
+                        preload="metadata"
                         className={stylesDefault.video}
                       />
                     )}
@@ -203,15 +242,19 @@ export default function ProjectGrid({ projects, layout, onToggleLayout }: Projec
                       transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
                       layout
                       onClick={() => handleNavigate(`/projects/${item.slug}`)}
-                      
+                      onMouseEnter={() => onEnter(item)}
+                      onMouseLeave={onLeave}
+                      onMouseMove={onMove}
                     >
                       {item.mediaType === 'image' ? (
                         <Image
                           src={item.src}
-                          alt={item.slug}
+                          alt={item.title ?? item.slug}
                           width={300}
                           height={300}
                           style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                          loading="lazy"
+                          unoptimized
                         />
                       ) : (
                         <video
@@ -220,6 +263,7 @@ export default function ProjectGrid({ projects, layout, onToggleLayout }: Projec
                           autoPlay
                           loop
                           playsInline
+                          preload="metadata"
                           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                         />
                       )}
@@ -227,11 +271,13 @@ export default function ProjectGrid({ projects, layout, onToggleLayout }: Projec
                   )
                 })}
               </AnimatePresence>
-              
             </div>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Tooltip titre/catégorie qui suit la souris */}
+      {enableHoverInfo && <HoverInfo info={hoverInfo} position={mousePos} />}
     </>
   )
 }

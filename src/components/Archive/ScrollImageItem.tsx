@@ -1,45 +1,38 @@
 'use client'
 
-import { useRef } from 'react'
 import Image from 'next/image'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion } from 'framer-motion'
 import styles from '@/styles/components/ArchiveGrid.module.scss'
 
-type ScrollImageItemProps = {
+type Props = {
   src: string
-  onHover: () => void
-  onLeave: () => void
-  isHovered: boolean
+  onHover?: () => void
+  onLeave?: () => void
 }
 
-export default function ScrollImageItem({
-  src,
-  onHover,
-  onLeave,
-  isHovered,
-}: ScrollImageItemProps) {
-  const ref = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  })
-  const scale = useTransform(scrollYProgress, [0, 0.4, 1], [1, 0.8, 1])
-
+export default function ScrollImageItem({ src, onHover, onLeave }: Props) {
   return (
     <motion.div
-      ref={ref}
       className={styles.gridItem}
-      style={{ scale }}
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-10% 0px' }}
+      transition={{ duration: 0.35, ease: [0.2, 0.8, 0.2, 1] }}
+      style={{ position: 'relative' }}
     >
-      <Image
-        src={src}
-        alt="archive-thumb"
-        width={300}
-        height={300}
-        style={{ filter: isHovered ? 'grayscale(0)' : 'grayscale(100%)' }}
-      />
+      <div className={styles.thumbBox}>
+        <Image
+          src={src}
+          alt=""
+          fill
+          sizes="(min-width: 1400px) 12vw, (min-width: 900px) 18vw, 32vw"
+          className={styles.thumb}
+          unoptimized
+        />
+      </div>
     </motion.div>
   )
 }
+

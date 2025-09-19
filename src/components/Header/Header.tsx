@@ -16,16 +16,11 @@ export default function Header(): ReactElement {
     <div className={styles.header}>
       <div className={styles.bar}>
         <div className={styles.sideLeft}>
-          <Link href="/">The Shift</Link>
-        </div>
-
-        <div className={styles.center}>
           <div
             onClick={() => setIsActive(!isActive)}
             className={styles.el}
             role="button"
-            aria-label="Toggle menu"
-          >
+            aria-label="Toggle menu">
             <div
               className={`${styles.burger} ${
                 isActive ? styles.burgerActive : ''
@@ -35,11 +30,15 @@ export default function Header(): ReactElement {
               <motion.p variants={opacity} animate={!isActive ? 'open' : 'closed'} />
               <motion.p variants={opacity} animate={isActive ? 'open' : 'closed'} />
             </div>
-          </div>
+            </div>  
+        </div>
+
+        <div className={styles.center}>
+          <Link href="/">S</Link>
         </div>
 
         <div className={styles.sideRight}>
-          <DarkToggle />
+           <DarkToggle />
         </div>
       </div>
 

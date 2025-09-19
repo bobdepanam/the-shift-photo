@@ -1,25 +1,30 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, type ReactElement } from 'react'
 import ProjectGrid from './ProjectGrid'
 import type { Project } from './ProjectGrid'
-import ViewToggle from '@/components/ViewToggle/ViewToggle'
 
 type Props = {
   projects: Project[]
+  /** Permet de forcer un layout initial si besoin (par défaut "alt") */
+  defaultLayout?: 'default' | 'alt'
 }
 
-export default function ProjectGridWrapper({ projects }: Props) {
-  const [layout, setLayout] = useState<'default' | 'alt'>('default')
+export default function ProjectGridWrapper({
+  projects,
+  defaultLayout = 'alt',
+}: Props): ReactElement {
+  // Layout géré ici, rendu et toggle dans ProjectGrid (pas de doublon de ViewToggle)
+  const [layout, setLayout] = useState<'default' | 'alt'>(defaultLayout)
 
-  const toggleLayout = () => {
-    setLayout(prev => (prev === 'default' ? 'alt' : 'default'))
-  }
+  const handleToggleLayout = () =>
+    setLayout((prev) => (prev === 'default' ? 'alt' : 'default'))
 
   return (
-    <>
-      <ProjectGrid projects={projects} layout={layout} onToggleLayout={toggleLayout} />
-      <ViewToggle layout={layout} onToggleLayout={toggleLayout} />
-    </>
+    <ProjectGrid
+      projects={projects}
+      layout={layout}
+      onToggleLayout={handleToggleLayout}
+    />
   )
 }
