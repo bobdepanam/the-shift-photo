@@ -5,6 +5,7 @@ import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
+import ReactMarkdown from 'react-markdown'
 import { Project } from '@/types/project'
 
 import Breadcrumb from '@/components/Beadcrumb/Breadcrumb'
@@ -17,7 +18,7 @@ import { useGsapHorizontalScroll } from '@/hooks/useGsapHorizontalScroll'
 import stylesClassic from '@/styles/components/ProjectPageClassic.module.scss'
 import stylesAlt from '@/styles/components/ProjectPageAlt.module.scss'
 
-// ✅ Enregistrement de ScrollTrigger dans GSAP (important)
+// ✅ Enregistrement de ScrollTrigger dans GSAP
 gsap.registerPlugin(ScrollTrigger)
 
 type Props = {
@@ -92,7 +93,15 @@ export default function ProjectPageClient({ project }: Props) {
 
                 {project.content && (
                   <div className={stylesClassic.description}>
-                    <p>{project.content}</p>
+                    <ReactMarkdown
+                      components={{
+                        a: (props) => (
+                          <a {...props} target="_blank" rel="noopener noreferrer" />
+                        ),
+                      }}
+                    >
+                      {project.content}
+                    </ReactMarkdown>
                   </div>
                 )}
               </motion.div>
@@ -162,7 +171,15 @@ export default function ProjectPageClient({ project }: Props) {
 
                 {project.content && (
                   <div className={stylesAlt.description}>
-                    <p>{project.content}</p>
+                    <ReactMarkdown
+                      components={{
+                        a: (props) => (
+                          <a {...props} target="_blank" rel="noopener noreferrer" />
+                        ),
+                      }}
+                    >
+                      {project.content}
+                    </ReactMarkdown>
                   </div>
                 )}
               </motion.div>

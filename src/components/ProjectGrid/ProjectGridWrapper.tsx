@@ -14,7 +14,7 @@ export default function ProjectGridWrapper({
   projects,
   defaultLayout = 'alt',
 }: Props): ReactElement {
-  // Layout géré ici, rendu et toggle dans ProjectGrid (pas de doublon de ViewToggle)
+  // Layout géré ici, le toggle est passé à ProjectGrid (un seul ViewToggle dans l'UI)
   const [layout, setLayout] = useState<'default' | 'alt'>(defaultLayout)
 
   const handleToggleLayout = () =>
