@@ -32,6 +32,8 @@ export type Project = {
   category: string
   media: { type: 'image' | 'video'; src: string }[]
   content: string
+  /** Optionnel: limite de vignettes à afficher dans la grille */
+  previewMediaLimit?: number
 }
 
 type ProjectGridProps = {
@@ -66,7 +68,7 @@ export default function ProjectGrid({
   const categories = useMemo(() => {
     const set = new Set<string>()
     for (const p of projects || []) if (p?.category) set.add(p.category)
-    const order = ['photography', 'design', 'craft', 'bastardz']
+    const order = ['photography', 'digital', 'branding']
     const sorted = Array.from(set).sort((a, b) => {
       const ia = order.indexOf(a), ib = order.indexOf(b)
       return (ia === -1 ? 1e9 : ia) - (ib === -1 ? 1e9 : ib) || a.localeCompare(b)
@@ -74,18 +76,30 @@ export default function ProjectGrid({
     return ['all', ...sorted]
   }, [projects])
 
-  // ✅ Items + spacers
+  // ✅ Items + spacers (avec limite par projet)
   useEffect(() => {
     if (!projects?.length) return
-    const allMedia: GridItem[] = projects.flatMap((project) =>
-      project.media.map((media) => ({
+
+    const allMedia: GridItem[] = projects.flatMap((project) => {
+      const cat = project.category?.toLowerCase().trim()
+      const limitFromMd = project.previewMediaLimit
+      const limit =
+        typeof limitFromMd === 'number'
+          ? Math.max(0, limitFromMd)
+          : cat === 'digital'
+          ? 1
+          : Infinity
+
+      const list = (project.media ?? []).slice(0, limit)
+      return list.map((media) => ({
         slug: project.slug,
         title: project.title,
         category: project.category,
         mediaType: media.type,
         src: media.src,
       }))
-    )
+    })
+
     const shuffled = shuffleArray(allMedia.slice())
     const total = shuffled.length
     const spacerCount = Math.floor(total * 0.1)
