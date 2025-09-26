@@ -5,9 +5,11 @@ category: "digital"
 previewMediaLimit: 1
 media:
   - type: image
+    src: "/images/digital/msp04.webp"
+  - type: image
     src: "/images/digital/msp.webp"
   - type: image
-    src: "/images/digital/msp01.webp" 
+    src: "/images/digital/msp03.webp" 
   - type: image
     src: "/images/digital/msp02.webp"           
 ---

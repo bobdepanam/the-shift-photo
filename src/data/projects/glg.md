@@ -17,4 +17,4 @@ media:
   - type: image
     src: "/images/digital/glg6.webp"         
 ---
-**Meglio Pasta** – Production / Consulting - web design, ux + development / [http://www.guillaumelegoff.com/](http://www.guillaumelegoff.com/) – 2025.
+**GUILLAUME LE GOFF** – Production / Consulting - web design, ux + development / [http://www.guillaumelegoff.com/](http://www.guillaumelegoff.com/) – 2025.

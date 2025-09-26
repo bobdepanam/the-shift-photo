@@ -1,5 +1,5 @@
 ---
-title: "Golgotha"
+title: "BSTRDZ"
 slug: "golgotha"
 category: "digital"
 previewMediaLimit: 1
@@ -17,4 +17,4 @@ media:
   - type: image
     src: "/images/digital/golgotha6.webp"         
 ---
-**Golgotha** – Experimental - web design, ux + development / [bastardz.fr](https://bastardz.fr/) – 2025.
+**BSTRDZ Paris** – Creative Experience - Design, Sound design, web design, ux + development / [bastardz.fr](https://bastardz.fr/) – 2025.
