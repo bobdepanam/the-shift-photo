@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import styles from '@/styles/components/About.module.scss'
+import ParallaxText from '@/components/Parallaxtext/Parallaxtext'
 
 import Breadcrumb from '@/components/Beadcrumb/Breadcrumb'
 import PerspectiveMask from '@/components/PerspectiveMask/PerspectiveMask'
@@ -12,14 +13,28 @@ export default function AboutPage() {
     <div className={styles.aboutWrapper}>
       {/* 🧭 Breadcrumb */}
       <Breadcrumb path={['about']} />
-
+      {/* 🌀 Parallax header */}
+      <ParallaxText
+        sections={[
+          {
+            imageSrc: '/images/craft/macshift_03.gif',
+            // videoSrc: '/videos/intro_shift.mp4',   
+            // poster: '/images/name/dark_poster.webp',    
+            subheading: '',
+            heading: 'The Shift',
+            headingColor: 'white',
+            subheadingColor: 'inherit',
+          },
+        ]}
+      />
+      
       {/* === HERO HEADER : "ABOUT" + kicker à droite === */}
-      <header className={styles.headerHero}>
+      {/* <header className={styles.headerHero}>
         <h1 className={styles.heroTitle}>ABOUT</h1>
         <p className={styles.heroKicker}>
           “In my craft or sullen art… I labour by singing light…” — Dylan Thomas
         </p>
-      </header>
+      </header> */}
 
       <hr className={styles.rule} />
 
@@ -52,14 +67,13 @@ export default function AboutPage() {
             <ul>
               <li>Creative Direction & Brand Positioning</li>
               <li>Art Direction & Campaign Concepts</li>
-              <li>Visual Identity & Advanced Typography Systems</li>
-              <li>Illustration & Editorial Compositions (Illustrator, Photoshop, Fresco)</li>
-              <li>Photography — Film & Digital / Darkroom & Retouch</li>
-              <li>Motion Design & Video Art (After Effects, Premiere Pro, DaVinci Resolve)</li>
-              <li>Generative & AI-assisted Imagery (Midjourney, Stable Diffusion, Adobe Firefly)</li>
-              <li>3D & Experimental Media (Cinema4D, Blender)</li>
-              <li>Web & Interactive Design (Figma, Webflow, Next.js headless setups)</li>
-              <li>Print & Editorial Production (InDesign, Risograph, Offset)</li>
+              <li>Visual Identity & Typography Systems</li>
+              <li>Illustration & Editorial Compositions</li>
+              <li>Photography — Film & Digital</li>
+              <li>Motion Design & Video Art </li>
+              <li>Generative & AI-assisted Imagery</li>
+              <li>Web & Interactive Design </li>
+              <li>Print & Editorial Production </li>
             </ul>
           </FadeInUpBlock>
 
@@ -68,7 +82,7 @@ export default function AboutPage() {
             <ul>
               <li>Independent Fashion Designers & Studios</li>
               <li>Music Labels & Recording Artists</li>
-              <li>Art Galleries, Cultural Institutions & Festivals</li>
+              <li>Cultural Institutions & Festivals</li>
               <li>Design Studios & Creative Agencies</li>
               <li>Tech Startups exploring AI-driven aesthetics</li>
               <li>Publishing Houses & Editorial Platforms</li>
@@ -90,22 +104,8 @@ export default function AboutPage() {
 
       <hr className={styles.rule} />
 
-      {/* === BIG STATEMENT : deux colonnes typographiques === */}
-      <section className={styles.bigStatement}>
-        <div className={styles.bigLeft}>
-          <h2>
-            ALL<br />
-            EXTREMES<br />
-            OF FEELING<br />
-            ARE ALLIED
-          </h2>
-        </div>
-        <div className={styles.bigRight}>
-          <h3>WITH<br />MADNESS</h3>
-        </div>
-      </section>
 
-      {/* === Bandeau de mini-vignettes (projets récents) === */}
+            {/* === Bandeau de mini-vignettes (projets récents) === */}
       <section className={styles.thumbStrip}>
         <ul>
           <li>
@@ -124,6 +124,21 @@ export default function AboutPage() {
             <Image src="/images/craft/craft_04.webp" alt="The Shift" width={220} height={140} />
           </li>
         </ul>
+      </section>
+
+      {/* === BIG STATEMENT : deux colonnes typographiques === */}
+      <section className={styles.bigStatement}>
+        <div className={styles.bigLeft}>
+          <h2>
+            ALL<br />
+            EXTREMES<br />
+            OF FEELING<br />
+            ARE ALLIED
+          </h2>
+        </div>
+        <div className={styles.bigRight}>
+          <h3>WITH<br />MADNESS</h3>
+        </div>
       </section>
 
       {/* 🎭 Outro animation (inchangé) */}
