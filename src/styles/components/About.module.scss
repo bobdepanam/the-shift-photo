@@ -82,8 +82,8 @@
 
   p {
     margin-bottom: 1.25rem;
-    line-height: 1.65;
-    @include mix.text-base;
+    line-height: 1.6;
+    font-size: 0.9rem;
   }
 }
 
@@ -100,7 +100,8 @@
   }
 
   li {
-    @include mix.text-base;
+    font-size: 0.9rem;
+    line-height: 1.6;
     margin-bottom: 0.4rem;
   }
 }
