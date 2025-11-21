@@ -12,7 +12,7 @@ export default function BodyWithTheme({ children }: { children: React.ReactNode 
       <IntroLayoutWrapper>
         <Header />
         <LenisWrapper />
-        <div id="pageContent" className="page-visible">
+        <div id="pageContent" className="page-visible" style={{ marginTop: '4vh' }}>
           {children}
         </div>
         <Footer />
