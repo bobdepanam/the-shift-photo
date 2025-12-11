@@ -18,7 +18,7 @@ interface ThemeContextProps {
 const ThemeContext = createContext<ThemeContextProps | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('dark'); // ✅ force dark par défaut
+  const [theme, setTheme] = useState<Theme>('dark'); // ✅ force theme par défaut
 
   // Au premier chargement, tente de récupérer le thème depuis localStorage ou système
   useEffect(() => {

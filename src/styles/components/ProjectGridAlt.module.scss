@@ -5,23 +5,39 @@
 .gridAltWrapper {
   width: 100%;
   min-height: 100vh;
-  overflow-y: auto;
   display: flex;
-  flex-direction: column;
-  padding-bottom: 6rem; // espace bas pour éviter un cut visuel
+  justify-content: center;
+  padding: 4rem 2rem 6rem;
+  box-sizing: border-box;
+  overflow-x: hidden; // 🔒 pas de scroll horizontal
 }
 
+/* On centre la grille dans une largeur max */
 .gridAltThumbs {
+  width: 100%;
+  max-width: 1440px;              // 🔑 limite horizontale
+  margin: 0 auto;
+
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
-  gap: 7rem;
-  padding: 4rem 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 6rem;                       // gros gap pour l’effet “nuage”
+
+  @media (max-width: 1024px) {
+    max-width: 1024px;
+    gap: 4rem;
+  }
 
   @media (max-width: 768px) {
-    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+    max-width: 100%;
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
     gap: 3rem;
+    padding: 0;
   }
 }
+
+/* -------------------------------
+   🖼️ THUMB ITEM (normal)
+--------------------------------- */
 
 .thumbItem {
   aspect-ratio: 1 / 1;
@@ -29,7 +45,6 @@
   border-radius: 0;
   cursor: pointer;
   transition: transform 0.3s ease;
-
 
   img,
   video {
@@ -40,10 +55,25 @@
     transition: transform 0.3s ease;
     filter: brightness(1);
   }
+
+  &:hover img,
+  &:hover video {
+    transform: scale(1.06);
+  }
 }
 
 /* -------------------------------
-   🔍 HOVER PREVIEW FIXED
+   🔲 SPACER (TROU DANS LA GRILLE)
+--------------------------------- */
+
+.thumbSpacer {
+  aspect-ratio: 1 / 1;
+  pointer-events: none;
+  opacity: 0;        // invisible mais occupe un “slot” de la grille
+}
+
+/* -------------------------------
+   🔍 HOVER PREVIEW (si utilisé)
 --------------------------------- */
 
 .hoverPreview {
@@ -63,5 +93,20 @@
     height: 100%;
     object-fit: cover;
     display: block;
+  }
+}
+
+/* -------------------------------
+   📱 RESPONSIVE (MOBILE)
+--------------------------------- */
+
+@media (max-width: 768px) {
+  .gridAltWrapper {
+    padding: 2rem 1rem 4rem;
+  }
+
+  .thumbItem,
+  .thumbSpacer {
+    aspect-ratio: 1 / 1;
   }
 }

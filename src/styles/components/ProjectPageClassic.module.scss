@@ -110,7 +110,7 @@
 .mediaGrid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  gap: 3rem 2rem;
+  gap: 4rem 2rem;
   margin-top: 3vh;
 }
 
@@ -118,7 +118,7 @@
 // ✅ MEDIA ITEMS
 // -------------------------
 .mediaItemFull {
-  grid-column: span 9;
+  grid-column: span 12;
   overflow: hidden;
   min-height: 35vh;
 
@@ -139,7 +139,7 @@
 }
 
 .mediaItemHalf {
-  grid-column: span 3;
+  grid-column: span 12;
   overflow: hidden;
   min-height: 30vh;
 

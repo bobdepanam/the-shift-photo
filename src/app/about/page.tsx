@@ -3,7 +3,6 @@
 import Image from 'next/image'
 import styles from '@/styles/components/About.module.scss'
 import ParallaxText from '@/components/Parallaxtext/Parallaxtext'
-
 import Breadcrumb from '@/components/Beadcrumb/Breadcrumb'
 import PerspectiveMask from '@/components/PerspectiveMask/PerspectiveMask'
 import FadeInUpBlock from '@/components/AnimText/FadeInUpBlock'
@@ -13,13 +12,12 @@ export default function AboutPage() {
     <div className={styles.aboutWrapper}>
       {/* 🧭 Breadcrumb */}
       <Breadcrumb path={['about']} />
+
       {/* 🌀 Parallax header */}
       <ParallaxText
         sections={[
           {
             imageSrc: '/images/craft/macshift_03.gif',
-            // videoSrc: '/videos/intro_shift.mp4',   
-            // poster: '/images/name/dark_poster.webp',    
             subheading: '',
             heading: 'The Shift',
             headingColor: 'white',
@@ -27,95 +25,107 @@ export default function AboutPage() {
           },
         ]}
       />
-      
-      {/* === HERO HEADER : "ABOUT" + kicker à droite === */}
-      {/* <header className={styles.headerHero}>
-        <h1 className={styles.heroTitle}>ABOUT</h1>
-        <p className={styles.heroKicker}>
-          “In my craft or sullen art… I labour by singing light…” — Dylan Thomas
-        </p>
-      </header> */}
 
       <hr className={styles.rule} />
 
-      {/* === META GRID : Texte / Services+Clients / Image === */}
+      {/* === META GRID : Approach / Services / Experience / Clients / Image === */}
       <section className={styles.metaGrid}>
-        {/* Col A — Intro identité */}
+        {/* Col A — Approach & Experience */}
         <div className={styles.metaColText}>
           <FadeInUpBlock>
+            <h3>Approach</h3>
             <p>
-              I am a multi-disciplinary Creative Director and Visual Researcher working at the
-              intersection of design, photography, illustration, and experimental media.
-              My approach blends hand-crafted intuition with technological precision —
-              from analogue film and ink to digital motion systems and AI-assisted workflows.
+              Senior Art Director working across image, motion and digital craft.
+              I design visual systems, identities and atmospheres with a precise,
+              minimal and multidisciplinary approach.
+            </p>
+            <p>
+              My practice spans photography, editorial design, motion direction and
+              digital platforms. I build brands and experiences where form, clarity
+              and emotion align from crafted visuals to functional interfaces.
+            </p>
+            <p>
+              I integrate AI-driven processes into classic art-direction workflows,
+              using generative tools for research, iteration and refinement rather
+              than shortcuts. Technology amplifies the idea, it never replaces it.
             </p>
           </FadeInUpBlock>
 
           <FadeInUpBlock>
+            <h3>Experience</h3>
             <p>
-              Tools evolve — Adobe, AI, analogue cameras, or code — but curiosity is the constant.
-              Each project becomes a crafted dialogue between form and atmosphere, illustration and motion,
-              light and silence. The aim is simple: make work that feels inevitable.
-            </p>
+              I balance agency work and independent practice, moving between brand,
+              digital and image-led projects. Senior Art Direction for brands, studios and agencies</p>
+            <p>Ongoing collaborations on visual identities and campaigns. Image, motion and web projects under The Shift studio. Exploration of AI-enhanced creative workflows in production</p>
           </FadeInUpBlock>
         </div>
 
-        {/* Col B — Services + Clients */}
-        <div className={styles.metaColLists}>
+        {/* Col B — Services & Clients */}
+        <div className={styles.metaColText}>
           <FadeInUpBlock>
-            <h3>Services</h3>
-            <ul>
-              <li>Creative Direction & Brand Positioning</li>
-              <li>Art Direction & Campaign Concepts</li>
-              <li>Visual Identity & Typography Systems</li>
-              <li>Illustration & Editorial Compositions</li>
-              <li>Photography — Film & Digital</li>
-              <li>Motion Design & Video Art </li>
-              <li>Generative & AI-assisted Imagery</li>
-              <li>Web & Interactive Design </li>
-              <li>Print & Editorial Production </li>
-            </ul>
+            <h3>Skills</h3>
+
+            <p>Art Direction & Creative Leadership</p>
+            <p>Brand Identity & Visual Systems</p>
+            <p>Campaign Concepts & Visual Narratives</p>
+
+            <h3>Image & Motion</h3>
+            <p>Photography, Editorial, Lifestyle & Product</p>
+            <p>Motion Direction & Video Compositions</p>
+            <p>Title design, cuts & graphic overlays</p>
+
+            <h3>Digital & AI</h3>
+            <p>Digital Design / UX, UI & Web design</p>
+            <p>Next, TypeScript, Three.js, Motion, Wordpress</p>
+            <p>AI-assisted Research & Image Development</p>
+            <p>Creative consulting & training on AI workflows</p>
+
+            <h3>Print & Craft</h3>
+            <p>Print, Screen Printing & Editorial Layouts</p>
+            <p>Posters, booklets and object-based visuals</p>
           </FadeInUpBlock>
 
-          <FadeInUpBlock>
-            <h3>Selected Clients & Collaborations</h3>
-            <ul>
-              <li>Independent Fashion Designers & Studios</li>
-              <li>Music Labels & Recording Artists</li>
-              <li>Cultural Institutions & Festivals</li>
-              <li>Design Studios & Creative Agencies</li>
-              <li>Tech Startups exploring AI-driven aesthetics</li>
-              <li>Publishing Houses & Editorial Platforms</li>
-            </ul>
-          </FadeInUpBlock>
+
         </div>
 
         {/* Col C — Image forte */}
         <div className={styles.metaColImage}>
-          <Image
+          {/* <Image
             src="/images/craft/craft_03.webp"
             alt="Studio texture"
             width={920}
             height={1200}
             priority
-          />
+          /> */}
+                    <FadeInUpBlock>
+            <h3>Clients & Collaborations</h3>
+            <p>
+              I work with teams that care about image, detail and consistency across
+              every touchpoint:
+            </p>
+            <p>Creative agencies & independent design studios</p>
+            <p>Innovation, tech & healthcare brands</p>
+            <p>Fashion, lifestyle & food projects</p>
+            <p>Music, culture & editorial platforms</p>
+            <p>Teams exploring AI-enhanced visual workflows</p>
+          </FadeInUpBlock>
         </div>
+        
       </section>
 
       <hr className={styles.rule} />
 
-
-            {/* === Bandeau de mini-vignettes (projets récents) === */}
+      {/* === Bandeau de mini-vignettes === */}
       <section className={styles.thumbStrip}>
         <ul>
           <li>
             <Image src="/images/london/london_27.webp" alt="London" width={220} height={140} />
           </li>
           <li>
-            <Image src="/images/craft/macshift_02.gif" alt="Tokyo" width={220} height={140} />
+            <Image src="/images/craft/macshift_02.gif" alt="Craft" width={220} height={140} />
           </li>
           <li>
-            <Image src="/images/tokyo/tokyo_16.webp" alt="Craft" width={220} height={140} />
+            <Image src="/images/tokyo/tokyo_16.webp" alt="Tokyo" width={220} height={140} />
           </li>
           <li>
             <Image src="/images/craft/craft_05.webp" alt="The Shift" width={220} height={140} />
@@ -126,7 +136,7 @@ export default function AboutPage() {
         </ul>
       </section>
 
-      {/* === BIG STATEMENT : deux colonnes typographiques === */}
+      {/* === BIG STATEMENT === */}
       <section className={styles.bigStatement}>
         <div className={styles.bigLeft}>
           <h2>
@@ -141,7 +151,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 🎭 Outro animation (inchangé) */}
+      {/* 🎭 Outro animation */}
       <PerspectiveMask
         initialImage="/images/london/london_9.webp"
         title="Revealed"
