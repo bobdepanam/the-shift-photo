@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useMemo } from 'react'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
 import Image from 'next/image'
@@ -28,7 +28,40 @@ type Props = {
 export default function ProjectPageClient({ project }: Props) {
   const mediaRef = useRef<HTMLDivElement>(null)
   const sidebarRef = useRef<HTMLDivElement>(null)
+  const loadMoreRef = useRef<HTMLDivElement | null>(null)
   const [layout, setLayout] = useState<'classic' | 'alt'>('classic')
+  const [visibleMediaCount, setVisibleMediaCount] = useState<number>(8)
+
+  const visibleMedia = useMemo(
+    () => project.media.slice(0, visibleMediaCount),
+    [project.media, visibleMediaCount]
+  )
+
+  useEffect(() => {
+    setVisibleMediaCount(8)
+  }, [layout, project.slug])
+
+  useEffect(() => {
+    if (!loadMoreRef.current) return
+    if (visibleMediaCount >= project.media.length) return
+    const target = loadMoreRef.current
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setVisibleMediaCount((prev) =>
+              Math.min(prev + 6, project.media.length)
+            )
+          }
+        })
+      },
+      { rootMargin: '400px' }
+    )
+
+    observer.observe(target)
+    return () => observer.disconnect()
+  }, [visibleMediaCount, project.media.length])
 
   // ✅ Animation GSAP spécifique au layout "classic"
   useEffect(() => {
@@ -118,7 +151,7 @@ export default function ProjectPageClient({ project }: Props) {
                   visible: { transition: { staggerChildren: 0.15 } },
                 }}
               >
-                {project.media.map((media, index) => (
+                {visibleMedia.map((media, index) => (
                   <motion.div
                     key={`${media.src}-${index}`}
                     className={
@@ -152,25 +185,36 @@ export default function ProjectPageClient({ project }: Props) {
                   </motion.div>
                 ))}
               </motion.div>
+              <div ref={loadMoreRef} style={{ height: 1, width: '100%' }} />
             </div>
           </div>
         </div>
       ) : (
-        // ✅ Layout ALT avec scroll horizontal et visuels en track
+        // ✅ Layout ALT avec header inline (titre + breadcrumb + contenu) puis track média
         <div className={stylesAlt.projectPage}>
           <div className={stylesAlt.layout}>
             <aside className={stylesAlt.sidebar}>
               <motion.div
+                className={stylesAlt.sidebarRow}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
               >
-                <h1>{project.title}</h1>
-                <p className={stylesAlt.category}>{project.category}</p>
+                {/* Colonne 1 : titre + catégorie */}
+                <div className={stylesAlt.sidebarTitle}>
+                  <h1>{project.title}</h1>
+                  <p className={stylesAlt.category}>{project.category}</p>
+                </div>
 
+                {/* Colonne 2 : breadcrumb */}
+                <div className={stylesAlt.sidebarBreadcrumb}>
+                  <Breadcrumb path={['projects', project.slug]} />
+                </div>
+
+                {/* Colonne 3 : contenu */}
                 {project.content && (
-                  <div className={stylesAlt.description}>
+                  <div className={stylesAlt.sidebarDescription}>
                     <ReactMarkdown
                       components={{
                         a: (props) => (
@@ -187,7 +231,7 @@ export default function ProjectPageClient({ project }: Props) {
 
             <div className={stylesAlt.altWrapper}>
               <div className={stylesAlt.altTrack}>
-                {project.media.map((media, index) => (
+                {visibleMedia.map((media, index) => (
                   <motion.div
                     key={`${media.src}-${index}`}
                     className={
@@ -225,6 +269,7 @@ export default function ProjectPageClient({ project }: Props) {
                   </motion.div>
                 ))}
               </div>
+              <div ref={loadMoreRef} style={{ height: 1, width: '100%' }} />
             </div>
           </div>
         </div>

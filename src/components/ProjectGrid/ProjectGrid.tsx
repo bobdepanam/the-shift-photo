@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState, type ReactElement } from 'react'
+import { useEffect, useMemo, useRef, useState, type ReactElement } from 'react'
 import Image from 'next/image'
 import { AnimatePresence, motion } from 'framer-motion'
 
@@ -17,6 +17,10 @@ import FilterOn from '@/icons/filter_on.svg'
 import FilterOff from '@/icons/filter_off.svg'
 import HoverInfo from '@/components/ProjectGrid/HoverInfo'
 
+// Nombre d'items visibles au chargement et par step (inclut les spacers)
+const INITIAL_VISIBLE = 24
+const LOAD_STEP = 16
+
 type GridItem = {
   slug: string
   title?: string
@@ -32,7 +36,6 @@ export type Project = {
   category: string
   media: { type: 'image' | 'video'; src: string }[]
   content: string
-  /** Optionnel: limite de vignettes à afficher dans la grille */
   previewMediaLimit?: number
 }
 
@@ -49,34 +52,39 @@ export default function ProjectGrid({
 }: ProjectGridProps): ReactElement {
   const router = useRouter()
 
-  // Tooltip uniquement en vue "alt"
   const enableHoverInfo = layout === 'alt'
-
   const [hoverInfo, setHoverInfo] = useState<{ title?: string; category?: string } | null>(null)
   const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(null)
 
-  // === Grid / filters state ===
   const [gridItems, setGridItems] = useState<GridItem[]>([])
   const [activeCategory, setActiveCategory] = useState<string>('all')
   const [showFilters, setShowFilters] = useState<boolean>(false)
   const [hasMounted, setHasMounted] = useState(false)
+  const [visibleCount, setVisibleCount] = useState<number>(INITIAL_VISIBLE)
+  const loadMoreRef = useRef<HTMLDivElement | null>(null)
 
   useGsapScrollFade(`.${stylesDefault.gridItem}`)
   useGsapScrollFade(`.${stylesAlt.thumbItem}`)
 
-  // ✅ Catégories dynamiques
+  // ------------------------------
+  // CATÉGORIES
+  // ------------------------------
   const categories = useMemo(() => {
     const set = new Set<string>()
     for (const p of projects || []) if (p?.category) set.add(p.category)
+
     const order = ['photography', 'digital', 'branding']
     const sorted = Array.from(set).sort((a, b) => {
       const ia = order.indexOf(a), ib = order.indexOf(b)
       return (ia === -1 ? 1e9 : ia) - (ib === -1 ? 1e9 : ib) || a.localeCompare(b)
     })
+
     return ['all', ...sorted]
   }, [projects])
 
-  // ✅ Items + spacers (avec limite par projet)
+  // ------------------------------
+  // GRID + SPACERS (RATIO + RANDOM)
+  // ------------------------------
   useEffect(() => {
     if (!projects?.length) return
 
@@ -91,6 +99,7 @@ export default function ProjectGrid({
           : Infinity
 
       const list = (project.media ?? []).slice(0, limit)
+
       return list.map((media) => ({
         slug: project.slug,
         title: project.title,
@@ -100,41 +109,98 @@ export default function ProjectGrid({
       }))
     })
 
+    // Mélange des médias
     const shuffled = shuffleArray(allMedia.slice())
-    const total = shuffled.length
-    const spacerCount = Math.floor(total * 0.1)
-    const interval = Math.max(8, Math.floor(total / Math.max(1, spacerCount)))
+
+    // 🔥 Config : proportion de trous
+    const SPACER_RATIO = 0.3 // 30% de trous environ
+    const spacerCount = Math.floor(shuffled.length * SPACER_RATIO)
+
+    // On choisit des positions aléatoires dans la liste mélangée
+    const spacerPositions = new Set<number>()
+    while (spacerPositions.size < spacerCount && spacerPositions.size < shuffled.length) {
+      const randIndex = Math.floor(Math.random() * shuffled.length)
+      spacerPositions.add(randIndex)
+    }
+
     const withSpacers: GridItem[] = []
-    shuffled.forEach((it, i) => {
-      if (i > 0 && i % interval === 0) {
-        withSpacers.push({ slug: `spacer-${i}`, category: 'spacer', mediaType: 'spacer', src: '' })
+
+    shuffled.forEach((item, index) => {
+      // Si cette position est marquée pour un trou → on insère un spacer avant l'item
+      if (spacerPositions.has(index)) {
+        withSpacers.push({
+          slug: `spacer-${index}`,
+          category: 'spacer',
+          mediaType: 'spacer',
+          src: '',
+        })
       }
-      withSpacers.push(it)
+      withSpacers.push(item)
     })
+
     setGridItems(withSpacers)
   }, [projects])
 
-  // Mount / responsive filters
+  // ------------------------------
+  // RESPONSIVE + MOUNT
+  // ------------------------------
   useEffect(() => {
     const isMobile = window.innerWidth < 768
     setShowFilters(!isMobile)
     setHasMounted(true)
   }, [])
 
-  // Reset catégorie si invalide
+  // ------------------------------
+  // FILTRAGE + VISIBLE
+  // ------------------------------
   useEffect(() => {
     if (!categories.includes(activeCategory)) setActiveCategory('all')
   }, [categories, activeCategory])
 
-  // Filtrage visible
-  const visibleItems = useMemo(
-    () => (activeCategory === 'all' ? gridItems : gridItems.filter((i) => i.category === activeCategory)),
+  const filteredItems = useMemo(
+    () =>
+      activeCategory === 'all'
+        ? gridItems
+        : gridItems.filter((i) => i.mediaType === 'spacer' || i.category === activeCategory),
     [gridItems, activeCategory]
   )
 
-  const handleNavigate = (href: string) => router.push(href)
+  useEffect(() => {
+    setVisibleCount(Math.min(INITIAL_VISIBLE, filteredItems.length))
+  }, [activeCategory, filteredItems.length])
 
-  // === Handlers hover (tooltip) ===
+  const visibleItems = useMemo(
+    () => filteredItems.slice(0, visibleCount),
+    [filteredItems, visibleCount]
+  )
+
+  // IntersectionObserver pour charger plus d'items en bas de page
+  useEffect(() => {
+    if (!loadMoreRef.current) return
+    if (visibleCount >= filteredItems.length) return
+    const target = loadMoreRef.current
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setVisibleCount((prev) => {
+              if (prev >= filteredItems.length) return prev
+              return Math.min(prev + LOAD_STEP, filteredItems.length)
+            })
+          }
+        })
+      },
+      { rootMargin: '600px' }
+    )
+
+    observer.observe(target)
+    return () => observer.disconnect()
+  }, [filteredItems.length, visibleCount])
+
+  // ------------------------------
+  // HOVER INFO
+  // ------------------------------
   const onEnter = (item: GridItem) => {
     if (!enableHoverInfo || item.mediaType === 'spacer') return
     setHoverInfo({ title: item.title, category: item.category })
@@ -148,11 +214,16 @@ export default function ProjectGrid({
     setMousePos({ x: e.clientX, y: e.clientY })
   }
 
+  const handleNavigate = (href: string) => router.push(href)
+
+  // ---------------------------------------------------------
+  // ------------------------ RENDER -------------------------
+  // ---------------------------------------------------------
   return (
     <>
       <ViewToggle onToggleLayout={onToggleLayout} layout={layout} />
 
-      {/* Filtres */}
+      {/* FILTRES */}
       <div className={stylesFilters.filtersWrapper}>
         <button
           className={stylesFilters.filtersButton}
@@ -175,9 +246,12 @@ export default function ProjectGrid({
         </AnimatePresence>
       </div>
 
-      {/* Grilles */}
+      {/* GRILLE */}
       <AnimatePresence mode="wait">
         {layout === 'default' ? (
+          // ------------------------------
+          // GRID DEFAULT
+          // ------------------------------
           <motion.div
             key="default-grid"
             className={stylesDefault.gridDefault}
@@ -191,6 +265,7 @@ export default function ProjectGrid({
                 if (item.mediaType === 'spacer') {
                   return <div key={`spacer-${index}`} className={stylesDefault.gridSpacer} />
                 }
+
                 return (
                   <motion.div
                     key={`${item.slug}-${item.src}-${index}`}
@@ -224,6 +299,7 @@ export default function ProjectGrid({
                         className={stylesDefault.video}
                       />
                     )}
+
                     <div className={stylesDefault.gridItemInfo}>
                       <div className={stylesDefault.projectTitle}>{item.title}</div>
                       <div className={stylesDefault.projectCategory}>{item.category}</div>
@@ -234,6 +310,9 @@ export default function ProjectGrid({
             </AnimatePresence>
           </motion.div>
         ) : (
+          // ------------------------------
+          // GRID ALT
+          // ------------------------------
           <motion.div
             key="alt-grid"
             className={stylesAlt.gridAltWrapper}
@@ -245,7 +324,15 @@ export default function ProjectGrid({
             <div className={stylesAlt.gridAltThumbs}>
               <AnimatePresence mode="popLayout">
                 {visibleItems.map((item, index) => {
-                  if (item.mediaType === 'spacer') return null
+                  if (item.mediaType === 'spacer') {
+                    return (
+                      <div
+                        key={`spacer-${index}`}
+                        className={stylesAlt.thumbSpacer}
+                      />
+                    )
+                  }
+
                   return (
                     <motion.div
                       key={`${item.slug}-${item.src}-${index}`}
@@ -290,7 +377,8 @@ export default function ProjectGrid({
         )}
       </AnimatePresence>
 
-      {/* Tooltip titre/catégorie qui suit la souris */}
+      <div ref={loadMoreRef} aria-hidden style={{ height: 1 }} />
+
       {enableHoverInfo && <HoverInfo info={hoverInfo} position={mousePos} />}
     </>
   )
