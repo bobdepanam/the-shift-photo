@@ -19,7 +19,7 @@ export default function AboutPage() {
           {
             imageSrc: '/images/craft/macshift_03.gif',
             subheading: '',
-            heading: 'The Shift',
+            heading: 'Go ask Alice',
             headingColor: 'white',
             subheadingColor: 'inherit',
           },
@@ -65,24 +65,20 @@ export default function AboutPage() {
           <FadeInUpBlock>
             <h3>Skills</h3>
 
-            <p>Art Direction & Creative Leadership</p>
-            <p>Brand Identity & Visual Systems</p>
-            <p>Campaign Concepts & Visual Narratives</p>
-
-            <h3>Image & Motion</h3>
-            <p>Photography, Editorial, Lifestyle & Product</p>
-            <p>Motion Direction & Video Compositions</p>
-            <p>Title design, cuts & graphic overlays</p>
+            <p>Art Direction & graphic overlays,
+            Brand Identity & Visual Systems,
+            Campaign Concepts & Visual Narratives,
+            Photography : Editorial, Lifestyle & Product,
+            Motion Direction & Video Compositions</p>
 
             <h3>Digital & AI</h3>
-            <p>Digital Design / UX, UI & Web design</p>
-            <p>Next, TypeScript, Three.js, Motion, Wordpress</p>
-            <p>AI-assisted Research & Image Development</p>
-            <p>Creative consulting & training on AI workflows</p>
+            <p>Digital Design / UX, UI & Web design,
+            Next, TypeScript, Three.js, Wordpress...
+            Creative consulting & training on AI workflows</p>
 
             <h3>Print & Craft</h3>
-            <p>Print, Screen Printing & Editorial Layouts</p>
-            <p>Posters, booklets and object-based visuals</p>
+            <p>Print, Screen Printing & Editorial Layouts,
+            Posters, booklets and object-based visuals</p>
           </FadeInUpBlock>
 
 
@@ -101,13 +97,13 @@ export default function AboutPage() {
             <h3>Clients & Collaborations</h3>
             <p>
               I work with teams that care about image, detail and consistency across
-              every touchpoint:
+              every touchpoint
             </p>
-            <p>Creative agencies & independent design studios</p>
-            <p>Innovation, tech & healthcare brands</p>
-            <p>Fashion, lifestyle & food projects</p>
-            <p>Music, culture & editorial platforms</p>
-            <p>Teams exploring AI-enhanced visual workflows</p>
+            <p>Creative agencies & independent design studios,
+            Innovation, tech & healthcare brands,
+            Fashion, lifestyle & food projects,
+            Music, culture & editorial platforms,
+            Teams exploring AI-enhanced visual workflows</p>
           </FadeInUpBlock>
         </div>
         
