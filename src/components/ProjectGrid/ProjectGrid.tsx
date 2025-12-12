@@ -30,6 +30,8 @@ type GridItem = {
   year?: string
 }
 
+const getFilename = (src: string) => src?.split('/').pop() ?? ''
+
 export type Project = {
   title: string
   slug: string
@@ -55,6 +57,7 @@ export default function ProjectGrid({
   const enableHoverInfo = layout === 'alt'
   const [hoverInfo, setHoverInfo] = useState<{ title?: string; category?: string } | null>(null)
   const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(null)
+  const [hoverSrc, setHoverSrc] = useState<string | null>(null)
 
   const [gridItems, setGridItems] = useState<GridItem[]>([])
   const [activeCategory, setActiveCategory] = useState<string>('all')
@@ -203,10 +206,12 @@ export default function ProjectGrid({
   // ------------------------------
   const onEnter = (item: GridItem) => {
     if (!enableHoverInfo || item.mediaType === 'spacer') return
+    setHoverSrc(item.src ?? null)
     setHoverInfo({ title: item.title, category: item.category })
   }
   const onLeave = () => {
     if (!enableHoverInfo) return
+    setHoverSrc(null)
     setHoverInfo(null)
   }
   const onMove: React.MouseEventHandler<HTMLDivElement> = (e) => {
@@ -340,34 +345,17 @@ export default function ProjectGrid({
                       initial={{ opacity: 0, scale: 0.95 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.95 }}
-                      transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
-                      layout
-                      onClick={() => handleNavigate(`/projects/${item.slug}`)}
-                      onMouseEnter={() => onEnter(item)}
-                      onMouseLeave={onLeave}
-                      onMouseMove={onMove}
-                    >
-                      {item.mediaType === 'image' ? (
-                        <Image
-                          src={item.src}
-                          alt={item.title ?? item.slug}
-                          width={300}
-                          height={300}
-                          style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-                          loading="lazy"
-                          unoptimized
-                        />
-                      ) : (
-                        <video
-                          src={item.src}
-                          muted
-                          autoPlay
-                          loop
-                          playsInline
-                          preload="metadata"
-                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                        />
-                      )}
+                    transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
+                    layout
+                    onClick={() => handleNavigate(`/projects/${item.slug}`)}
+                    onMouseEnter={() => onEnter(item)}
+                    onMouseLeave={onLeave}
+                    onMouseMove={onMove}
+                  >
+                      <div className={stylesAlt.thumbText}>
+                        <p className={stylesAlt.thumbFilename}>{getFilename(item.src) || '-'}</p>
+                        <p className={stylesAlt.thumbCategory}>{item.category}</p>
+                      </div>
                     </motion.div>
                   )
                 })}
@@ -379,7 +367,7 @@ export default function ProjectGrid({
 
       <div ref={loadMoreRef} aria-hidden style={{ height: 1 }} />
 
-      {enableHoverInfo && <HoverInfo info={hoverInfo} position={mousePos} />}
+      {layout === 'alt' && <HoverInfo info={hoverInfo} position={mousePos} src={hoverSrc} />}
     </>
   )
 }

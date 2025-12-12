@@ -121,7 +121,7 @@ export default function ProjectPageClient({ project }: Props) {
                 transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
               >
                 <Breadcrumb path={['projects', project.slug]} />
-                <h1>{project.title}</h1>
+                <h3>{project.title}</h3>
                 <p className={stylesClassic.category}>{project.category}</p>
 
                 {project.content && (

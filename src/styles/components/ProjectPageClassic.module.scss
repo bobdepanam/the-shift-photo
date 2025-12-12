@@ -45,7 +45,7 @@
 // -------------------------
 .layout {
   display: flex;
-  gap: 4rem;
+  gap: 0rem;
 
 
   @media (max-width: 768px) {
@@ -66,15 +66,15 @@
   flex-direction: column;
   gap: 1rem;
 
-  h1 {
-    font-size: 2rem;
-    font-weight: bold;
-    color: var(--text-color);
-  }
+  // h1 {
+  //   font-size: 2rem;
+  //   font-weight: bold;
+  //   color: var(--text-color);
+  // }
 
   .category {
     font-style: italic;
-    font-size: 0.95rem;
+    font-size: 0.8rem;
     color: #999;
 
     html.light-mode & {
@@ -110,8 +110,8 @@
 .mediaGrid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  gap: 4rem 2rem;
-  margin-top: 3vh;
+  gap: clamp(1.25rem, 2vw, 2.25rem);
+  margin-top: 2vh;
 }
 
 // -------------------------
@@ -121,6 +121,7 @@
   grid-column: span 12;
   overflow: hidden;
   min-height: 35vh;
+  margin-bottom: clamp(0.75rem, 1.4vw, 1.6rem);
 
   @media (max-width: 768px) {
     grid-column: span 12;
@@ -139,9 +140,17 @@
 }
 
 .mediaItemHalf {
-  grid-column: span 12;
+  grid-column: span 6;
   overflow: hidden;
   min-height: 30vh;
+
+  &:nth-of-type(odd) {
+    grid-column: span 6;
+  }
+
+  @media (max-width: 1024px) {
+    grid-column: span 6;
+  }
 
   @media (max-width: 768px) {
     grid-column: span 12;
@@ -159,18 +168,6 @@
   }
 }
 
-// -------------------------
-// ✅ HOVER ZOOM EFFECT
-// -------------------------
-.image,
-.video {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-  display: block;
-  transition: transform 0.4s ease;
-
-  &:hover {
-    transform: scale(1.1);
-  }
+.mediaItemFull + * {
+  margin-top: clamp(0.35rem, 1vw, 0.85rem);
 }

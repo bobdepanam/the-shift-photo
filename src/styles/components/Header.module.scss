@@ -69,11 +69,16 @@
   justify-content: center;
   width: 1rem;
   height: 1rem;
-  border-radius: 50%;
-  background-color: currentColor; // ← colore le fond en accord avec le texte
+  border-radius: 0%;
+  background-color: currentColor;
   border: none;
   cursor: pointer;
   z-index: 60;
+  transition: border-radius 0.25s ease; // optionnel mais mieux
+
+  &:hover {
+    border-radius: 50%;
+  }
 
   .label {
     position: relative;
@@ -82,7 +87,7 @@
 
     p {
       margin: 0;
-      color: var(--background-color); // ← contraste avec currentColor du fond
+      color: var(--background-color);
 
       &:nth-of-type(2) {
         position: absolute;
@@ -107,13 +112,8 @@
       transition: all 1s cubic-bezier(0.76, 0, 0.24, 1);
     }
 
-    &::after {
-      top: -4px;
-    }
-
-    &::before {
-      top: 4px;
-    }
+    &::after { top: -4px; }
+    &::before { top: 4px; }
   }
 
   .burgerActive {
@@ -121,7 +121,6 @@
       transform: rotate(45deg);
       top: -1px;
     }
-
     &::before {
       transform: rotate(-45deg);
       top: 1px;

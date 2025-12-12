@@ -3,41 +3,56 @@
 .tooltip {
   position: fixed;            /* top/left sont injectés inline par le composant */
   pointer-events: none;
-  z-index: 10000;
+  z-index: 12000;
 
   min-width: 200px;
-  max-width: 280px;
+  max-width: 360px;
   padding: 8px 10px;
-  border-radius: 10px;
+  border-radius: 0px;
 
   background: var(--background-color);
   color: var(--text-color);
-  border: 1px solid color-mix(in srgb, var(--text-color) 12%, transparent);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
 
   /* Fade-in uniquement – pas de transform pour ne pas écraser la position inline */
   opacity: 0;
-  animation: tooltipFade 140ms ease-out forwards;
+  transform: scale(0.98);
+  animation: tooltipFade 160ms ease-out forwards;
 
   .title {
     display: block;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     line-height: 1.2;
     font-weight: 600;
-    letter-spacing: .01em;
+    letter-spacing: .08em;
+    text-transform: uppercase;
     margin-bottom: 2px;
   }
 
   .category {
     display: block;
-    font-size: 0.72rem;
-    opacity: .7;
+    font-size: 0.7rem;
+    opacity: .6;
     text-transform: uppercase;
     letter-spacing: .06em;
   }
 }
 
+.preview {
+  width: clamp(375px, 22vw, 500px);
+  aspect-ratio: 4 / 3;
+  height: auto;
+  overflow: hidden;
+  border-radius: 0px;
+}
+
+.previewImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 @keyframes tooltipFade {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from { opacity: 0; transform: scale(0.98); }
+  to   { opacity: 1; transform: scale(1); }
 }
