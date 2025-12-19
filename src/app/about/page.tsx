@@ -115,19 +115,19 @@ export default function AboutPage() {
       <section className={styles.thumbStrip}>
         <ul>
           <li>
-            <Image src="/images/london/london_27.webp" alt="London" width={220} height={140} />
+            <Image src="/images/london/still-inside-the-flow.webp" alt="London" width={220} height={140} />
           </li>
           <li>
             <Image src="/images/craft/macshift_02.gif" alt="Craft" width={220} height={140} />
           </li>
           <li>
-            <Image src="/images/tokyo/tokyo_16.webp" alt="Tokyo" width={220} height={140} />
+            <Image src="/images/tokyo/moving-without-touch.webp" alt="Tokyo" width={220} height={140} />
           </li>
           <li>
-            <Image src="/images/craft/craft_05.webp" alt="The Shift" width={220} height={140} />
+            <Image src="/images/craft/slow-precise-movements.webp" alt="The Shift" width={220} height={140} />
           </li>
           <li>
-            <Image src="/images/craft/craft_04.webp" alt="The Shift" width={220} height={140} />
+            <Image src="/images/craft/nothing-is-rushed.webp" alt="The Shift" width={220} height={140} />
           </li>
         </ul>
       </section>
@@ -149,7 +149,7 @@ export default function AboutPage() {
 
       {/* 🎭 Outro animation */}
       <PerspectiveMask
-        initialImage="/images/london/london_9.webp"
+        initialImage="/images/london/time-moves-sideways.webp"
         title="Revealed"
         description="A trip through the light dunes and storms of memory."
       />

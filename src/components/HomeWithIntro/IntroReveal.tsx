@@ -6,15 +6,15 @@ import styles from '@/styles/components/IntroReveal.module.scss'
 import { translate } from '@/scripts/anim'
 
 const images = [
-  '/images/london/london_1.webp',
-  '/images/london/london_2.webp',
-  '/images/london/london_3.webp',
-  '/images/london/london_4.webp',
-  '/images/london/london_5.webp',
-  '/images/london/london_6.webp',
-  '/images/london/london_7.webp',
-  '/images/london/london_8.webp',
-  '/images/london/london_9.webp',
+  '/images/tokyo/the-night-stays-bright.webp',
+  '/images/london/corners-never-rest.webp',
+  '/images/london/grey-is-not-empty.webp',
+  '/images/shore/light-falls-on-water.webp',
+  '/images/craft/macshift_03.gif',
+  '/images/paris/the-city-feels-old.webp',
+  '/images/craft/nothing-is-rushed.webp',
+  '/images/shore/a-line-between-sky.webp',
+  '/images/tokyo/light-without-shadow.webp',
 ]
 
 type IntroRevealProps = {

@@ -27,17 +27,17 @@ const links: LinkItem[] = [
   {
     title: 'index',
     href: '/',
-    src: 'tokyo/tokyo_16.webp'
+    src: 'tokyo/windows-glow-forever.webp'
   },
   {
     title: 'about',
     href: '/about',
-    src: 'london/london_4.webp'
+    src: 'london/moving-even-when-still.webp'
   },
   {
     title: 'archive',
     href: '/archive',
-    src: 'shore/shore_7.webp'
+    src: 'shore/standing-against-nothing.webp'
   },
 ]
 

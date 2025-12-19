@@ -6,10 +6,20 @@ import Section from '@/components/Slow/Section/Section'
 import type { Project } from '@/types/project'
 import styles from '@/styles/components/ArchivePage.module.scss'
 
+const ARCHIVE_PROJECT_SLUGS = ['digital', 'mask', 'video', 'branding']
+
 export default function ArchivePage() {
   const allProjects: Project[] = getAllProjects()
 
-  const media = allProjects.flatMap((project) =>
+  const curatedProjects = allProjects.filter((project) =>
+    ARCHIVE_PROJECT_SLUGS.includes(project.slug)
+  )
+  const sourceProjects =
+    curatedProjects.length > 0
+      ? curatedProjects
+      : allProjects.filter((project) => project.category !== 'photography')
+
+  const media = sourceProjects.flatMap((project) =>
     project.media.map((item) => ({
       type: item.type,
       src: item.src
