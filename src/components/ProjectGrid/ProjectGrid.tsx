@@ -30,7 +30,13 @@ type GridItem = {
   year?: string
 }
 
-const getFilename = (src: string) => src?.split('/').pop() ?? ''
+const getDisplayFilename = (src: string) => {
+  if (!src) return ''
+  const filenameWithParams = src.split('/').pop() ?? ''
+  const filename = filenameWithParams.split(/[?#]/)[0]
+  const withoutExt = filename.replace(/\.[^.]+$/, '')
+  return withoutExt.replace(/[-_]+/g, ' ') || ''
+}
 
 export type Project = {
   title: string
@@ -82,7 +88,9 @@ export default function ProjectGrid({
       return (ia === -1 ? 1e9 : ia) - (ib === -1 ? 1e9 : ib) || a.localeCompare(b)
     })
 
-    return ['all', ...sorted]
+    const filtered = sorted.filter((cat) => cat !== 'digital')
+
+    return ['all', ...filtered]
   }, [projects])
 
   // ------------------------------
@@ -353,7 +361,7 @@ export default function ProjectGrid({
                     onMouseMove={onMove}
                   >
                       <div className={stylesAlt.thumbText}>
-                        <p className={stylesAlt.thumbFilename}>{getFilename(item.src) || '-'}</p>
+                        <p className={stylesAlt.thumbFilename}>{getDisplayFilename(item.src) || '-'}</p>
                         <p className={stylesAlt.thumbCategory}>{item.category}</p>
                       </div>
                     </motion.div>
