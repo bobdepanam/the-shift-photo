@@ -2,19 +2,20 @@
    🌐 BASE GLOBAL STYLES
 --------------------------------- */
 
-// 1. VARIABLES — toujours en premier
-@use './variables/variables' as *;
-@use './variables/typography' as *;
-
-// 2. MIXINS — importés avec alias pour les appels explicites
-@use 'mixins' as mix;
-
-// 3. BASES — typographie, reset, styles HTML de base
-@use './base/fonts';
-@use './base/typography';
+// 1. TOKENS — toujours en premier
+@use './base/tokens';
 @use './base/base';
 
-// 4. COMPONENTS — SCSS liés aux composants React
+// 2. VARIABLES
+@use './variables/variables' as *;
+
+// 3. MIXINS — importés avec alias pour les appels explicites
+@use 'mixins' as mix;
+
+// 4. BASES — typographie, reset, styles HTML de base
+@use './base/fonts';
+
+// 5. COMPONENTS — SCSS liés aux composants React
 @use './components/Header.module.scss';
 @use './components/Footer.module.scss';
 @use './components/ProjectGridDefault.module.scss';
