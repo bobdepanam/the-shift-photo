@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
+import { prefersReducedMotion } from '@/utils/motionTokens'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -12,6 +13,8 @@ gsap.registerPlugin(ScrollTrigger)
  */
 export function useGsapParallax(target: string) {
   useEffect(() => {
+    if (prefersReducedMotion()) return
+
     const elements = document.querySelectorAll<HTMLElement>(target)
 
     if (!elements.length) return

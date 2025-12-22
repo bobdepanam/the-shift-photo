@@ -24,5 +24,5 @@
   width: 100%;
   height: 5vw;
   background-color: var(--background-color); // ← theme-driven via :root
-  transition: background-color 0.3s ease;
+  transition: background-color var(--duration-base) var(--easing-in-out);
 }

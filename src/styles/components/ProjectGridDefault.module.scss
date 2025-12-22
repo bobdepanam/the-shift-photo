@@ -1,3 +1,5 @@
+@use '@/styles/base/breakpoints' as *;
+
 /* -------------------------------
    🧱 GRID PRINCIPALE — SINGLE VIEW
 ---------------------------------- */
@@ -5,41 +7,69 @@
 .gridDefault {
   width: 100%;
   min-height: 90vh;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12vh;
-  transition: all 0.3s ease;
-  scroll-snap-type: y mandatory; // chaque visuel se centre au scroll
+
+  gap: clamp(8vh, 10vh, 12vh);
+
+  scroll-snap-type: y mandatory;
   background: var(--background-color);
 }
 
 /* -------------------------------
-   🎞️ IMAGE/VIDÉO + INFOS
+   🎞️ ITEM (MEDIA + INFOS)
 ---------------------------------- */
 
 .gridItem {
   position: relative;
   cursor: pointer;
-  overflow: hidden;
+
   display: flex;
   flex-direction: column;
-  width: min(72vw, 1100px);
-  height: 72vh;
-  border-radius: 0px;
+
+  width: min(42vw, 1100px);
+  // height: clamp(42vh, 50vh, 56vh);
+
+  border-radius: 0;
   background: transparent;
+
   scroll-snap-align: center;
   scroll-snap-stop: always;
-  transition: opacity 0.35s ease;
+
+  transition: opacity var(--duration-slow) var(--easing-in-out),
+              transform var(--duration-slow) var(--easing-in-out);
+
+  /* léger "calme" hors hover */
+  &:not(:hover) {
+    opacity: 0.92;
+  }
+
+  /* accès clavier (si tu rends focusable côté TSX) */
+  &:focus-visible {
+    outline: 2px solid var(--border-subtle-strong);
+    outline-offset: var(--space-xs);
+
+    html.light-mode & {
+      outline-color: var(--border-subtle-strong);
+    }
+  }
 
   img,
   video {
     width: 100%;
     height: 100%;
+    display: block;
+
     object-fit: contain;
-    transition: transform 0.35s ease, opacity 0.3s ease, filter 0.35s ease;
+
     transform: scale(1);
     filter: brightness(1.02);
+
+    transition: transform var(--duration-slow) var(--easing-in-out),
+                opacity var(--duration-base) var(--easing-in-out),
+                filter var(--duration-slow) var(--easing-in-out);
   }
 
   &:hover img,
@@ -57,22 +87,24 @@
 .gridItemInfo {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  padding: 1vh;
+  gap: var(--space-2xs);
+
+  padding: clamp(0.5rem, 1vh, 0.85rem);
+
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.04), transparent);
 
   .projectTitle {
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: var(--font-size-base);
     text-transform: uppercase;
-    line-height: 1.2;
+    line-height: var(--line-height-tight);
     margin: 0;
     color: var(--text-color);
   }
 
   .projectCategory {
-    font-size: 0.75rem;
-    line-height: 1.2;
+    font-size: var(--font-size-xs);
+    line-height: var(--line-height-tight);
     margin: 0;
     color: #bbbbbb;
 
@@ -82,38 +114,54 @@
   }
 }
 
+/* -------------------------------
+   🕳️ SPACERS
+   (tu les caches sur la version "single view")
+---------------------------------- */
+
 .gridSpacer {
   display: none;
 }
 
-@media (max-width: 1024px) {
+/* -------------------------------
+   ♿ Reduced motion
+---------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .gridItem,
+  .gridItem img,
+  .gridItem video {
+    transition: none !important;
+  }
+}
+
+/* -------------------------------
+   📱 / 💻 RESPONSIVE
+---------------------------------- */
+
+@include down($bp-md) {
   .gridDefault {
-    // padding: 1vh;
-    gap: 10vh;
+    gap: clamp(7vh, 9vh, 10vh);
   }
 
   .gridItem {
     width: min(85vw, 900px);
     height: 68vh;
-    border-radius: 0px;
   }
 }
 
-@media (max-width: 768px) {
+@include down($bp-sm) {
   .gridDefault {
     scroll-snap-type: y proximity;
-    // padding: 1vh;
-    gap: 9vh;
+    gap: clamp(6vh, 8vh, 9vh);
   }
 
   .gridItem {
     width: 100%;
     height: 70vh;
-    border-radius: 0px;
-    // box-shadow: 0 16px 32px rgba(0, 0, 0, 0.18);
   }
 
   .gridItemInfo {
-    padding: 1rem;
+    padding: var(--space-md);
   }
 }

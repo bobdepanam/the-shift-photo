@@ -1,21 +1,45 @@
 // src/utils/lenis.ts
 
 import Lenis from 'lenis'
+import ScrollTrigger from 'gsap/ScrollTrigger'
+import { prefersReducedMotion } from './motionTokens'
+
+let lenisInstance: Lenis | null = null
+let rafId: number | null = null
+
+const rafLoop = (time: number) => {
+  lenisInstance?.raf(time)
+  ScrollTrigger.update()
+  rafId = requestAnimationFrame(rafLoop)
+}
 
 export const initLenis = () => {
-  const lenis = new Lenis({
+  if (lenisInstance) return lenisInstance
+
+  const reduceMotion = prefersReducedMotion()
+
+  lenisInstance = new Lenis({
     duration: 1.2,
     easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    smooth: true,
+    smooth: !reduceMotion,
+    direction: 'vertical',
+    gestureDirection: 'vertical',
+    smoothTouch: false,
   })
 
-  const raf = (time: number) => {
-    lenis.raf(time)
-    requestAnimationFrame(raf)
+  if (!reduceMotion && rafId === null) {
+    rafId = requestAnimationFrame(rafLoop)
   }
 
-  // ✅ Lance la boucle ici, dans l'init
-  requestAnimationFrame(raf)
+  return lenisInstance
+}
 
-  return lenis
+export const destroyLenis = () => {
+  if (rafId !== null) {
+    cancelAnimationFrame(rafId)
+    rafId = null
+  }
+
+  lenisInstance?.destroy()
+  lenisInstance = null
 }

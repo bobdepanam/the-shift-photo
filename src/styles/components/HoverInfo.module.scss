@@ -1,3 +1,5 @@
+@use '@/styles/base/breakpoints' as *;
+
 /* Tooltip qui respecte le thème via CSS vars:
    --background-color et --text-color doivent être définies globalement */
 .tooltip {
@@ -7,7 +9,7 @@
 
   min-width: 200px;
   max-width: 360px;
-  padding: 8px 10px;
+  padding: var(--space-xs) var(--space-sm);
   border-radius: 0px;
 
   background: var(--background-color);
@@ -16,12 +18,12 @@
   /* Fade-in uniquement – pas de transform pour ne pas écraser la position inline */
   opacity: 0;
   transform: scale(0.98);
-  animation: tooltipFade 160ms ease-out forwards;
+  animation: tooltipFade var(--duration-fast) var(--easing-out) forwards;
 
   .title {
     display: block;
-    font-size: 0.8rem;
-    line-height: 1.2;
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-tight);
     font-weight: 600;
     letter-spacing: .08em;
     text-transform: uppercase;
@@ -30,7 +32,7 @@
 
   .category {
     display: block;
-    font-size: 0.7rem;
+    font-size: var(--font-size-xs);
     opacity: .6;
     text-transform: uppercase;
     letter-spacing: .06em;

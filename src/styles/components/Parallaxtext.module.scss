@@ -1,3 +1,5 @@
+@use '@/styles/base/breakpoints' as *;
+
 /* -------------------------------
    🌄 PARALLAX TEXT SECTION
 --------------------------------- */
@@ -77,29 +79,29 @@
   h5 {
     pointer-events: auto;
     margin: 0 0 0.5rem;
-    font-size: 0.875rem;
+    font-size: var(--font-size-sm);
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: inherit;
 
-    @media (min-width: 768px) {
-      font-size: 1rem;
+    @include up($bp-sm) {
+      font-size: var(--font-size-base);
     }
   }
 
   h1 {
     pointer-events: auto;
     margin: 0;
-    font-size: 4rem;
+    font-size: var(--font-size-4xl);
     line-height: 0.95;
-    transition: color 0.3s ease;
+    transition: color var(--duration-base) var(--easing-in-out);
     color: inherit;
 
-    @media (min-width: 768px) {
-      font-size: 8rem;
+    @include up($bp-sm) {
+      font-size: clamp(var(--font-size-4xl), 8vw, 8rem);
     }
 
-    @media (min-width: 1280px) {
+    @include up(1280px) {
       font-size: clamp(6rem, 10vw, 10rem);
     }
   }

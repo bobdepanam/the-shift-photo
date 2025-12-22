@@ -1,13 +1,14 @@
+@use '@/styles/base/breakpoints' as *;
 @use 'mixins' as mix;
 
 /* ---------- WRAPPER DE PAGE (header + intro + sections) ---------- */
 .archivePageWrapper {
-  padding: 4rem 2rem;
+  padding: calc(var(--space-xl) * 2) var(--space-xl);
   max-width: 90rem; /* 1440px */
   margin: 0 auto;
   display: flex;
   flex-direction: column; /* ← corrige "flex" invalide */
-  gap: 2rem;
+  gap: var(--space-xl);
   color: inherit;
 }
 
@@ -22,7 +23,7 @@
 
   .intro {
     @include mix.caption;
-    margin-top: 0.5rem;
+    margin-top: var(--space-xs);
     max-width: 37.5rem; /* 600px */
   }
 }

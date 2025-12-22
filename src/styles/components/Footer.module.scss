@@ -1,6 +1,8 @@
+@use '@/styles/base/breakpoints' as *;
+
 /* -------------------------------
    🧱 WRAPPER GÉNÉRAL
---------------------------------- */
+---------------------------------- */
 .footerWrapper {
   position: relative;
   height: 600px;
@@ -27,7 +29,6 @@
 --------------------------------- */
 .content {
   background-color: inherit; // hérite de body/html
-  outline: 0px dashed limegreen; // <- temporaire pour voir le bloc
   padding: 0;
   height: 100%;
   width: 100%;
@@ -62,7 +63,7 @@
    © COPYRIGHT & INFOS
 --------------------------------- */
 .footerCopyright {
-  font-size: 0.7rem;
+  font-size: var(--font-size-xs);
   color: inherit;
 }
 
@@ -71,20 +72,21 @@
 --------------------------------- */
 .footContainer {
   display: flex;
-  gap: 5rem;
-  padding:3vh;
+  gap: calc(var(--space-xl) * 2.5);
+  padding: 3vh;
   flex-shrink: 0;
 }
 
 .footColumn {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--space-sm);
 }
 
 .footTitle {
   margin-bottom: 0;
-  color: #999; // gris moyen compatible light/dark
-  font-size: 0.875rem;
+  color: var(--text-color); // gris moyen compatible light/dark
+  opacity: 0.65;
+  font-size: var(--font-size-sm);
   font-weight: 500;
 }

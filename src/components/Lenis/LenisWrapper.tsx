@@ -1,13 +1,13 @@
 'use client'
 
 import { useEffect } from 'react'
-import { initLenis } from '@/utils/lenis'
+import { destroyLenis, initLenis } from '@/utils/lenis'
 
 export default function LenisWrapper() {
   useEffect(() => {
-    const lenisInstance = initLenis()
+    initLenis()
 
-    return () => lenisInstance.destroy()
+    return () => destroyLenis()
   }, [])
 
   return null

@@ -1,4 +1,5 @@
 // src/styles/components/About.module.scss
+@use '@/styles/base/breakpoints' as *;
 @use '../mixins' as mix;
 
 /* -------------------------------
@@ -7,8 +8,8 @@
 .aboutWrapper {
   display: flex;
   flex-direction: column;
-  gap: 4rem;
-  padding: 4rem 2rem;
+  gap: calc(var(--space-xl) * 2);
+  padding: calc(var(--space-xl) * 2) var(--space-xl);
   max-width: 90rem; /* ~1440px */
   margin: 0 auto;
   color: inherit; // hérite du body (dark/light)
@@ -21,9 +22,9 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: end;
-  gap: 2rem;
+  gap: var(--space-xl);
 
-  @media (max-width: 900px) {
+  @include down(900px) {
     grid-template-columns: 1fr;
     align-items: start;
   }
@@ -44,7 +45,7 @@
   text-align: right;
   @include mix.text-base;
 
-  @media (max-width: 900px) {
+  @include down(900px) {
     justify-self: start;
     text-align: left;
   }
@@ -55,8 +56,8 @@
 --------------------------------- */
 .rule {
   border: 0;
-  border-top: 1px solid var(--border, rgba(255, 255, 255, 0.12));
-  margin: 2rem 0;
+  border-top: 1px solid var(--border-subtle);
+  margin: var(--space-xl) 0;
 }
 
 /* -------------------------------
@@ -65,14 +66,14 @@
 .metaGrid {
   display: grid;
   grid-template-columns: 1.1fr 0.7fr 0.7fr; // proportion proche de la maquette 1440
-  gap: 7rem;
+  gap: calc(var(--space-2xl) + var(--space-xl));
   align-items:start;
 
-  @media (max-width: 1200px) {
+  @include down(1200px) {
     grid-template-columns: 1fr 1fr;
   }
 
-  @media (max-width: 900px) {
+  @include down(900px) {
     grid-template-columns: 1fr;
   }
 }
@@ -81,24 +82,24 @@
   max-width: 52rem;
 
   p {
-    margin-bottom: 1.25rem;
+    margin-bottom: calc(var(--space-lg) - var(--space-2xs));
   }
 }
 
 .metaColLists {
   h3 {
     @include mix.heading-sm;
-    margin: 0 0 0.75rem;
+    margin: 0 0 var(--space-sm);
   }
 
   ul {
     list-style: none;
     padding: 0;
-    margin: 0 0 1.75rem;
+    margin: 0 0 calc(var(--space-xl) - var(--space-2xs));
   }
 
   li {
-    margin-bottom: 0.4rem;
+    margin-bottom: var(--space-2xs);
   }
 }
 
@@ -117,13 +118,13 @@
 .bigStatement {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  gap: 2rem;
+  gap: var(--space-xl);
   align-items: center;
-  margin: 6rem 0 4rem;
+  margin: calc(var(--space-xl) * 3) 0 calc(var(--space-xl) * 2);
 
-  @media (max-width: 1000px) {
+  @include down(1000px) {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: var(--space-md);
   }
 }
 
@@ -145,7 +146,7 @@
   text-align: right;
   font-size: clamp(2.5rem, 10vw, 8rem);
 
-  @media (max-width: 1000px) {
+  @include down(1000px) {
     text-align: left;
   }
 }
@@ -154,13 +155,13 @@
    🖼️ THUMB STRIP (mini-vignettes)
 --------------------------------- */
 .thumbStrip {
-  margin: 1.5rem 0 4rem;
+  margin: var(--space-lg) 0 calc(var(--space-xl) * 2);
 
   ul {
     display: grid;
     grid-auto-flow: column;
     grid-auto-columns: minmax(160px, 1fr);
-    gap: 1rem;
+    gap: var(--space-md);
     list-style: none;
     padding: 0;
     margin: 0;

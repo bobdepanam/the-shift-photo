@@ -1,3 +1,5 @@
+@use '@/styles/base/breakpoints' as *;
+
 /* -------------------------------
    🌄 IMAGE NAVIGATION (Dark/Light Mode Ready)
 --------------------------------- */
@@ -5,7 +7,7 @@
 .imageContainer {
   display: none;
 
-  @media only screen and (min-width: 1000px) {
+  @include up($bp-md) {
     display: block;
     width: 500px;
     height: 450px;
@@ -18,7 +20,8 @@
       object-fit: cover;
       display: block;
       border-radius: 0rem;
-      transition: transform 0.3s ease, filter 0.3s ease;
+      transition: transform var(--duration-base) var(--easing-in-out),
+                  filter var(--duration-base) var(--easing-in-out);
     }
 
     &:hover img {
@@ -27,6 +30,6 @@
 
     // Optionnel : background visible si image lente à charger
     background-color: var(--background-color);
-    transition: background-color 0.3s ease;
+    transition: background-color var(--duration-base) var(--easing-in-out);
   }
 }

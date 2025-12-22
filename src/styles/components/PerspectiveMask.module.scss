@@ -1,3 +1,5 @@
+@use '@/styles/base/breakpoints' as *;
+
 // 🎭 MULTISTEP MASK – multimask.module.scss
 
 // 🌈 Variables SCSS locales
@@ -14,7 +16,7 @@ $mask-position: 52.35% center;
   position: relative;
   height: 300vh;
   background-color: var(--background-color); // ← via thème global
-  transition: background-color 0.4s ease;
+  transition: background-color var(--duration-slow) var(--easing-in-out);
 }
 
 // 🎞️ ÉTAPE 1 – IMAGE INITIALE STICKY
@@ -64,9 +66,9 @@ $mask-position: 52.35% center;
   line-height: 0.9;
   font-weight: 500;
   margin-bottom: 9vh;
-  transition: color 0.4s ease;
+  transition: color var(--duration-slow) var(--easing-in-out);
 
-  @media (max-width: 768px) {
+  @include down($bp-sm) {
     font-size: 6vh;
     margin-bottom: 5vh;
   }
@@ -77,17 +79,17 @@ $mask-position: 52.35% center;
   position: absolute;
   z-index: 3;
   margin-top: 15vh;
-  font-size: 1.1rem;
+  font-size: var(--font-size-md);
   font-weight: 300;
   max-width: 600px;
   text-align: center;
   color: var(--text-color);
-  transition: color 0.4s ease;
+  transition: color var(--duration-slow) var(--easing-in-out);
 
-  @media (max-width: 768px) {
+  @include down($bp-sm) {
     font-size: 0.95rem;
     margin-top: 10vh;
-    padding: 0 1rem;
+    padding: 0 var(--space-md);
   }
 }
 

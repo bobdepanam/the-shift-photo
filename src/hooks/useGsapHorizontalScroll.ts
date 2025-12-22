@@ -3,11 +3,14 @@
 import { useEffect } from 'react'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
+import { prefersReducedMotion } from '@/utils/motionTokens'
 
 gsap.registerPlugin(ScrollTrigger)
 
 export function useGsapHorizontalScroll(containerSelector: string, trackSelector: string) {
   useEffect(() => {
+    if (prefersReducedMotion()) return
+
     const container = document.querySelector(containerSelector)
     const track = document.querySelector(trackSelector)
 

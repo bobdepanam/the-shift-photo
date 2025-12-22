@@ -1,20 +1,22 @@
+@use '@/styles/base/breakpoints' as *;
+
 /* -----------------------------
    🎬 INTRO WRAPPER FULLSCREEN
------------------------------ */
+------------------------------ */
 .introWrapper {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: #000; // var(--background-color); // ← supporte dark/light
+  background-color: var(--background-color); // ← supporte dark/light
   z-index: 99999;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   pointer-events: all;
-  transition: background-color 0.4s ease;
+  transition: background-color var(--duration-slow) var(--easing-in-out);
 }
 
 /* -----------------------------
@@ -26,7 +28,9 @@
   max-height: 60vh;
   object-fit: contain;
   filter: brightness(1);
-  transition: transform 0.6s ease, opacity 0.4s ease, filter 0.4s ease;
+  transition: transform var(--duration-slow) var(--easing-in-out),
+              opacity var(--duration-base) var(--easing-in-out),
+              filter var(--duration-base) var(--easing-in-out);
 
   html.light-mode & {
     filter: brightness(0.95); // optionnel
@@ -37,16 +41,26 @@
    🖋️ TEXTE DE RÉVÉLATION
 ----------------------------- */
 .introText {
-  color: white;// var(--text-color); // ← hérite du thème
-  font-size: 3rem;
+  color: var(--text-color); // ← hérite du thème
+  font-size: var(--font-size-3xl);
   text-transform: uppercase;
   font-family: 'Inter', sans-serif;
   letter-spacing: 0.05em;
   opacity: 0.9;
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition: opacity var(--duration-slow) var(--easing-in-out),
+              transform var(--duration-slow) var(--easing-in-out);
   mix-blend-mode: difference;
 
   html.light-mode & {
     mix-blend-mode: normal; // évite le contraste inversé en clair
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .introWrapper,
+  .introImage,
+  .introText {
+    transition: none !important;
+    animation: none !important;
   }
 }

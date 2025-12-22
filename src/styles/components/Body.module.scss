@@ -1,3 +1,5 @@
+@use '@/styles/base/breakpoints' as *;
+
 /* -------------------------------
    📦 STRUCTURE PRINCIPALE
 --------------------------------- */
@@ -17,9 +19,9 @@
     margin: 0;
     display: flex;
     overflow: hidden;
-    font-size: 12px;
-    padding-right: 30px;
-    padding-top: 10px;
+    font-size: var(--font-size-xs);
+    padding-right: var(--space-xl);
+    padding-top: var(--space-sm);
     font-weight: 300;
     color: inherit;
   }
@@ -28,7 +30,7 @@
 /* -------------------------------
    📱 RESPONSIVE ADAPTATIONS
 --------------------------------- */
-@media (min-width: 390px) {
+@include up(390px) {
   .body {
     max-width: 1200px;
     margin-top: 80px;
@@ -40,7 +42,14 @@
   }
 }
 
-@media (min-width: 700px) {
+@media (prefers-reduced-motion: reduce) {
+  .body {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+@include up(700px) {
   .body {
     p {
       font-size: 8vw;
@@ -48,7 +57,7 @@
   }
 }
 
-@media (min-width: 1000px) {
+@include up(1000px) {
   .body {
     p {
       font-size: 10vw;
