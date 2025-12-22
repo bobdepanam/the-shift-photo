@@ -27,6 +27,7 @@ type GridItem = {
   category: string
   mediaType: 'image' | 'video' | 'spacer'
   src: string
+  mediaIndex?: number
   year?: string
 }
 
@@ -111,12 +112,13 @@ export default function ProjectGrid({
 
       const list = (project.media ?? []).slice(0, limit)
 
-      return list.map((media) => ({
+      return list.map((media, mediaIndex) => ({
         slug: project.slug,
         title: project.title,
         category: project.category,
         mediaType: media.type,
         src: media.src,
+        mediaIndex,
       }))
     })
 
@@ -227,7 +229,10 @@ export default function ProjectGrid({
     setMousePos({ x: e.clientX, y: e.clientY })
   }
 
-  const handleNavigate = (href: string) => router.push(href)
+  const handleNavigate = (slug: string, mediaIndex?: number) => {
+    const hash = typeof mediaIndex === 'number' ? `#m-${mediaIndex}` : ''
+    router.push(`/projects/${slug}${hash}`)
+  }
 
   // ---------------------------------------------------------
   // ------------------------ RENDER -------------------------
@@ -288,7 +293,7 @@ export default function ProjectGrid({
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
                     layout
-                    onClick={() => handleNavigate(`/projects/${item.slug}`)}
+                    onClick={() => handleNavigate(item.slug, item.mediaIndex)}
                     onMouseEnter={() => onEnter(item)}
                     onMouseLeave={onLeave}
                     onMouseMove={onMove}
@@ -353,13 +358,13 @@ export default function ProjectGrid({
                       initial={{ opacity: 0, scale: 0.95 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
-                    layout
-                    onClick={() => handleNavigate(`/projects/${item.slug}`)}
-                    onMouseEnter={() => onEnter(item)}
-                    onMouseLeave={onLeave}
-                    onMouseMove={onMove}
-                  >
+                      transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
+                      layout
+                      onClick={() => handleNavigate(item.slug, item.mediaIndex)}
+                      onMouseEnter={() => onEnter(item)}
+                      onMouseLeave={onLeave}
+                      onMouseMove={onMove}
+                    >
                       <div className={stylesAlt.thumbText}>
                         <p className={stylesAlt.thumbFilename}>{getDisplayFilename(item.src) || '-'}</p>
                         <p className={stylesAlt.thumbCategory}>{item.category}</p>

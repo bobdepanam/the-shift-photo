@@ -47,7 +47,6 @@
   display: flex;
   gap: 0rem;
 
-
   @media (max-width: 768px) {
     flex-direction: column;
     gap: 2rem;
@@ -65,12 +64,6 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-
-  // h1 {
-  //   font-size: 2rem;
-  //   font-weight: bold;
-  //   color: var(--text-color);
-  // }
 
   .category {
     font-style: italic;
@@ -115,7 +108,7 @@
 }
 
 // -------------------------
-// ✅ MEDIA ITEMS
+// ✅ MEDIA ITEMS (FULL)
 // -------------------------
 .mediaItemFull {
   grid-column: span 12;
@@ -139,22 +132,26 @@
   }
 }
 
+// -------------------------
+// ✅ MEDIA ITEMS (HALF → FORCED FULL IN CLASSIC)
+// -------------------------
 .mediaItemHalf {
-  grid-column: span 6;
+  grid-column: span 12;
   overflow: hidden;
-  min-height: 30vh;
+  min-height: 35vh;
+  margin-bottom: clamp(0.75rem, 1.4vw, 1.6rem);
 
   &:nth-of-type(odd) {
-    grid-column: span 6;
+    grid-column: span 12;
   }
 
   @media (max-width: 1024px) {
-    grid-column: span 6;
+    grid-column: span 12;
   }
 
   @media (max-width: 768px) {
     grid-column: span 12;
-    min-height: 25vh;
+    min-height: 30vh;
   }
 
   img,
@@ -168,6 +165,9 @@
   }
 }
 
+// -------------------------
+// ✅ SPACING ADJUSTMENT
+// -------------------------
 .mediaItemFull + * {
   margin-top: clamp(0.35rem, 1vw, 0.85rem);
 }

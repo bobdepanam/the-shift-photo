@@ -39,7 +39,49 @@ export default function ProjectPageClient({ project }: Props) {
 
   useEffect(() => {
     setVisibleMediaCount(8)
-  }, [layout, project.slug])
+  }, [project.slug])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const containerTop = mediaRef.current?.getBoundingClientRect().top ?? 0
+    const OFFSET = Math.max(0, containerTop + window.scrollY)
+
+    const hash = window.location.hash
+    if (!hash || !/^#m-\d+$/.test(hash)) return
+
+    const targetIndex = Number(hash.replace('#m-', ''))
+    if (Number.isNaN(targetIndex)) return
+
+    if (visibleMediaCount <= targetIndex) {
+      setVisibleMediaCount((prev) =>
+        Math.min(project.media.length, Math.max(prev, targetIndex + 1))
+      )
+      return
+    }
+
+    const target = document.getElementById(hash.slice(1))
+    if (target) {
+      const scrollToTarget = () => {
+        const y = target.getBoundingClientRect().top + window.scrollY - OFFSET
+        window.scrollTo({ top: y, behavior: 'smooth' })
+      }
+
+      requestAnimationFrame(() => requestAnimationFrame(scrollToTarget))
+
+      const img = target.querySelector('img')
+      if (img) {
+        if (typeof img.decode === 'function') {
+          img.decode().finally(scrollToTarget)
+        } else {
+          const onLoad = () => {
+            img.removeEventListener('load', onLoad)
+            scrollToTarget()
+          }
+          img.addEventListener('load', onLoad, { once: true })
+        }
+      }
+    }
+  }, [layout, project.slug, visibleMediaCount, project.media.length])
 
   useEffect(() => {
     if (!loadMoreRef.current) return
@@ -153,6 +195,7 @@ export default function ProjectPageClient({ project }: Props) {
               >
                 {visibleMedia.map((media, index) => (
                   <motion.div
+                    id={`m-${index}`}
                     key={`${media.src}-${index}`}
                     className={
                       index === 0
@@ -233,6 +276,7 @@ export default function ProjectPageClient({ project }: Props) {
               <div className={stylesAlt.altTrack}>
                 {visibleMedia.map((media, index) => (
                   <motion.div
+                    id={`m-${index}`}
                     key={`${media.src}-${index}`}
                     className={
                       index % 3 === 0
