@@ -1,26 +1,26 @@
 ---
 title: "Meglio Pasta"
 slug: "megliopasta"
-category: "digital"
+category: "Interface"
 previewMediaLimit: 1
 media:
   - type: image
-    src: "/images/digital/megliopasta11.webp"
+    src: "/images/digital/Meglio Pasta_1.webp"
   - type: image
-    src: "/images/digital/megliopasta3.webp"
+    src: "/images/digital/Meglio Pasta_4.webp"
   - type: image
-    src: "/images/digital/megliopasta.webp" 
+    src: "/images/digital/Meglio Pasta_1.webp" 
   - type: image
-    src: "/images/digital/megliopasta4.webp" 
+    src: "/images/digital/Meglio Pasta_5.webp" 
   - type: image
-    src: "/images/digital/megliopasta7.webp"
+    src: "/images/digital/Meglio Pasta_8.webp"
   - type: image
-    src: "/images/digital/megliopasta5.webp" 
+    src: "/images/digital/Meglio Pasta_5.webp" 
   - type: image
-    src: "/images/digital/megliopasta1.webp"  
+    src: "/images/digital/Meglio Pasta_2.webp"  
   - type: image
-    src: "/images/digital/megliopasta6.webp"
+    src: "/images/digital/Meglio Pasta_7.webp"
   - type: image
-    src: "/images/digital/megliopasta10.webp"             
+    src: "/images/digital/Meglio Pasta_11.webp"             
 ---
 **Meglio Pasta** – Food - web design, ux + development / [www.megliopasta.com](www.megliopasta.com) – 2025.

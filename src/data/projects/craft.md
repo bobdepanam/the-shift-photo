@@ -1,7 +1,8 @@
 ---
 title: "Craft"
 slug: "craft"
-category: "graphic"
+category: "field"
+featured: true
 previewMediaLimit: 1
 media:
   - type: image

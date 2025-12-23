@@ -1,6 +1,7 @@
 export type Media = {
   type: 'image' | 'video';
   src: string;
+  poster?: string;
 };
 
 export type Project = {
@@ -9,4 +10,5 @@ export type Project = {
   category: string;
   media: Media[];
   content: string;
+  featured?: boolean;
 };

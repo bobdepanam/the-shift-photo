@@ -1,16 +1,16 @@
 ---
 title: "Msp Menilmontant"
 slug: "msp"
-category: "digital"
+category: "Interface"
 previewMediaLimit: 1
 media:
   - type: image
-    src: "/images/digital/msp04.webp"
+    src: "/images/digital/MSP Menilmontant_4.webp"
   - type: image
-    src: "/images/digital/msp.webp"
+    src: "/images/digital/mMSP Menilmontant_1.webp"
   - type: image
-    src: "/images/digital/msp03.webp" 
+    src: "/images/digital/MSP Menilmontant_3.webp" 
   - type: image
-    src: "/images/digital/msp02.webp"           
+    src: "/images/digital/MSP Menilmontant_2.webp"           
 ---
 **Msp Menilmontant** – health & care - web design, ux + development / [mspmenilmontant.fr](https://www.mspmenilmontant.fr/) – 2025.

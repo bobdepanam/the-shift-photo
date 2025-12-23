@@ -4,61 +4,65 @@ slug: "archive"
 category: "archive"
 media:
   - type: image
-    src: "/images/paris/paris_1.webp"
+    src: "/images/paris/the-weight-of-places.webp"
   - type: image
-    src: "/images/paris/paris_2.webp"
+    src: "/images/paris/streets-remember-everything.webp"
   - type: image
-    src: "/images/paris/paris_3.webp"
+    src: "/images/paris/waiting-in-familiar-places.webp"
   - type: image
-    src: "/images/paris/paris_4.webp"
+    src: "/images/london/streets-know-the-way.webp"
   - type: image
-    src: "/images/paris/paris_6.webp"
+    src: "/images/tokyo/waiting-in-lines.webp"
   - type: image
-    src: "/images/paris/paris_7.webp"
+    src: "/images/digital/ASB-Architecture_X2.webp"
   - type: image
-    src: "/images/paris/paris_9.webp"
+    src: "/images/digital/ASB-Architecture_X3.webp" 
   - type: image
-    src: "/images/paris/paris_10.webp"
+    src: "/images/digital/ASB-Architecture_X4.webp" 
   - type: image
-    src: "/images/paris/paris_12.webp"
+    src: "/images/craft/the-material-speaks.webp" 
   - type: image
-    src: "/images/paris/paris_13.webp"
+    src: "/images/craft/hands-remember.webp" 
   - type: image
-    src: "/images/paris/paris_15.webp"
+    src: "/images/field/Untitled (Blur Edge).webp"
   - type: image
-    src: "/images/paris/paris_16.webp"
+    src: "/images/field/Untitled (Hold).webp"
   - type: image
-    src: "/images/paris/paris_17.webp"
+    src: "/images/field/Untitled (Residual Light).webp"
   - type: image
-    src: "/images/paris/paris_19.webp"
+    src: "/images/field/Untitled (Temporal Shift).webp"
   - type: image
-    src: "/images/paris/paris_20.webp"
+    src: "/images/tokyo/walking-between-screens.webp"
   - type: image
-    src: "/images/paris/paris_21.webp"
+    src: "/images/tokyo/time-feels-digital.webp"
   - type: image
-    src: "/images/paris/paris_22.webp"
+    src: "/images/tokyo/waiting-in-lines.webp"
   - type: image
-    src: "/images/paris/paris_23.webp"
+    src: "/images/tokyo/the-city-never-blinks.webp"
   - type: image
-    src: "/images/paris/paris_24.webp"
+    src: "/images/tokyo/controlled-chaos.webp"
   - type: image
-    src: "/images/paris/paris_25.webp"
+    src: "/images/tokyo/no-eye-contact.webp"
   - type: image
-    src: "/images/paris/paris_26.webp"
+    src: "/images/tokyo/motion-by-design.webp"
   - type: image
-    src: "/images/paris/paris_27.webp"
+    src: "/images/tokyo/silence-within-noise.webp"
   - type: image
-    src: "/images/paris/paris_28.webp"
+    src: "/images/field/Untitled (Noise Floor).webp"
   - type: image
-    src: "/images/paris/paris_31.webp"
+    src: "/images/field/Untitled (Partial View).webp"
   - type: image
-    src: "/images/paris/paris_32.webp"
+    src: "/images/field/Untitled (Liminal).webp"
   - type: image
-    src: "/images/paris/paris_33.webp"
+    src: "/images/field/Untitled (Between States).webp"
   - type: image
-    src: "/images/paris/paris_35.webp"
+    src: "/images/field/Untitled (Signal Loss).webp"
   - type: image
-    src: "/images/paris/paris_36.webp"
+    src: "/images/field/Untitled (Drift Memory).webp"  
   - type: image
-    src: "/images/paris/paris_37.webp"
+    src: "/images/shore/a-line-between-sky.webp"
+  - type: image
+    src: "/images/shore/waiting-for-no-one.webp"
+  - type: image
+    src: "/images/shore/water-without-memory.webp"       
 ---

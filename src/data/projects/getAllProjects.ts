@@ -10,9 +10,9 @@ const PROJECTS_DIR = path.join(process.cwd(), 'src/data/projects');
 /**
  * Charge tous les projets en excluant 'archive.md'
  */
-export function getAllProjects(): Project[] {
+export function getAllProjects(includeArchive = false): Project[] {
   const fileNames = fs.readdirSync(PROJECTS_DIR)
-    .filter((file) => file.endsWith('.md') && file !== 'archive.md');
+    .filter((file) => file.endsWith('.md') && (includeArchive || file !== 'archive.md'));
 
   return fileNames.map((fileName) => {
     const filePath = path.join(PROJECTS_DIR, fileName);
@@ -25,6 +25,7 @@ export function getAllProjects(): Project[] {
       category: data.category,
       media: data.media,
       content: content.trim(),
+      featured: data.featured ?? false,
     };
   });
 }

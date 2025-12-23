@@ -46,6 +46,7 @@ export type Project = {
   media: { type: 'image' | 'video'; src: string }[]
   content: string
   previewMediaLimit?: number
+  featured?: boolean
 }
 
 type ProjectGridProps = {
@@ -89,9 +90,7 @@ export default function ProjectGrid({
       return (ia === -1 ? 1e9 : ia) - (ib === -1 ? 1e9 : ib) || a.localeCompare(b)
     })
 
-    const filtered = sorted.filter((cat) => cat !== 'digital')
-
-    return ['all', ...filtered]
+    return ['all', ...sorted]
   }, [projects])
 
   // ------------------------------
@@ -101,14 +100,9 @@ export default function ProjectGrid({
     if (!projects?.length) return
 
     const allMedia: GridItem[] = projects.flatMap((project) => {
-      const cat = project.category?.toLowerCase().trim()
+      // const cat = project.category?.toLowerCase().trim()
       const limitFromMd = project.previewMediaLimit
-      const limit =
-        typeof limitFromMd === 'number'
-          ? Math.max(0, limitFromMd)
-          : cat === 'digital'
-          ? 1
-          : Infinity
+      const limit = typeof limitFromMd === 'number' ? Math.max(0, limitFromMd) : Infinity
 
       const list = (project.media ?? []).slice(0, limit)
 

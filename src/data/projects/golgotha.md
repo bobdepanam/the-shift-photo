@@ -1,7 +1,7 @@
 ---
 title: "BSTRDZ"
 slug: "golgotha"
-category: "digital"
+category: "Interface"
 previewMediaLimit: 1
 media:
   - type: image

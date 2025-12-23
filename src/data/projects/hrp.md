@@ -1,18 +1,18 @@
 ---
 title: "HR Partners"
 slug: "hrp"
-category: "digital"
+category: "Interface"
 previewMediaLimit: 1
 media:
   - type: image
-    src: "/images/digital/hrp_01.webp" 
+    src: "/images/digital/HR Partners_1.webp" 
   - type: image
-    src: "/images/digital/hrp_02.webp" 
+    src: "/images/digital/HR Partners_2.webp" 
   - type: image
-    src: "/images/digital/hrp_03.webp" 
+    src: "/images/digital/HR Partners_3.webp" 
   - type: image
-    src: "/images/digital/hrp_04.webp" 
+    src: "/images/digital/HR Partners_4.webp" 
   - type: image
-    src: "/images/digital/hrp_05.webp"        
+    src: "/images/digital/HR Partners_5.webp"        
 ---
 **hrp & Associés** – Executive Search - web design, ux + development / [hrpartners.eu](https://www.hrpartners.eu/) – 2023.

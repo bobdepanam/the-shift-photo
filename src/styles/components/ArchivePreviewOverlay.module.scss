@@ -1,0 +1,65 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6vh 4vw;
+  background: rgba(0, 0, 0, 0.85);
+  cursor: zoom-out;
+  overflow: auto;
+  opacity: 0;
+  transform: scale(0.98);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.mediaWrapper {
+  position: relative;
+  max-width: min(72vw, 1100px);
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  border-radius: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 768px) {
+    max-width: 92vw;
+  }
+}
+
+.media {
+  object-fit: contain;
+  max-height: 55vh;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  border-radius: 0 !important;
+  background: transparent;
+  display: block;
+
+  @media (max-width: 768px) {
+    max-height: 55vh;
+  }
+}
+
+.closeButton {
+  position: fixed;
+  top: 1vh;
+  right: 1vh;
+  z-index: 2100;
+  font-size: clamp(20px, 2vw, 28px);
+  line-height: 1;
+  color: #fff;
+  background: transparent;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+}

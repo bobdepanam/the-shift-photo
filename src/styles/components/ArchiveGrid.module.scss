@@ -61,11 +61,11 @@
     overflow: hidden;
     border-radius: 0px;
     transition: transform var(--duration-base) var(--easing-in-out),
-                opacity var(--duration-base) var(--easing-in-out);
+                filter var(--duration-base) var(--easing-in-out);
 
     &:hover {
-      transform: scale(1.05);
-      opacity: 0.95;
+      transform: scale(1.02);
+      filter: brightness(1.02);
     }
   }
 
@@ -78,9 +78,19 @@
   }
 
   .thumb {
-    object-fit: cover;
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transform: scale(0.98);
+    transition: opacity 200ms ease, transform 200ms ease;
+  }
+
+  .isLoaded {
+    opacity: 1;
+    transform: scale(1);
   }
 
   /* spacers plus visibles */
@@ -91,93 +101,4 @@
   }
 }
 
-/* -------------------------------
-   🔍 PREVIEW OVERLAY (respect thème)
---------------------------------- */
-.previewCenter {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  /* overlay uni :
-     - en dark : noir ~60%
-     - en light : blanc ~60% */
-  background: var(--backdrop-bg);
-
-  opacity: 0;
-  transition: opacity var(--duration-fast) var(--easing-in-out);
-}
-
-.previewCenterShown {
-  opacity: 1;
-}
-
-.previewContent {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: auto;
-  width: clamp(320px, 35vw, 800px);
-  max-height: 80vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 0px;
-  /* carte dans la couleur de fond du thème */
-  background: var(--background-color);
-
-  box-shadow: var(--shadow-medium);
-  overflow: hidden;
-
-  img, video {
-    display: block;
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-  }
-}
-
 /* … le reste de ton fichier inchangé … */
-
-/* Skeleton + fade-in image */
-.thumbBox { position: relative; }
-
-.skeleton {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    120deg,
-    rgba(255,255,255,0.06) 0%,
-    rgba(255,255,255,0.12) 20%,
-    rgba(255,255,255,0.06) 40%
-  );
-  opacity: .35;
-  filter: saturate(0.2);
-  animation: shimmer 1.2s ease-in-out infinite;
-  border-radius: 0px;
-
-  html.light-mode & {
-    background: linear-gradient(
-      120deg,
-      rgba(0,0,0,0.06) 0%,
-      rgba(0,0,0,0.12) 20%,
-      rgba(0,0,0,0.06) 40%
-    );
-  }
-}
-.skeletonDone { display: none; }
-
-@keyframes shimmer {
-  0% { transform: translateX(-20%); }
-  100% { transform: translateX(20%); }
-}
-
-/* Fade des images Next au chargement */
-.thumbLoading { opacity: 0; transition: opacity var(--duration-fast) var(--easing-in-out); }
-.thumbLoaded  { opacity: 1; transition: opacity var(--duration-fast) var(--easing-in-out); }

@@ -1,24 +1,24 @@
 ---
 title: "ASB Architecture"
 slug: "asb"
-category: "digital"
+category: "Interface"
 previewMediaLimit: 1
 media:
   - type: image
-    src: "/images/digital/asb0.webp"
+    src: "/images/digital/ASB-Architecture_X1.webp"
   - type: image
-    src: "/images/digital/asb6.webp"
+    src: "/images/digital/ASB-Architecture_X2.webp"
   - type: image
-    src: "/images/digital/asb2.webp" 
+    src: "/images/digital/ASB-Architecture_X3.webp" 
   - type: image
-    src: "/images/digital/asb1.webp" 
+    src: "/images/digital/ASB-Architecture_X4.webp" 
   - type: image
-    src: "/images/digital/asb3.webp"
+    src: "/images/digital/ASB-Architecture_X5.webp"
   - type: image
-    src: "/images/digital/asb5.webp" 
+    src: "/images/digital/ASB-Architecture_X6.webp" 
   - type: image
-    src: "/images/digital/asb4.webp" 
+    src: "/images/digital/ASB-Architecture_X7.webp" 
   - type: image
-    src: "/images/digital/asb.webp"         
+    src: "/images/digital/ASB-Architecture_X8.webp"         
 ---
 **ASB Architecture** – Architecture - web design, ux + development / [www.asb-a.com](www.asb-a.com) – 2023.

@@ -29,6 +29,7 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
       category: data.category,
       media: data.media ?? [],
       content: content.trim(),
+      featured: data.featured ?? false,
     }
   } catch (error) {
     console.error(`Erreur getProjectBySlug(${slug})`, error)

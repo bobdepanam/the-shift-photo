@@ -14,6 +14,7 @@ import ViewToggle from '@/components/ViewToggle/ViewToggle'
 import { useGsapScrollFade } from '@/hooks/useGsapScrollFade'
 import { useGsapParallax } from '@/hooks/useGsapParallax'
 import { useGsapHorizontalScroll } from '@/hooks/useGsapHorizontalScroll'
+import { useIsDesktop } from '@/hooks/useIsDesktop'
 
 import stylesClassic from '@/styles/components/ProjectPageClassic.module.scss'
 import stylesAlt from '@/styles/components/ProjectPageAlt.module.scss'
@@ -31,6 +32,7 @@ export default function ProjectPageClient({ project }: Props) {
   const loadMoreRef = useRef<HTMLDivElement | null>(null)
   const [layout, setLayout] = useState<'classic' | 'alt'>('classic')
   const [visibleMediaCount, setVisibleMediaCount] = useState<number>(8)
+  const isDesktop = useIsDesktop()
 
   const visibleMedia = useMemo(
     () => project.media.slice(0, visibleMediaCount),
@@ -144,12 +146,17 @@ export default function ProjectPageClient({ project }: Props) {
 
   return (
     <>
-      <ViewToggle
-        layout={layout === 'classic' ? 'default' : 'alt'}
-        onToggleLayout={() =>
-          setLayout((prev) => (prev === 'classic' ? 'alt' : 'classic'))
-        }
-      />
+      {(() => {
+        if (!isDesktop) return null
+        return (
+          <ViewToggle
+            layout={layout === 'classic' ? 'default' : 'alt'}
+            onToggleLayout={() =>
+              setLayout((prev) => (prev === 'classic' ? 'alt' : 'classic'))
+            }
+          />
+        )
+      })()}
 
       {layout === 'classic' ? (
         // ✅ Layout CLASSIC avec sidebar à gauche et grille d’images
@@ -222,6 +229,9 @@ export default function ProjectPageClient({ project }: Props) {
                         src={media.src}
                         controls
                         muted
+                        poster={media.poster}
+                        preload="metadata"
+                        playsInline
                         className={stylesClassic.video}
                       />
                     )}
@@ -302,6 +312,8 @@ export default function ProjectPageClient({ project }: Props) {
                         muted
                         autoPlay
                         loop
+                        poster={media.poster}
+                        preload="metadata"
                         playsInline
                         style={{
                           width: '100%',

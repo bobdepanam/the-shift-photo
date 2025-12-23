@@ -3,28 +3,32 @@ import PageIntro from '@/components/PageIntro/PageIntro'
 import ArchiveGrid from '@/components/Archive/ArchiveGrid'
 import Breadcrumb from '@/components/Beadcrumb/Breadcrumb'
 import Section from '@/components/Slow/Section/Section'
+import { seededShuffle } from '@/utils/seededShuffle'
 import type { Project } from '@/types/project'
 import styles from '@/styles/components/ArchivePage.module.scss'
 
-const ARCHIVE_PROJECT_SLUGS = ['digital', 'mask', 'video', 'branding']
-
 export default function ArchivePage() {
-  const allProjects: Project[] = getAllProjects()
+  const allProjects: Project[] = getAllProjects(true)
+  const archiveProject = allProjects.find((project) => project.slug === 'archive')
 
-  const curatedProjects = allProjects.filter((project) =>
-    ARCHIVE_PROJECT_SLUGS.includes(project.slug)
-  )
-  const sourceProjects =
-    curatedProjects.length > 0
-      ? curatedProjects
-      : allProjects.filter((project) => project.category !== 'photography')
+  if (!archiveProject) {
+    return (
+      <div className={styles.archiveWrapper}>
+        <h1>Archive</h1>
+        <p>Archive project not found.</p>
+      </div>
+    )
+  }
 
-  const media = sourceProjects.flatMap((project) =>
-    project.media.map((item) => ({
-      type: item.type,
-      src: item.src
-    }))
-  )
+  const todaySeed = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Europe/Paris',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(new Date())
+
+  const shuffled = seededShuffle(archiveProject.media ?? [], todaySeed)
+  const displayed = shuffled.slice(0, 32)
 
   return (
     <div className={styles.archiveWrapper}>
@@ -38,7 +42,7 @@ export default function ArchivePage() {
       />
 
       {/* 🎞️ Grille immersive */}
-      <ArchiveGrid media={media} />
+      <ArchiveGrid media={displayed} />
 
       {/* 📜 Citation immersive */}
       <Section

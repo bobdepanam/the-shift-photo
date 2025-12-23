@@ -1,17 +1,18 @@
 'use client'
 
-import { useMemo, useRef, useState } from 'react'
-import Image from 'next/image'
+import { useMemo, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import ScrollImageItem from './ScrollImageItem'
+import ArchivePreviewOverlay from './ArchivePreviewOverlay'
 import styles from '@/styles/components/ArchiveGrid.module.scss'
+import type { Media } from '@/types/project'
 
 type ArchiveGridProps = {
-  media: { type: string; src: string }[]
+  media: Media[]
 }
 
 type Node =
-  | { kind: 'image'; src: string }
+  | { kind: 'image'; id: string; media: Media; index: number }
   | { kind: 'spacer'; span: number }
 
 /** RNG stable pour la répartition des spacers */
@@ -25,12 +26,14 @@ function makeRand(seedInit = 7331) {
 }
 
 export default function ArchiveGrid({ media }: ArchiveGridProps) {
-  const [hoveredImage, setHoveredImage] = useState<string | null>(null)
-  const previewRef = useRef<HTMLDivElement>(null)
+  const [activeIndex, setActiveIndex] = useState<number | null>(null)
 
   // 1) ne garder que les images
   const images = useMemo(
-    () => media.filter((m) => m.type === 'image').map((m) => m.src),
+    () =>
+      media
+        .filter((m) => m.type === 'image')
+        .map((m, idx) => ({ id: `${idx}-${m.src}`, media: m })),
     [media]
   )
 
@@ -41,12 +44,21 @@ export default function ArchiveGrid({ media }: ArchiveGridProps) {
 
     images.forEach((src, i) => {
       if (i > 0 && rand(0, 100) < 18) out.push({ kind: 'spacer', span: rand(1, 2) })
-      out.push({ kind: 'image', src })
+      out.push({ kind: 'image', id: src.id, media: src.media, index: i })
       if (rand(0, 100) < 8) out.push({ kind: 'spacer', span: 1 })
     })
 
     return out
   }, [images])
+
+  const goNext = () => {
+    setActiveIndex((prev) => {
+      if (prev === null || images.length === 0) return prev
+      return (prev + 1) % images.length
+    })
+  }
+
+  const activeMedia = activeIndex === null ? null : images[activeIndex]?.media
 
   return (
     <div className={styles.archiveWrapper}>
@@ -64,39 +76,21 @@ export default function ArchiveGrid({ media }: ArchiveGridProps) {
           }
 
           return (
-            <div key={`img-${node.src}-${idx}`} className={styles.item}>
+            <div key={`img-${node.media.src}-${idx}`} className={styles.item}>
               <ScrollImageItem
-                src={node.src}
-                onHover={() => setHoveredImage(node.src)}
-                onLeave={() => setHoveredImage(null)}
+                src={node.media.src}
+                onClick={() => setActiveIndex(node.index)}
               />
             </div>
           )
         })}
       </div>
 
-      {/* Preview centrale au survol */}
+      {/* Preview centrale (click-to-preview) */}
       <AnimatePresence>
-        {hoveredImage && (
-          <motion.div
-            className={`${styles.previewCenter} ${styles.previewCenterShown}`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.18, ease: 'easeOut' }}
-          >
-            <div className={styles.previewContent} ref={previewRef}>
-              <Image
-                src={hoveredImage}
-                alt="preview"
-                width={800}
-                height={800}
-                unoptimized
-                sizes="(min-width: 1280px) 800px, 80vw"
-              />
-            </div>
-          </motion.div>
-        )}
+        {activeMedia ? (
+          <ArchivePreviewOverlay image={activeMedia} onClose={() => setActiveIndex(null)} onNext={goNext} />
+        ) : null}
       </AnimatePresence>
     </div>
   )
