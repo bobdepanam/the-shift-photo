@@ -40,9 +40,6 @@ media:
     src: "/images/field/Untitled (Density).webp"
   - type: image
     src: "/images/field/Untitled (Displacement).webp"
-  - type: video
-    src: "/images/field/Untitled (Complex).mp4"
-    poster: "/images/field/Untitled (Complex).webp"  
   - type: image
     src: "/images/field/Untitled (Continuum).webp"
   - type: image
