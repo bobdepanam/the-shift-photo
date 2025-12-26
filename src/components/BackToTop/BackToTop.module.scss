@@ -1,0 +1,61 @@
+@use '@/styles/base/breakpoints' as *;
+
+.backToTop {
+  position: fixed;
+  right: clamp(1rem, 3vw, 2.25rem);
+  bottom: clamp(1.25rem, 4vw, 2.75rem);
+  z-index: 1200;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.65rem 0.9rem;
+  border-radius: 0px;
+  border: 0px solid rgba(255, 255, 255, 0.18);
+  background: rgba(20, 20, 20, 0.65);
+  color: #f7f7f7;
+
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity var(--duration-slow) var(--easing-in-out),
+              transform var(--duration-slow) var(--easing-in-out),
+              background var(--duration-base) var(--easing-in-out);
+  pointer-events: none;
+
+  html.light-mode & {
+    border-color: rgba(0, 0, 0, 0.12);
+    background: rgba(255, 255, 255, 0.82);
+    color: #0f0f0f;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    html.light-mode & {
+      background: rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backToTop {
+    transition: none;
+  }
+}
+
+@include down($bp-sm) {
+  .backToTop {
+    right: clamp(0.75rem, 4vw, 1.5rem);
+    bottom: clamp(1.75rem, 6vw, 3rem);
+  }
+}

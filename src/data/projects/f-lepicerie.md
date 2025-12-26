@@ -1,7 +1,7 @@
 ---
 title: "F l'épicerie"
 slug: "f-lepicerie"
-category: "Interface"
+category: "brand"
 previewMediaLimit: 1
 media:
   - type: image

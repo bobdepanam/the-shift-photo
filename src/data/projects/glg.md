@@ -1,7 +1,7 @@
 ---
 title: "GUILLAUME LE GOFF"
 slug: "glg"
-category: "Interface"
+category: "interface"
 previewMediaLimit: 1
 media:
   - type: image

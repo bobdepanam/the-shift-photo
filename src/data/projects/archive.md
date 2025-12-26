@@ -3,6 +3,9 @@ title: "archive"
 slug: "archive"
 category: "archive"
 media:
+  - type: video
+    src: "/images/video/tokyo cat.mp4"
+    poster: "/images/video/tokyo cat.webp"
   - type: image
     src: "/images/paris/the-weight-of-places.webp"
   - type: image
@@ -64,5 +67,29 @@ media:
   - type: image
     src: "/images/shore/waiting-for-no-one.webp"
   - type: image
-    src: "/images/shore/water-without-memory.webp"       
+    src: "/images/shore/water-without-memory.webp"
+  - type: image
+    src: "/images/dmkXshft/dmkXshft_153.webp"
+  - type: image
+    src: "/images/dmkXshft/dmkXshft_153.webp"
+  - type: image
+    src: "/images/dmkXshft/dmkXshft_157.webp"
+  - type: image
+    src: "/images/dmkXshft/dmkXshft_159.webp"  
+  - type: image
+    src: "/images/dmkXshft/dmkXshft_160.webp"
+  - type: image
+    src: "/images/dmkXshft/dmkXshft_181.webp"
+  - type: image
+    src: "/images/dmkXshft/dmkXshft_199.webp"
+  - type: image
+    src: "/images/dmkXshft/dmkXshft_204.webp"
+  - type: image
+    src: "/images/shore/ddmkXshft_207.webp"
+  - type: image
+    src: "/images/dmkXshft/dmkXshft_208.webp"
+  - type: image
+    src: "/images/dmkXshft/dmkXshft_256.webp"
+  - type: image
+    src: "/images/dmkXshft/dmkXshft_258.webp"
 ---

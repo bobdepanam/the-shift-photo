@@ -1,7 +1,7 @@
 ---
 title: "Meglio Pasta"
 slug: "megliopasta"
-category: "Interface"
+category: "interface"
 previewMediaLimit: 1
 media:
   - type: image

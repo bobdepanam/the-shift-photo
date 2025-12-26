@@ -29,6 +29,7 @@ type GridItem = {
   src: string
   mediaIndex?: number
   year?: string
+  mediaCount?: number
 }
 
 const getDisplayFilename = (src: string) => {
@@ -47,6 +48,7 @@ export type Project = {
   content: string
   previewMediaLimit?: number
   featured?: boolean
+  date?: string
 }
 
 type ProjectGridProps = {
@@ -72,6 +74,7 @@ export default function ProjectGrid({
   const [showFilters, setShowFilters] = useState<boolean>(false)
   const [hasMounted, setHasMounted] = useState(false)
   const [visibleCount, setVisibleCount] = useState<number>(INITIAL_VISIBLE)
+  const [activeSlug, setActiveSlug] = useState<string | null>(null)
   const loadMoreRef = useRef<HTMLDivElement | null>(null)
 
   useGsapScrollFade(`.${stylesDefault.gridItem}`)
@@ -100,11 +103,16 @@ export default function ProjectGrid({
     if (!projects?.length) return
 
     const allMedia: GridItem[] = projects.flatMap((project) => {
-      // const cat = project.category?.toLowerCase().trim()
       const limitFromMd = project.previewMediaLimit
-      const limit = typeof limitFromMd === 'number' ? Math.max(0, limitFromMd) : Infinity
+      const isAlt = layout === 'alt'
+      const limit = isAlt
+        ? Math.min(project.media?.length ?? 0, 50)
+        : typeof limitFromMd === 'number'
+          ? Math.min(Math.max(0, limitFromMd), 2)
+          : 1
 
       const list = (project.media ?? []).slice(0, limit)
+      const mediaCount = project.media?.length ?? 0
 
       return list.map((media, mediaIndex) => ({
         slug: project.slug,
@@ -113,6 +121,7 @@ export default function ProjectGrid({
         mediaType: media.type,
         src: media.src,
         mediaIndex,
+        mediaCount,
       }))
     })
 
@@ -146,7 +155,7 @@ export default function ProjectGrid({
     })
 
     setGridItems(withSpacers)
-  }, [projects])
+  }, [projects, layout])
 
   // ------------------------------
   // RESPONSIVE + MOUNT
@@ -170,6 +179,14 @@ export default function ProjectGrid({
         ? gridItems
         : gridItems.filter((i) => i.mediaType === 'spacer' || i.category === activeCategory),
     [gridItems, activeCategory]
+  )
+
+  const filteredProjects = useMemo(
+    () =>
+      activeCategory === 'all'
+        ? projects
+        : projects.filter((p) => p.category === activeCategory),
+    [projects, activeCategory]
   )
 
   useEffect(() => {
@@ -228,6 +245,17 @@ export default function ProjectGrid({
     router.push(`/projects/${slug}${hash}`)
   }
 
+  const handleItemEnter = (item: GridItem) => {
+    if (item.mediaType === 'spacer') return
+    setActiveSlug(item.slug)
+    onEnter(item)
+  }
+
+  const handleItemLeave = () => {
+    setActiveSlug(null)
+    onLeave()
+  }
+
   // ---------------------------------------------------------
   // ------------------------ RENDER -------------------------
   // ---------------------------------------------------------
@@ -267,59 +295,88 @@ export default function ProjectGrid({
           <motion.div
             key="default-grid"
             className={stylesDefault.gridDefault}
+            data-has-active={activeSlug ? 'true' : 'false'}
             initial={{ opacity: 0, scale: 0.95, filter: 'blur(4px)' }}
             animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
             exit={{ opacity: 0, scale: 0.95, filter: 'blur(4px)' }}
             transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
           >
-            <AnimatePresence mode="popLayout">
-              {visibleItems.map((item, index) => {
-                if (item.mediaType === 'spacer') {
-                  return <div key={`spacer-${index}`} className={stylesDefault.gridSpacer} />
-                }
+            <div className={stylesDefault.inner}>
+              <AnimatePresence mode="popLayout">
+                {filteredProjects.map((project) => {
+                  const limitFromMd = project.previewMediaLimit
+                  const limit =
+                    typeof limitFromMd === 'number' ? Math.max(0, limitFromMd) : 10
+                  const previewMedia = (project.media ?? []).slice(0, limit)
+                  const mediaCount = project.media?.length ?? 0
 
-                return (
-                  <motion.div
-                    key={`${item.slug}-${item.src}-${index}`}
-                    className={`${stylesDefault.gridItem} string`}
-                    initial={{ opacity: 0, scale: 0.95 }}
+                  return (
+                    <motion.article
+                      key={project.slug}
+                    className={stylesDefault.gridItem}
+                    data-active={activeSlug === project.slug ? 'true' : 'false'}
+                    data-reveal
+                    initial={{ opacity: 0, scale: 0.98 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
+                    exit={{ opacity: 0, scale: 0.98 }}
                     transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
                     layout
-                    onClick={() => handleNavigate(item.slug, item.mediaIndex)}
-                    onMouseEnter={() => onEnter(item)}
-                    onMouseLeave={onLeave}
-                    onMouseMove={onMove}
-                  >
-                    {item.mediaType === 'image' ? (
-                      <Image
-                        src={item.src}
-                        alt={item.title ?? item.slug}
-                        width={500}
-                        height={600}
-                        style={{ objectFit: 'contain', width: '100%', height: 'auto' }}
-                        loading="lazy"
-                        unoptimized
-                      />
-                    ) : (
-                      <video
-                        src={item.src}
-                        muted
-                        playsInline
-                        preload="metadata"
-                        className={stylesDefault.video}
-                      />
-                    )}
+                      onClick={() => handleNavigate(project.slug)}
+                      onMouseEnter={() =>
+                        handleItemEnter({
+                          slug: project.slug,
+                          title: project.title,
+                          category: project.category,
+                          mediaType: 'image',
+                          src: '',
+                        })
+                      }
+                      onMouseLeave={handleItemLeave}
+                    >
+                      <header className={stylesDefault.gridItemInfo}>
+                        <p className={stylesDefault.projectTitle}>{project.title}</p>
+                        <p className={stylesDefault.projectCategory}>{project.category}</p>
+                        <p className={stylesDefault.mediaCount}>{mediaCount}</p>
+                        <p className={stylesDefault.projectDate}>{project.date ?? ''}</p>
+                      </header>
 
-                    <div className={stylesDefault.gridItemInfo}>
-                      <div className={stylesDefault.projectTitle}>{item.title}</div>
-                      <div className={stylesDefault.projectCategory}>{item.category}</div>
-                    </div>
-                  </motion.div>
-                )
-              })}
-            </AnimatePresence>
+                      <div className={stylesDefault.mediaRow}>
+                        {previewMedia.map((media, mediaIndex) => (
+                          <div
+                            key={`${project.slug}-${media.src}-${mediaIndex}`}
+                            className={stylesDefault.mediaThumb}
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              handleNavigate(project.slug, mediaIndex)
+                            }}
+                          >
+                            {media.type === 'image' ? (
+                              <Image
+                                src={media.src}
+                                alt={project.title}
+                                width={400}
+                                height={500}
+                                style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                                loading="lazy"
+                                unoptimized
+                              />
+                            ) : (
+                              <video
+                                src={media.src}
+                                muted
+                                playsInline
+                                preload="metadata"
+                                className={stylesDefault.video}
+                              />
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </motion.article>
+                  )
+                })}
+              </AnimatePresence>
+            </div>
           </motion.div>
         ) : (
           // ------------------------------
@@ -349,6 +406,7 @@ export default function ProjectGrid({
                     <motion.div
                       key={`${item.slug}-${item.src}-${index}`}
                       className={`${stylesAlt.thumbItem} string`}
+                      data-reveal
                       initial={{ opacity: 0, scale: 0.95 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.95 }}

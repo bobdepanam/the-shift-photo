@@ -10,6 +10,7 @@
   display: flex;
   justify-content: center;
   padding: calc(var(--space-xl) * 2) var(--space-xl) calc(var(--space-xl) * 3);
+  padding-top: calc(calc(var(--space-xl) * 2) + 2vh);
   box-sizing: border-box;
   overflow-x: hidden; // 🔒 pas de scroll horizontal
 }

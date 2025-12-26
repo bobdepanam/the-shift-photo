@@ -1,7 +1,7 @@
 ---
 title: "Bouvier & Associés"
 slug: "bouvier"
-category: "Interface"
+category: "interface"
 previewMediaLimit: 1
 media:
   - type: image

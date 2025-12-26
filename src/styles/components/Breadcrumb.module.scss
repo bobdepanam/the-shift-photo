@@ -1,7 +1,7 @@
 .breadcrumb {
   display: flex;
   align-items: center;
-  font-size: 0.8rem;
+  font-size: var(--font-size-sm);
   text-transform: lowercase;
   gap: 0.4rem;
   padding: 1rem;

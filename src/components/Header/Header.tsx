@@ -16,7 +16,12 @@ export default function Header(): ReactElement {
     <div className={styles.header}>
       <div className={styles.bar}>
         <div className={styles.sideLeft}>
-          <div
+                    <Link href="/">S</Link>
+
+        </div>
+
+        <div className={styles.center}>
+<div
             onClick={() => setIsActive(!isActive)}
             className={styles.el}
             role="button"
@@ -31,10 +36,6 @@ export default function Header(): ReactElement {
               <motion.p variants={opacity} animate={isActive ? 'open' : 'closed'} />
             </div>
             </div>  
-        </div>
-
-        <div className={styles.center}>
-          <Link href="/">S</Link>
         </div>
 
         <div className={styles.sideRight}>

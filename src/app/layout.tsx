@@ -3,6 +3,8 @@
 import type { Metadata } from 'next';
 import { ThemeProvider } from '@/context/ThemeContext';
 import HtmlThemeWrapper from '@/components/Theme/HtmlThemeWrapper';
+import BackToTop from '@/components/BackToTop/BackToTop';
+import ScrollRevealInit from '@/components/ScrollReveal/ScrollRevealInit';
 
 export const metadata: Metadata = {
   title: {
@@ -18,7 +20,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         <ThemeProvider>
-          <HtmlThemeWrapper>{children}</HtmlThemeWrapper>
+          <HtmlThemeWrapper>
+            {children}
+            <BackToTop />
+            <ScrollRevealInit />
+          </HtmlThemeWrapper>
         </ThemeProvider>
       </body>
     </html>

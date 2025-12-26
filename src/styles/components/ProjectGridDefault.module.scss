@@ -1,59 +1,130 @@
 @use '@/styles/base/breakpoints' as *;
 
 /* -------------------------------
-   🧱 GRID PRINCIPALE — SINGLE VIEW
+   WRAPPER
 ---------------------------------- */
 
 .gridDefault {
   width: 100%;
-  min-height: 90vh;
+  max-width: 100%;
+  overflow-x: hidden;
+  background: var(--background-color);
+  display: block;
+}
 
+.inner {
+  max-width: 1400px;
+  margin-inline: auto;
+  padding: clamp(1.5rem, 4vw, 3.5rem) clamp(1.5rem, 6vw, 4.5rem);
+  padding-top: calc(clamp(1.5rem, 4vw, 3.5rem) + 2vh);
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  align-items: center;
-
-  gap: clamp(8vh, 10vh, 12vh);
-
-  scroll-snap-type: y mandatory;
-  background: var(--background-color);
+  gap: clamp(2.5rem, 5vw, 4rem);
+  min-width: 0;
+  width: 100%;
 }
 
 /* -------------------------------
-   🎞️ ITEM (MEDIA + INFOS)
+   PROJECT ITEM
 ---------------------------------- */
 
 .gridItem {
-  position: relative;
-  cursor: pointer;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 
   display: flex;
   flex-direction: column;
+  gap: clamp(1rem, 2vw, 1.5rem);
 
-  width: min(42vw, 1100px);
-  // height: clamp(42vh, 50vh, 56vh);
+  cursor: pointer;
 
-  border-radius: 0;
-  background: transparent;
+  transition: transform var(--duration-slow) var(--easing-in-out),
+              filter var(--duration-slow) var(--easing-in-out),
+              opacity var(--duration-slow) var(--easing-in-out);
 
-  scroll-snap-align: center;
-  scroll-snap-stop: always;
+  &:focus-visible {
+    outline: 0px solid var(--border-subtle-strong);
+    outline-offset: var(--space-xs);
+  }
+}
 
-  transition: opacity var(--duration-slow) var(--easing-in-out),
-              transform var(--duration-slow) var(--easing-in-out);
+/* -------------------------------
+   INFO ROW (ABOVE)
+---------------------------------- */
 
-  /* léger "calme" hors hover */
-  &:not(:hover) {
-    opacity: 0.92;
+.gridItemInfo {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr auto auto;
+  align-items: baseline;
+
+  column-gap: clamp(0.75rem, 2vw, 1.5rem);
+  row-gap: var(--space-2xs);
+
+  color: var(--text-color);
+
+  .projectTitle,
+  .projectCategory,
+  .projectDate,
+  .mediaCount {
+    margin: 0;
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-tight);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
-  /* accès clavier (si tu rends focusable côté TSX) */
-  &:focus-visible {
-    outline: 2px solid var(--border-subtle-strong);
-    outline-offset: var(--space-xs);
+  .projectTitle { font-weight: 600; }
+  .projectCategory { opacity: 0.7; }
+  .mediaCount { justify-self: flex-start; opacity: 0.6; }
+  .projectDate { justify-self: flex-end; opacity: 0.6; }
+}
 
-    html.light-mode & {
-      outline-color: var(--border-subtle-strong);
-    }
+/* -------------------------------
+   MEDIA GRID (WRAPS)
+   Desktop: 7–10 columns
+---------------------------------- */
+
+.mediaRow {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  display: grid;
+  gap: clamp(0.75rem, 1.5vw, 1.25rem);
+
+  /* ✅ wrap: auto-fill creates as many columns as fit */
+  grid-template-columns: repeat(auto-fill, minmax(clamp(120px, 10vw, 180px), 1fr));
+
+  /* optional: align like editorial */
+  align-items: start;
+}
+
+/* -------------------------------
+   THUMB
+---------------------------------- */
+
+.mediaThumb {
+  aspect-ratio: 4 / 5;
+  max-height: 180px;
+  width: 100%;
+
+  overflow: hidden;
+
+  background: #0e0e0e;
+  border: 0px solid rgba(255, 255, 255, 0.08);
+
+  transition: transform var(--duration-slow) var(--easing-in-out),
+              filter var(--duration-slow) var(--easing-in-out),
+              opacity var(--duration-slow) var(--easing-in-out);
+
+  html.light-mode & {
+    background: #f4f4f4;
+    border-color: rgba(0, 0, 0, 0.08);
   }
 
   img,
@@ -61,114 +132,82 @@
     width: 100%;
     height: 100%;
     display: block;
+    object-fit: cover;
+  }
+}
 
-    object-fit: contain;
+/* -------------------------------
+   HOVER FOCUS (DESKTOP ONLY)
+---------------------------------- */
 
-    transform: scale(1);
-    filter: brightness(1.02);
+@media (hover: hover) and (pointer: fine) {
+  .gridDefault[data-has-active='true'] {
+    .gridItem {
+      filter: blur(5px) brightness(0.75);
+      opacity: 0.55;
+      transform: scale(0.99);
+    }
 
-    transition: transform var(--duration-slow) var(--easing-in-out),
-                opacity var(--duration-base) var(--easing-in-out),
-                filter var(--duration-slow) var(--easing-in-out);
+    .gridItem[data-active='true'] {
+      filter: none;
+      opacity: 1;
+      transform: translateY(-4px) scale(1.01);
+      z-index: 1;
+    }
   }
 
-  &:hover img,
-  &:hover video {
-    transform: scale(1.02);
-    opacity: 0.98;
+  .gridItem:hover .mediaThumb,
+  .gridItem[data-active='true'] .mediaThumb {
+    transform: translateY(-3px);
     filter: brightness(1.05);
   }
 }
 
 /* -------------------------------
-   🧾 INFOS DU PROJET
+   MISC
 ---------------------------------- */
 
-.gridItemInfo {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2xs);
-
-  padding: clamp(0.5rem, 1vh, 0.85rem);
-
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.04), transparent);
-
-  .projectTitle {
-    font-weight: 600;
-    font-size: var(--font-size-base);
-    text-transform: uppercase;
-    line-height: var(--line-height-tight);
-    margin: 0;
-    color: var(--text-color);
-  }
-
-  .projectCategory {
-    font-size: var(--font-size-xs);
-    line-height: var(--line-height-tight);
-    margin: 0;
-    color: #bbbbbb;
-
-    html.light-mode & {
-      color: #444444;
-    }
-  }
-}
-
-/* -------------------------------
-   🕳️ SPACERS
-   (tu les caches sur la version "single view")
----------------------------------- */
-
-.gridSpacer {
-  display: none;
-}
-
-/* -------------------------------
-   ♿ Reduced motion
----------------------------------- */
+.gridSpacer { display: none; }
 
 @media (prefers-reduced-motion: reduce) {
   .gridItem,
-  .gridItem img,
-  .gridItem video {
+  .mediaThumb {
     transition: none !important;
+    transform: none !important;
   }
 }
 
 /* -------------------------------
-   📱 / 💻 RESPONSIVE
+   RESPONSIVE
 ---------------------------------- */
 
 @include down($bp-md) {
-  .gridDefault {
-    gap: clamp(7vh, 9vh, 10vh);
+  .gridItemInfo {
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: auto;
+
+    .mediaCount { justify-self: flex-start; order: 3; }
+    .projectDate { order: 4; justify-self: flex-start; }
   }
 
-  .gridItem {
-    width: min(85vw, 900px);
-    height: 68vh;
+  /* Tablet: ~4–5 columns */
+  .mediaRow {
+    grid-template-columns: repeat(auto-fill, minmax(clamp(140px, 18vw, 220px), 1fr));
   }
+
+  .mediaThumb { max-height: 200px; }
 }
 
 @include down($bp-sm) {
-  .gridDefault {
-    scroll-snap-type: y proximity;
-    gap: clamp(6vh, 8vh, 9vh);
+  .inner {
+    gap: clamp(1.5rem, 6vw, 2.5rem);
+    padding: clamp(1rem, 5vw, 1.75rem);
   }
 
-  .gridItem {
-    width: 100%;
-    height: auto !important;
-    margin-bottom: var(--space-lg);
+  /* Mobile: ~3 columns */
+  .mediaRow {
+    grid-template-columns: repeat(auto-fill, minmax(clamp(160px, 45vw, 240px), 1fr));
   }
 
-  .gridItem img {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-
-  .gridItemInfo {
-    padding: var(--space-md);
-  }
+  .mediaThumb { max-height: 180px; }
 }
