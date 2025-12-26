@@ -4,7 +4,7 @@ slug: "archive"
 category: "archive"
 media:
   - type: video
-    src: "/images/video/tokyo cat.mp4"
+    src: "/images/video/the tokyo cat.mp4"
     poster: "/images/video/tokyo cat.webp"
   - type: image
     src: "/images/paris/the-weight-of-places.webp"

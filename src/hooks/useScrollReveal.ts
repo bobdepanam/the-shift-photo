@@ -33,7 +33,7 @@ export function useScrollReveal(): void {
 
     const observed = new WeakSet<Element>()
 
-    const register = (root: ParentNode) => {
+    const register = (root: Element | Document) => {
       root.querySelectorAll<HTMLElement>(ATTR).forEach((el) => {
         if (observed.has(el)) return
         observed.add(el)
@@ -48,11 +48,15 @@ export function useScrollReveal(): void {
     const mutationObserver = new MutationObserver((records) => {
       records.forEach((record) => {
         record.addedNodes.forEach((node) => {
-          if (!(node instanceof HTMLElement || node instanceof SVGElement)) return
-          if ((node as HTMLElement).matches?.(ATTR)) {
-            register(node.parentNode || document)
+          if (node instanceof Element && node.matches?.(ATTR)) {
+            const parent = node.parentNode
+            if (parent instanceof Element || parent instanceof Document) {
+              register(parent)
+            } else {
+              register(document)
+            }
           }
-          if (node.querySelectorAll) register(node)
+          if (node instanceof Element) register(node)
         })
       })
     })
