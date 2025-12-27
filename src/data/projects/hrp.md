@@ -1,7 +1,8 @@
 ---
 title: "HR Partners"
 slug: "hrp"
-category: "interface"
+category: "brand"
+archive: true
 previewMediaLimit: 1
 media:
   - type: image

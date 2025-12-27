@@ -2,6 +2,8 @@
 title: "NVCZ"
 slug: "nvcz"
 category: "illustration"
+home: true
+homeOrder: 60
 featured: true
 previewMediaLimit: 1
 

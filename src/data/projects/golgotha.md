@@ -2,6 +2,8 @@
 title: "BSTRDZ"
 slug: "golgotha"
 category: "interface"
+home: true
+homeOrder: 40
 previewMediaLimit: 1
 media:
   - type: image

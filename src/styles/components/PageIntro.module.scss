@@ -1,13 +1,73 @@
 /* -------------------------------
-   🪧 PAGE INTRO – Titre & Sous-titre
+   🪧 PAGE INTRO – Sidebar Layout
 --------------------------------- */
 
-.pageIntro {
+.wrapper {
   max-width: 100%;
-  color: var(--text-color); // utilise la variable dynamique définie dans _base.scss
-padding: 1rem;
+  color: var(--text-color);
+  padding: clamp(2rem, 3vw, 3rem) clamp(1.5rem, 3vw, 3rem);
 
   body.light-mode & {
-    color: inherit
+    color: inherit;
+  }
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: clamp(1.5rem, 4vw, 4rem);
+  width: 100%;
+}
+
+.left {
+  flex: 0 0 40%;
+
+  h1 {
+    font-size: clamp(2.8rem, 6vw, 6rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  .meta {
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.7;
+  }
+}
+
+.right {
+  flex: 1;
+  max-width: 52ch;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.breadcrumb {
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  line-height: 1.5;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .left {
+    flex: none;
   }
 }

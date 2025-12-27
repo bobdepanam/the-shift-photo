@@ -49,18 +49,22 @@ export type Project = {
   previewMediaLimit?: number
   featured?: boolean
   date?: string
+  home?: boolean
+  homeOrder?: number | null
 }
 
 type ProjectGridProps = {
   projects: Project[]
   layout: 'default' | 'alt'
   onToggleLayout: () => void
+  showFilters?: boolean
 }
 
 export default function ProjectGrid({
   projects,
   layout,
   onToggleLayout,
+  showFilters: showFiltersProp,
 }: ProjectGridProps): ReactElement {
   const router = useRouter()
 
@@ -71,7 +75,7 @@ export default function ProjectGrid({
 
   const [gridItems, setGridItems] = useState<GridItem[]>([])
   const [activeCategory, setActiveCategory] = useState<string>('all')
-  const [showFilters, setShowFilters] = useState<boolean>(false)
+  const [showFiltersState, setShowFiltersState] = useState<boolean>(false)
   const [hasMounted, setHasMounted] = useState(false)
   const [visibleCount, setVisibleCount] = useState<number>(INITIAL_VISIBLE)
   const [activeSlug, setActiveSlug] = useState<string | null>(null)
@@ -161,10 +165,15 @@ export default function ProjectGrid({
   // RESPONSIVE + MOUNT
   // ------------------------------
   useEffect(() => {
+    if (typeof showFiltersProp === 'boolean') {
+      setShowFiltersState(showFiltersProp)
+      setHasMounted(true)
+      return
+    }
     const isMobile = window.innerWidth < 768
-    setShowFilters(!isMobile)
+    setShowFiltersState(!isMobile)
     setHasMounted(true)
-  }, [])
+  }, [showFiltersProp])
 
   // ------------------------------
   // FILTRAGE + VISIBLE
@@ -264,27 +273,34 @@ export default function ProjectGrid({
       <ViewToggle onToggleLayout={onToggleLayout} layout={layout} />
 
       {/* FILTRES */}
-      <div className={stylesFilters.filtersWrapper}>
-        <button
-          className={stylesFilters.filtersButton}
-          onClick={() => setShowFilters(!showFilters)}
-          aria-label="Afficher/masquer les filtres"
-          type="button"
-        >
-          {showFilters ? <FilterOff /> : <FilterOn />}
-        </button>
+      {showFiltersProp !== false && (
+        <div className={stylesFilters.filtersWrapper}>
+          <button
+            className={stylesFilters.filtersButton}
+            onClick={() =>
+              typeof showFiltersProp === 'boolean'
+                ? null
+                : setShowFiltersState((prev) => !prev)
+            }
+            aria-label="Afficher/masquer les filtres"
+            type="button"
+            disabled={typeof showFiltersProp === 'boolean'}
+          >
+            {showFiltersState ? <FilterOff /> : <FilterOn />}
+          </button>
 
-        <AnimatePresence mode="wait">
-          {hasMounted && showFilters && (
-            <ProjectFilter
-              key="filters"
-              activeCategory={activeCategory}
-              onSelect={setActiveCategory}
-              categories={categories}
-            />
-          )}
-        </AnimatePresence>
-      </div>
+          <AnimatePresence mode="wait">
+            {hasMounted && showFiltersState && (
+              <ProjectFilter
+                key="filters"
+                activeCategory={activeCategory}
+                onSelect={setActiveCategory}
+                categories={categories}
+              />
+            )}
+          </AnimatePresence>
+        </div>
+      )}
 
       {/* GRILLE */}
       <AnimatePresence mode="wait">

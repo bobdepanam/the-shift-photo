@@ -2,6 +2,8 @@
 title: "Tokyo"
 slug: "tokyo"
 category: "photography"
+home: true
+homeOrder: 90
 media:
   - type: image
     src: "/images/tokyo/too-much-light.webp"

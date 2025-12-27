@@ -11,4 +11,7 @@ export type Project = {
   media: Media[];
   content: string;
   featured?: boolean;
+  archive?: boolean;
+  home?: boolean;
+  homeOrder?: number | null;
 };

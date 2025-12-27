@@ -2,6 +2,7 @@
 title: "ASB Architecture"
 slug: "asb"
 category: "interface"
+archive: true
 previewMediaLimit: 1
 media:
   - type: image

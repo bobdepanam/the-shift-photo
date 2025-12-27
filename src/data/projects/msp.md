@@ -2,6 +2,7 @@
 title: "Msp Menilmontant"
 slug: "msp"
 category: "interface"
+archive: true
 previewMediaLimit: 1
 media:
   - type: image

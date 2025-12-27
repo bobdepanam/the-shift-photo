@@ -2,6 +2,8 @@
 title: "Field"
 slug: "field"
 category: "field"
+home: true
+homeOrder: 30
 previewMediaLimit: 1
 media:
   - type: image

@@ -2,6 +2,8 @@
 title: "London"
 slug: "london"
 category: "photography"
+home: true
+homeOrder: 50
 media:
   - type: image
     src: "/images/london/the-city-keeps-going.webp"

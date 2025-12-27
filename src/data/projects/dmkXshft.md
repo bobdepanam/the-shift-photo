@@ -2,6 +2,8 @@
 title: "dmkXshft"
 slug: "dmkXshft"
 category: "photography"
+home: true
+homeOrder: 20
 media:
   - type: image
     src: "/images/dmkXshft/dmkXshft_2.webp"

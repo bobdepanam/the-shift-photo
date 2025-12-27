@@ -26,6 +26,12 @@ export function getAllProjects(includeArchive = false): Project[] {
       media: data.media,
       content: content.trim(),
       featured: data.featured ?? false,
+      archive: data.archive ?? false,
+      home: data.home ?? false,
+      homeOrder:
+        typeof data.homeOrder === 'number'
+          ? data.homeOrder
+          : null,
     };
   });
 }

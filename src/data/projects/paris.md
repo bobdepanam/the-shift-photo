@@ -2,6 +2,8 @@
 title: "paris"
 slug: "paris"
 category: "photography"
+home: true
+homeOrder: 70
 media:
   - type: image
     src: "/images/paris/nothing-is-new-here.webp"

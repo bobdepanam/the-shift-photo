@@ -1,24 +1,14 @@
 import { getAllProjects } from '@/data/projects/getAllProjects'
 import PageIntro from '@/components/PageIntro/PageIntro'
 import ArchiveGrid from '@/components/Archive/ArchiveGrid'
-import Breadcrumb from '@/components/Beadcrumb/Breadcrumb'
 import Section from '@/components/Slow/Section/Section'
 import { seededShuffle } from '@/utils/seededShuffle'
 import type { Project } from '@/types/project'
 import styles from '@/styles/components/ArchivePage.module.scss'
 
 export default function ArchivePage() {
-  const allProjects: Project[] = getAllProjects(true)
-  const archiveProject = allProjects.find((project) => project.slug === 'archive')
-
-  if (!archiveProject) {
-    return (
-      <div className={styles.archiveWrapper}>
-        <h1>Archive</h1>
-        <p>Archive project not found.</p>
-      </div>
-    )
-  }
+  const allProjects: Project[] = getAllProjects()
+  const archiveProjects = allProjects.filter((project) => project.archive)
 
   const todaySeed = new Intl.DateTimeFormat('en-CA', {
     timeZone: 'Europe/Paris',
@@ -27,18 +17,36 @@ export default function ArchivePage() {
     day: '2-digit',
   }).format(new Date())
 
-  const shuffled = seededShuffle(archiveProject.media ?? [], todaySeed)
-  const displayed = shuffled.slice(0, 32)
+  const archiveMedia = archiveProjects.flatMap((project) =>
+    (project.media ?? [])
+      .filter((media) => media.type === 'image')
+      .map((media) => ({ ...media, __category: project.category }))
+  )
+
+  if (!archiveMedia.length) {
+    return (
+      <div className={styles.archiveWrapper}>
+        <h1>Archive</h1>
+        <p>No archive media found.</p>
+      </div>
+    )
+  }
+
+  const shuffled = seededShuffle(archiveMedia, todaySeed)
+  const displayed = shuffled
 
   return (
     <div className={styles.archiveWrapper}>
-      {/* 🧭 Fil d'Ariane */}
-      <Breadcrumb path={['archive']} />
-
       {/* 🧾 Intro de section */}
       <PageIntro
         title="Archive"
-        subtitle="A visual vault of sketches, drafts, snapshots, and fragments—<br />curated chaos from the edges of the shift."
+        breadcrumb="index . archive"
+        subtitle={
+          <>
+            A visual vault of sketches, drafts, snapshots, and fragments—<br />
+            curated chaos from the edges of the shift.
+          </>
+        }
       />
 
       {/* 🎞️ Grille immersive */}

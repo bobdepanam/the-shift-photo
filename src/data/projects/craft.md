@@ -2,6 +2,8 @@
 title: "Craft"
 slug: "craft"
 category: "field"
+home: true
+homeOrder: 10
 featured: true
 previewMediaLimit: 1
 media:
@@ -17,6 +19,9 @@ media:
     src: "/images/craft/hands-remember.webp"  
   - type: image
     src: "/images/craft/Skateboy.gif" 
+  - type: video
+    src: "/images/video/the tokyo cat.mp4"
+    poster: "/images/video/tokyo cat.webp"
   - type: image
     src: "/images/craft/Skateboy_v2.gif" 
 ---

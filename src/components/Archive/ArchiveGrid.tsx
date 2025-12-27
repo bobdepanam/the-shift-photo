@@ -1,14 +1,15 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import ScrollImageItem from './ScrollImageItem'
 import ArchivePreviewOverlay from './ArchivePreviewOverlay'
 import styles from '@/styles/components/ArchiveGrid.module.scss'
+import ProjectFilter from '@/components/ProjectGrid/ProjectFilter'
 import type { Media } from '@/types/project'
 
 type ArchiveGridProps = {
-  media: Media[]
+  media: (Media & { __category?: string })[]
 }
 
 type Node =
@@ -27,14 +28,45 @@ function makeRand(seedInit = 7331) {
 
 export default function ArchiveGrid({ media }: ArchiveGridProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
+  const [activeCategory, setActiveCategory] = useState<string>('all')
+  const STEP = 48
+  const [limit, setLimit] = useState<number>(STEP)
+
+  const categories = useMemo(() => {
+    const set = new Set<string>()
+    media.forEach((m) => {
+      if (m.type !== 'image') return
+      const cat = m.__category
+      if (cat && cat !== 'unknown') set.add(cat)
+    })
+    const sorted = Array.from(set).sort((a, b) => a.localeCompare(b))
+    return ['all', ...sorted]
+  }, [media])
+
+  const filteredMedia = useMemo(
+    () =>
+      activeCategory === 'all'
+        ? media
+        : media.filter((m) => m.__category === activeCategory),
+    [media, activeCategory]
+  )
+
+  const visibleMedia = useMemo(
+    () => filteredMedia.slice(0, limit),
+    [filteredMedia, limit]
+  )
+
+  useEffect(() => {
+    setLimit(STEP)
+  }, [activeCategory])
 
   // 1) ne garder que les images
   const images = useMemo(
     () =>
-      media
+      visibleMedia
         .filter((m) => m.type === 'image')
         .map((m, idx) => ({ id: `${idx}-${m.src}`, media: m })),
-    [media]
+    [visibleMedia]
   )
 
   // 2) séquence items + spacers
@@ -62,6 +94,14 @@ export default function ArchiveGrid({ media }: ArchiveGridProps) {
 
   return (
     <div className={styles.archiveWrapper}>
+      <div>
+        <ProjectFilter
+          activeCategory={activeCategory}
+          onSelect={setActiveCategory}
+          categories={categories}
+        />
+      </div>
+
       <div className={styles.archiveGridVertical}>
         {nodes.map((node, idx) => {
           if (node.kind === 'spacer') {
@@ -85,6 +125,14 @@ export default function ArchiveGrid({ media }: ArchiveGridProps) {
           )
         })}
       </div>
+
+      {limit < filteredMedia.length && (
+        <div className={styles.archiveLoadMore}>
+          <button type="button" onClick={() => setLimit((prev) => prev + STEP)}>
+            Load more
+          </button>
+        </div>
+      )}
 
       {/* Preview centrale (click-to-preview) */}
       <AnimatePresence>

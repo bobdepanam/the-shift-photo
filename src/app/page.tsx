@@ -5,14 +5,18 @@ import type { Project } from '@/components/ProjectGrid/ProjectGrid'
 import Description from '@/components/Slow/Description/description'
 
 export default function Home(): ReactElement {
-  const projects: Project[] = getAllProjects()
+  const allProjects: Project[] = getAllProjects()
+  const homeProjects = allProjects
+    .filter((project) => project.home)
+    .sort((a, b) => (a.homeOrder ?? 999) - (b.homeOrder ?? 999))
+  const projects: Project[] = homeProjects.length ? homeProjects : allProjects
 
   return (
     <main>
 
 
       {/* 🖼️ Grille des projets */}
-      <ProjectGridWrapper projects={projects} />
+      <ProjectGridWrapper projects={projects} showFilters={false} />
 
       {/* 🐢 Section "Slow" */}
       <Description

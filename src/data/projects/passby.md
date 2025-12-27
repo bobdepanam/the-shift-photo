@@ -2,6 +2,8 @@
 title: "passby"
 slug: "passby"
 category: "photography"
+home: true
+homeOrder: 80
 media:
   - type: image
     src: "/images/shore/the-sea-does-not-care.webp"
