@@ -27,6 +27,7 @@
   flex-direction: column;
   justify-content: space-between;
   color: var(--text-color);
+  
 
   .quote {
     width: 50vw;
@@ -34,7 +35,8 @@
     text-transform: uppercase;
     align-self: flex-end;
     line-height: 1.4;
-    color: var(--text-color);
+    // color: var(--text-color);
+    color:white;
     opacity: 0.9;
   }
 
@@ -42,7 +44,8 @@
     font-size: 5vw;
     text-transform: uppercase;
     line-height: 1.1;
-    color: var(--text-color);
+    // color: var(--text-color);
+    color:white;
     font-weight: 600;
   }
 }
