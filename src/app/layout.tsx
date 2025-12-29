@@ -13,6 +13,26 @@ export const metadata: Metadata = {
   },
   description:
     "The Shift is a personal visual research project by MacShift, a creative director exploring photography, digital imagery, and hybrid forms.",
+  icons: {
+    icon: "/favicon/favicon.ico",
+    shortcut: "/favicon/favicon.ico",
+    apple: "/favicon/apple-touch-icon.png",
+    other: [
+      {
+        rel: "icon",
+        url: "/favicon/favicon-16x16.png",
+        sizes: "16x16",
+        type: "image/png",
+      },
+      {
+        rel: "icon",
+        url: "/favicon/favicon-32x32.png",
+        sizes: "32x32",
+        type: "image/png",
+      },
+    ],
+  },
+  manifest: "/favicon/site.webmanifest",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
