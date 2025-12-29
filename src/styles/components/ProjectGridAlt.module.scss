@@ -81,6 +81,10 @@
   line-height: var(--line-height-tight);
 }
 
+.thumbMini {
+  display: none;
+}
+
 .thumbMedia {
   display: none;
 }
@@ -185,5 +189,32 @@
       object-fit: cover;
       display: block;
     }
+  }
+}
+
+@media (hover: none), (pointer: coarse), (max-width: 768px) {
+  .thumbItem {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    padding: var(--space-2xs) 0;
+  }
+
+  .thumbText {
+    padding: 0;
+  }
+
+  .thumbMini {
+    display: block;
+    width: 64px;
+    height: 64px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 0;
+    overflow: hidden;
+    flex-shrink: 0;
+    opacity: 0.9;
+    background: var(--border-subtle);
   }
 }

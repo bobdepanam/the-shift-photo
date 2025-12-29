@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 import ScrollImageItem from './ScrollImageItem'
 import ArchivePreviewOverlay from './ArchivePreviewOverlay'
 import styles from '@/styles/components/ArchiveGrid.module.scss'
@@ -27,8 +27,16 @@ function makeRand(seedInit = 7331) {
 }
 
 export default function ArchiveGrid({ media }: ArchiveGridProps) {
+  /**
+   * ✅ Toggle filters UI
+   * - false: cache le composant ProjectFilter (pas assez de contenu / categories)
+   * - true: affiche les filtres et active le filtering
+   */
+  const filtersEnabled = false
+
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
   const [activeCategory, setActiveCategory] = useState<string>('all')
+
   const STEP = 48
   const [limit, setLimit] = useState<number>(STEP)
 
@@ -43,18 +51,15 @@ export default function ArchiveGrid({ media }: ArchiveGridProps) {
     return ['all', ...sorted]
   }, [media])
 
-  const filteredMedia = useMemo(
-    () =>
-      activeCategory === 'all'
-        ? media
-        : media.filter((m) => m.__category === activeCategory),
-    [media, activeCategory]
-  )
+  // ✅ Si filtersEnabled=false, on ignore la catégorie et on renvoie tout le media
+  const filteredMedia = useMemo(() => {
+    if (!filtersEnabled) return media
+    return activeCategory === 'all'
+      ? media
+      : media.filter((m) => m.__category === activeCategory)
+  }, [media, activeCategory, filtersEnabled])
 
-  const visibleMedia = useMemo(
-    () => filteredMedia.slice(0, limit),
-    [filteredMedia, limit]
-  )
+  const visibleMedia = useMemo(() => filteredMedia.slice(0, limit), [filteredMedia, limit])
 
   useEffect(() => {
     setLimit(STEP)
@@ -94,13 +99,16 @@ export default function ArchiveGrid({ media }: ArchiveGridProps) {
 
   return (
     <div className={styles.archiveWrapper}>
-      <div>
-        <ProjectFilter
-          activeCategory={activeCategory}
-          onSelect={setActiveCategory}
-          categories={categories}
-        />
-      </div>
+      {/* ✅ Filters UI (optionnel) */}
+      {filtersEnabled && (
+        <div>
+          <ProjectFilter
+            activeCategory={activeCategory}
+            onSelect={setActiveCategory}
+            categories={categories}
+          />
+        </div>
+      )}
 
       <div className={styles.archiveGridVertical}>
         {nodes.map((node, idx) => {
@@ -137,7 +145,11 @@ export default function ArchiveGrid({ media }: ArchiveGridProps) {
       {/* Preview centrale (click-to-preview) */}
       <AnimatePresence>
         {activeMedia ? (
-          <ArchivePreviewOverlay image={activeMedia} onClose={() => setActiveIndex(null)} onNext={goNext} />
+          <ArchivePreviewOverlay
+            image={activeMedia}
+            onClose={() => setActiveIndex(null)}
+            onNext={goNext}
+          />
         ) : null}
       </AnimatePresence>
     </div>

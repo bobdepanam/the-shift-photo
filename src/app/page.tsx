@@ -1,8 +1,14 @@
+import type { Metadata } from 'next'
 import { ReactElement } from 'react'
 import { getAllProjects } from '@/data/projects/getAllProjects'
 import ProjectGridWrapper from '@/components/ProjectGrid/ProjectGridWrapper'
 import type { Project } from '@/components/ProjectGrid/ProjectGrid'
 import Description from '@/components/Slow/Description/description'
+
+export const metadata: Metadata = {
+  title: 'index',
+  description: 'Image-led index of visual research, photography, and hybrid work.',
+}
 
 export default function Home(): ReactElement {
   const allProjects: Project[] = getAllProjects()

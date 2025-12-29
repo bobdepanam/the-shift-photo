@@ -32,9 +32,8 @@
 
   .meta {
     margin-top: 0.75rem;
-    font-size: 0.9rem;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: var(--letter-spacing-wide);
     opacity: 0.7;
   }
 }
@@ -48,15 +47,13 @@
 }
 
 .breadcrumb {
-  font-size: 0.85rem;
-  letter-spacing: 0.08em;
+  letter-spacing: var(--letter-spacing-wide);
   text-transform: uppercase;
   opacity: 0.7;
   margin: 0;
 }
 
 .subtitle {
-  font-size: clamp(1.05rem, 2vw, 1.35rem);
   line-height: 1.5;
   margin: 0;
 }

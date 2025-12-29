@@ -7,7 +7,7 @@ export default function Foot(): ReactElement {
     <div className={styles.footContainer}>
       <div className={styles.footColumn}>
         <h3 className={styles.footTitle}></h3>
-        <Link href="/archive">Archive</Link>
+        <Link href="/archive">commissions</Link>
       </div>
       <div className={styles.footColumn}>
         <h3 className={styles.footTitle}></h3>

@@ -30,12 +30,12 @@ const links: LinkItem[] = [
     src: 'tokyo/windows-glow-forever.webp'
   },
   {
-    title: 'about',
+    title: 'statement',
     href: '/about',
     src: 'london/moving-even-when-still.webp'
   },
   {
-    title: 'archive',
+    title: 'commissions',
     href: '/archive',
     src: 'shore/standing-against-nothing.webp'
   },

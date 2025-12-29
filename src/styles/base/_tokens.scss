@@ -1,20 +1,28 @@
 // src/styles/base/_tokens.scss
-// 🎯 DESIGN TOKENS — centralisés en variables CSS, thème dark par défaut avec overrides light-mode
+// 🎯 DESIGN TOKENS — single source of truth
+// Dark mode default, light-mode overrides via html.light-mode
 
 :root {
-  /* Typographie */
+  /* ==================================================
+     TYPOGRAPHY — FAMILIES
+  ================================================== */
   --font-family-sans: 'Helvetica Now Display', sans-serif;
-  --font-family-mono: 'SFMono-Regular', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  --font-family-mono: 'SFMono-Regular', Menlo, Monaco, Consolas,
+                      'Liberation Mono', 'Courier New', monospace;
 
-  --font-size-xs: 0.75rem;  
-  --font-size-sm: 0.87rem;  
-  --font-size-base: 1.05rem;   
-  --font-size-md: 1.1rem;  
-  --font-size-lg: 1.2rem;   
-  --font-size-xl: 1.3rem;    
-  --font-size-2xl: 2.2rem;  
-  --font-size-3xl: 3rem;     /* 48px */
-  --font-size-4xl: 3.5rem;   /* 56px */
+  /* ==================================================
+     TYPOGRAPHY — SCALE (RAW VALUES)
+     Do not use directly in components
+  ================================================== */
+  --font-size-xs: 0.8rem;
+  --font-size-sm: 0.95rem;
+  --font-size-base: 1.05rem;
+  --font-size-md: 1.15rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.33rem;
+  --font-size-2xl: 2.2rem;
+  --font-size-3xl: 3rem;
+  --font-size-4xl: 3.5rem;
 
   --line-height-tight: 1.2;
   --line-height-normal: 1.6;
@@ -24,7 +32,28 @@
   --letter-spacing-normal: normal;
   --letter-spacing-wide: 0.05em;
 
-  /* Spacings */
+  /* ==================================================
+     TYPOGRAPHY — SEMANTIC TOKENS (USAGE)
+     These are the knobs you actually turn
+  ================================================== */
+  --text-body-size: var(--font-size-base);
+  --text-body-line: var(--line-height-normal);
+  --text-body-tracking: var(--letter-spacing-normal);
+
+  --text-small-size: var(--font-size-sm);
+  --text-small-line: var(--line-height-normal);
+
+  --text-label-size: var(--font-size-xs);
+  --text-label-line: var(--line-height-tight);
+  --text-label-tracking: var(--letter-spacing-wide);
+
+  --text-heading-size: var(--font-size-lg);
+  --text-heading-line: var(--line-height-tight);
+  --text-heading-tracking: var(--letter-spacing-tight);
+
+  /* ==================================================
+     SPACING SCALE
+  ================================================== */
   --space-2xs: 0.25rem;  /* 4px */
   --space-xs: 0.5rem;    /* 8px */
   --space-sm: 0.75rem;   /* 12px */
@@ -33,13 +62,17 @@
   --space-xl: 2rem;      /* 32px */
   --space-2xl: 3rem;     /* 48px */
 
-  /* Rayons */
+  /* ==================================================
+     RADII
+  ================================================== */
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-xl: 20px;
 
-  /* Animations */
+  /* ==================================================
+     MOTION
+  ================================================== */
   --duration-fast: 150ms;
   --duration-base: 250ms;
   --duration-slow: 400ms;
@@ -47,27 +80,40 @@
   --easing-out: cubic-bezier(0.22, 1, 0.36, 1);
   --easing-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 
-  /* Ombres */
+  /* ==================================================
+     SHADOWS
+  ================================================== */
   --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.28);
   --shadow-medium: 0 16px 48px rgba(0, 0, 0, 0.35);
 
-  /* Largeurs */
+  /* ==================================================
+     LAYOUT WIDTHS
+  ================================================== */
   --width-container: 1200px;
   --width-reading: 720px;
 
-  /* Bordures */
+  /* ==================================================
+     BORDERS
+  ================================================== */
   --border-subtle: rgba(255, 255, 255, 0.12);
   --border-subtle-strong: rgba(255, 255, 255, 0.2);
 
-  /* Transitions */
-  --transition-fast: opacity var(--duration-fast) var(--easing-in-out),
-                     transform var(--duration-fast) var(--easing-in-out);
-  --transition-base: opacity var(--duration-base) var(--easing-in-out),
-                     transform var(--duration-base) var(--easing-in-out);
+  /* ==================================================
+     TRANSITIONS
+  ================================================== */
+  --transition-fast:
+    opacity var(--duration-fast) var(--easing-in-out),
+    transform var(--duration-fast) var(--easing-in-out);
+
+  --transition-base:
+    opacity var(--duration-base) var(--easing-in-out),
+    transform var(--duration-base) var(--easing-in-out);
 }
 
+/* ==================================================
+   LIGHT MODE OVERRIDES
+================================================== */
 html.light-mode {
-  /* Ajuste légèrement les ombres en mode clair pour éviter les contrastes trop forts */
   --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.14);
   --shadow-medium: 0 16px 48px rgba(0, 0, 0, 0.2);
   --border-subtle: rgba(0, 0, 0, 0.12);

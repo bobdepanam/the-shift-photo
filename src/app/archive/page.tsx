@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { getAllProjects } from '@/data/projects/getAllProjects'
 import PageIntro from '@/components/PageIntro/PageIntro'
 import ArchiveGrid from '@/components/Archive/ArchiveGrid'
@@ -5,6 +6,11 @@ import Section from '@/components/Slow/Section/Section'
 import { seededShuffle } from '@/utils/seededShuffle'
 import type { Project } from '@/types/project'
 import styles from '@/styles/components/ArchivePage.module.scss'
+
+export const metadata: Metadata = {
+  title: 'commissions',
+  description: 'Selected commissions and professional collaborations across image and design.',
+}
 
 export default function ArchivePage() {
   const allProjects: Project[] = getAllProjects()
@@ -26,8 +32,8 @@ export default function ArchivePage() {
   if (!archiveMedia.length) {
     return (
       <div className={styles.archiveWrapper}>
-        <h1>Archive</h1>
-        <p>No archive media found.</p>
+        <h1>commissions</h1>
+        <p>No commissions found.</p>
       </div>
     )
   }
@@ -39,13 +45,10 @@ export default function ArchivePage() {
     <div className={styles.archiveWrapper}>
       {/* 🧾 Intro de section */}
       <PageIntro
-        title="Archive"
-        breadcrumb="index . archive"
+        title="commissions"
+        breadcrumb="index . commissions"
         subtitle={
-          <>
-            A visual vault of sketches, drafts, snapshots, and fragments—<br />
-            curated chaos from the edges of the shift.
-          </>
+          <>Selected client work, directed with the same precision as the studio practice.</>
         }
       />
 

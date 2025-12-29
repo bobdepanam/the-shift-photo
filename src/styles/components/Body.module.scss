@@ -8,6 +8,7 @@
   flex-wrap: wrap;
   margin-top: 40px;
   max-width: 100%;
+  gap: var(--space-sm);
   color: var(--text-color); // explicite (hérite des variables globales)
 
   a {
@@ -19,7 +20,7 @@
     margin: 0;
     display: flex;
     overflow: hidden;
-    font-size: var(--font-size-xs);
+    font-size: clamp(var(--font-size-lg), 6vw, 10vw);
     padding-right: var(--space-xl);
     padding-top: var(--space-sm);
     font-weight: 300;
@@ -34,10 +35,11 @@
   .body {
     max-width: 1200px;
     margin-top: 80px;
+    gap: var(--space-md);
 
     p {
-      font-size: 6vw;
       padding-right: 2vw;
+      font-size: clamp(var(--font-size-xl), 6vw, 10vw);
     }
   }
 }
@@ -52,7 +54,8 @@
 @include up(700px) {
   .body {
     p {
-      font-size: 8vw;
+      padding-right: 0;
+      font-size: clamp(var(--font-size-2xl), 5vw, 10vw);
     }
   }
 }
@@ -60,7 +63,8 @@
 @include up(1000px) {
   .body {
     p {
-      font-size: 10vw;
+      padding-right: 0;
+      font-size: clamp(var(--font-size-2xl), 4vw, 9vw);
     }
   }
 }

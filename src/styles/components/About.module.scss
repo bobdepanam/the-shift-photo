@@ -69,6 +69,11 @@
   gap: calc(var(--space-2xl) + var(--space-xl));
   align-items:start;
 
+  p {
+    margin: 0;
+    margin-block: 0 var(--space-md);
+  }
+
   @include down(1200px) {
     grid-template-columns: 1fr 1fr;
   }
@@ -80,26 +85,39 @@
 
 .metaColText {
   max-width: 52rem;
-
-  p {
-    margin-bottom: calc(var(--space-lg) - var(--space-2xs));
-  }
 }
 
 .metaColLists {
   h3 {
     @include mix.heading-sm;
     margin: 0 0 var(--space-sm);
+
+    &:not(:first-child) {
+      margin-top: var(--space-lg);
+    }
   }
 
   ul {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 calc(var(--space-xl) - var(--space-2xs));
+    list-style: disc;
+    padding-left: var(--space-lg);
+    margin: 0 0 var(--space-lg);
   }
 
   li {
-    margin-bottom: var(--space-2xs);
+    margin: 0 0 var(--space-xs);
+
+    &::marker {
+      color: var(--border-subtle);
+      font-size: 0.75em;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  ul:last-child {
+    margin-bottom: 0;
   }
 }
 
@@ -117,15 +135,9 @@
 --------------------------------- */
 .bigStatement {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1fr;
   gap: var(--space-xl);
   align-items: center;
-  margin: calc(var(--space-xl) * 3) 0 calc(var(--space-xl) * 2);
-
-  @include down(1000px) {
-    grid-template-columns: 1fr;
-    gap: var(--space-md);
-  }
 }
 
 .bigLeft h2 {

@@ -423,21 +423,41 @@ export default function ProjectGrid({
                       key={`${item.slug}-${item.src}-${index}`}
                       className={`${stylesAlt.thumbItem} string`}
                       data-reveal
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.95 }}
-                      transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
-                      layout
-                      onClick={() => handleNavigate(item.slug, item.mediaIndex)}
-                      onMouseEnter={() => onEnter(item)}
-                      onMouseLeave={onLeave}
-                      onMouseMove={onMove}
-                    >
-                      <div className={stylesAlt.thumbText}>
-                        <p className={stylesAlt.thumbFilename}>{getDisplayFilename(item.src) || '-'}</p>
-                        <p className={stylesAlt.thumbCategory}>{item.category}</p>
-                      </div>
-                    </motion.div>
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
+                    layout
+                    onClick={() => handleNavigate(item.slug, item.mediaIndex)}
+                    onMouseEnter={() => onEnter(item)}
+                    onMouseLeave={onLeave}
+                    onMouseMove={onMove}
+                  >
+                    {item.mediaType === 'image' ? (
+                      <Image
+                        src={item.src}
+                        alt={item.title || getDisplayFilename(item.src) || item.slug}
+                        width={72}
+                        height={72}
+                        className={stylesAlt.thumbMini}
+                        sizes="(max-width: 768px) 72px, 1px"
+                        unoptimized
+                        style={{ objectFit: 'cover' }}
+                      />
+                    ) : (
+                      <video
+                        src={item.src}
+                        muted
+                        playsInline
+                        preload="metadata"
+                        className={stylesAlt.thumbMini}
+                      />
+                    )}
+                    <div className={stylesAlt.thumbText}>
+                      <p className={stylesAlt.thumbFilename}>{getDisplayFilename(item.src) || '-'}</p>
+                      <p className={stylesAlt.thumbCategory}>{item.category}</p>
+                    </div>
+                  </motion.div>
                   )
                 })}
               </AnimatePresence>

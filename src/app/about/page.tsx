@@ -1,5 +1,4 @@
-'use client'
-
+import type { Metadata } from 'next'
 import Image from 'next/image'
 import styles from '@/styles/components/About.module.scss'
 import ParallaxText from '@/components/Parallaxtext/Parallaxtext'
@@ -7,11 +6,16 @@ import Breadcrumb from '@/components/Beadcrumb/Breadcrumb'
 import PerspectiveMask from '@/components/PerspectiveMask/PerspectiveMask'
 import FadeInUpBlock from '@/components/AnimText/FadeInUpBlock'
 
+export const metadata: Metadata = {
+  title: 'statement',
+  description: 'Statement of approach, posture, and profile in art direction and image.',
+}
+
 export default function AboutPage() {
   return (
     <div className={styles.aboutWrapper}>
       {/* 🧭 Breadcrumb */}
-      <Breadcrumb path={['about']} />
+      <Breadcrumb path={['statement']} />
 
       {/* 🌀 Parallax header */}
       <ParallaxText
@@ -34,58 +38,50 @@ export default function AboutPage() {
         <div className={styles.metaColText}>
           <FadeInUpBlock>
             <h3>Approach</h3>
-            <p>
-              Senior Art Director working across image, motion and digital craft.
-              I design visual systems, identities and atmospheres with a precise,
-              minimal and multidisciplinary approach.
-            </p>
-            <p>
-              My practice spans photography, editorial design, motion direction and
-              digital platforms. I build brands and experiences where form, clarity
-              and emotion align from crafted visuals to functional interfaces.
-            </p>
-            <p>
-              I integrate AI-driven processes into classic art-direction workflows,
-              using generative tools for research, iteration and refinement rather
-              than shortcuts. Technology amplifies the idea, it never replaces it.
-            </p>
+            <p>Senior Art Director working across image, motion and digital craft.</p>
+            <p>I design visual systems, identities and atmospheres with a precise, restrained and multidisciplinary approach.</p>
+            <p>My practice moves between photography, editorial design, motion direction and digital platforms. I focus on building coherent visual languages where form, clarity and emotion align — from crafted images to functional interfaces.</p>
+            <p>I use AI as part of my creative toolkit when it serves the process: for research, iteration and controlled experimentation. It remains an assistive tool, never a shortcut. The idea, the direction and the final responsibility stay human.</p>
           </FadeInUpBlock>
 
           <FadeInUpBlock>
             <h3>Experience</h3>
-            <p>
-              I balance agency work and independent practice, moving between brand,
-              digital and image-led projects. Senior Art Direction for brands, studios and agencies</p>
-            <p>Ongoing collaborations on visual identities and campaigns. Image, motion and web projects under The Shift studio. Exploration of AI-enhanced creative workflows in production</p>
+            <p>I balance agency work and independent practice, collaborating with brands, studios and creative teams on image-led and digital projects.</p>
+            <p>My experience includes senior art direction for visual identities, campaigns and digital platforms, as well as long-term collaborations on brand systems, photography, motion and web-based experiences.</p>
+            <p>Under The Shift, I develop personal and commissioned projects at the intersection of image, design and digital craft, exploring new production methods while maintaining a strong sense of authorship and execution.</p>
           </FadeInUpBlock>
         </div>
 
         {/* Col B — Services & Clients */}
-        <div className={styles.metaColText}>
+        <div className={styles.metaColLists}>
           <FadeInUpBlock>
             <h3>Skills</h3>
+            <ul>
+              <li>Art Direction, visual concepts and graphic systems.</li>
+              <li>Brand identity, visual languages and long-term design frameworks.</li>
+              <li>Campaign concepts and visual narratives.</li>
+              <li>Photography — editorial, lifestyle and product.</li>
+              <li>Motion direction and video compositions.</li>
+            </ul>
 
-            <p>Art Direction & graphic overlays,
-            Brand Identity & Visual Systems,
-            Campaign Concepts & Visual Narratives,
-            Photography : Editorial, Lifestyle & Product,
-            Motion Direction & Video Compositions</p>
+            <h3>Digital &amp; AI</h3>
+            <ul>
+              <li>Digital design across UX, UI and web-based experiences.</li>
+              <li>Creative development and prototyping using Next.js, TypeScript, Three.js and WordPress.</li>
+              <li>Research and visual exploration occasionally supported by AI-assisted tools, within a clearly defined creative framework.</li>
+              <li>I also provide creative consulting and training on AI-assisted workflows, focusing on practical, ethical and production-ready applications rather than speculative hype.</li>
+            </ul>
 
-            <h3>Digital & AI</h3>
-            <p>Digital Design / UX, UI & Web design,
-            Next, TypeScript, Three.js, Wordpress...
-            Creative consulting & training on AI workflows</p>
-
-            <h3>Print & Craft</h3>
-            <p>Print, Screen Printing & Editorial Layouts,
-            Posters, booklets and object-based visuals</p>
+            <h3>Print &amp; Craft</h3>
+            <ul>
+              <li>Print design, screen printing and editorial layouts.</li>
+              <li>Posters, booklets and object-based visuals, with close attention to materials, scale and production constraints.</li>
+            </ul>
           </FadeInUpBlock>
-
-
         </div>
 
         {/* Col C — Image forte */}
-        <div className={styles.metaColImage}>
+        <div className={`${styles.metaColImage} ${styles.metaColLists}`}>
           {/* <Image
             src="/images/craft/craft_03.webp"
             alt="Studio texture"
@@ -93,17 +89,16 @@ export default function AboutPage() {
             height={1200}
             priority
           /> */}
-                    <FadeInUpBlock>
+          <FadeInUpBlock>
             <h3>Clients & Collaborations</h3>
-            <p>
-              I work with teams that care about image, detail and consistency across
-              every touchpoint
-            </p>
-            <p>Creative agencies & independent design studios,
-            Innovation, tech & healthcare brands,
-            Fashion, lifestyle & food projects,
-            Music, culture & editorial platforms,
-            Teams exploring AI-enhanced visual workflows</p>
+            <p>I work with teams that value image, detail and consistency across every touchpoint.</p>
+            <ul>
+              <li>Creative agencies and independent studios.</li>
+              <li>Innovation, tech and healthcare brands.</li>
+              <li>Fashion, lifestyle and food projects.</li>
+              <li>Music, culture and editorial platforms.</li>
+            </ul>
+            <p>I’m particularly comfortable collaborating with teams looking to bridge strong visual direction with digital and technical execution.</p>
           </FadeInUpBlock>
         </div>
         
