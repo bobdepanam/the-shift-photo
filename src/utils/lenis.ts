@@ -7,6 +7,10 @@ import { prefersReducedMotion } from './motionTokens'
 let lenisInstance: Lenis | null = null
 let rafId: number | null = null
 
+const isCoarsePointer = () =>
+  typeof window !== 'undefined' &&
+  window.matchMedia('(pointer: coarse)').matches
+
 const rafLoop = (time: number) => {
   lenisInstance?.raf(time)
   ScrollTrigger.update()
@@ -17,6 +21,7 @@ export const initLenis = () => {
   if (lenisInstance) return lenisInstance
 
   const reduceMotion = prefersReducedMotion()
+  const isMobile = isCoarsePointer()
 
   lenisInstance = new Lenis({
     duration: 1.2,
@@ -27,7 +32,7 @@ export const initLenis = () => {
     smoothTouch: false,
   })
 
-  if (!reduceMotion && rafId === null) {
+  if (!reduceMotion && !isMobile && rafId === null) {
     rafId = requestAnimationFrame(rafLoop)
   }
 

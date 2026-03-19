@@ -124,16 +124,6 @@ export default function ProjectPageClient({ project }: Props) {
         }
       )
 
-      gsap.to(mediaRef.current, {
-        yPercent: -10,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: mediaRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-        },
-      })
     }, mediaRef)
 
     return () => ctx.revert()
@@ -141,7 +131,7 @@ export default function ProjectPageClient({ project }: Props) {
 
   // ✅ Hooks personnalisés GSAP (animations génériques)
   useGsapScrollFade(`.${stylesClassic.sidebar}`)
-  useGsapParallax(`.${stylesClassic.image}`)
+  useGsapParallax(`.${stylesClassic.heroImage}`)
   useGsapHorizontalScroll(`.${stylesAlt.layout}`, `.${stylesAlt.altTrack}`)
 
   return (
@@ -206,7 +196,7 @@ export default function ProjectPageClient({ project }: Props) {
                     key={`${media.src}-${index}`}
                     className={
                       index === 0
-                        ? stylesClassic.mediaItemFull
+                        ? stylesClassic.heroItem
                         : index % 5 === 1 || index % 5 === 2
                         ? stylesClassic.mediaItemHalf
                         : stylesClassic.mediaItemFull
@@ -222,7 +212,7 @@ export default function ProjectPageClient({ project }: Props) {
                         alt={`${project.title} ${index + 1}`}
                         width={1600}
                         height={1000}
-                        className={stylesClassic.image}
+                        className={index === 0 ? stylesClassic.heroImage : undefined}
                       />
                     ) : (
                       <video

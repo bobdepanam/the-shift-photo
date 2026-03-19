@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 import styles from '@/styles/components/ArchiveGrid.module.scss'
+import { BLUR_DATA_URL } from '@/utils/imageUtils'
 
 type Props = {
   src: string
@@ -30,7 +31,8 @@ export default function ScrollImageItem({ src, onClick }: Props) {
           fill
           sizes="(min-width: 1400px) 12vw, (min-width: 900px) 18vw, 32vw"
           className={`${styles.thumb} ${isLoaded ? styles.isLoaded : ''}`}
-          unoptimized
+          placeholder="blur"
+          blurDataURL={BLUR_DATA_URL}
           onLoadingComplete={() => setIsLoaded(true)}
         />
       </div>

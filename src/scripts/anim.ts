@@ -18,25 +18,25 @@ export const opacity: Variants = {
 }
 
 export const height: Variants = {
-  initial: { height: 0 },
+  initial: { clipPath: 'inset(0 0 100% 0)' },
   enter: {
-    height: 'auto',
+    clipPath: 'inset(0 0 0% 0)',
     transition
   },
   exit: {
-    height: 0,
+    clipPath: 'inset(0 0 100% 0)',
     transition
   }
 }
 
 export const background: Variants = {
-  initial: { height: 0 },
+  initial: { clipPath: 'inset(0 0 100% 0)' },
   open: {
-    height: '100vh',
+    clipPath: 'inset(0 0 0% 0)',
     transition
   },
   closed: {
-    height: 0,
+    clipPath: 'inset(0 0 100% 0)',
     transition
   }
 }

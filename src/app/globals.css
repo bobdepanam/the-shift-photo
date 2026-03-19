@@ -1,18 +1,1 @@
-/* src/app/globals.css */
-
-/* -------------------------------
-   TAILWIND IMPORT
---------------------------------- */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* -------------------------------
-   NOTES
---------------------------------- */
-/*
-✅ Ce fichier globals.css ne sert plus qu'à charger Tailwind.
-✅ Tous les styles personnalisés (reset, base, fonts, typographie, etc.)
-   sont maintenant dans src/styles/main.scss et organisés proprement.
-✅ Plus de reset inutile ici.
-*/
+/* Styles globaux gérés dans src/styles/main.scss */

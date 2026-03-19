@@ -1,51 +1,43 @@
-// src/hooks/useHoverPreview.ts
-import { useEffect, useState } from 'react'
+'use client'
 
-type Media = {
-  type: 'image' | 'video'
-  src: string
+import { useCallback, useRef, useState } from 'react'
+import type React from 'react'
+
+type HoverItem = {
+  mediaType: string
+  src?: string
+  title?: string
+  category?: string
 }
 
-export default function useHoverPreview() {
-  const [media, setMedia] = useState<Media | null>(null)
-  const [position, setPosition] = useState({ x: 0, y: 0 })
-  const [isMobile, setIsMobile] = useState(false)
+export function useHoverPreview(enabled: boolean) {
+  const [hoverInfo, setHoverInfo] = useState<{ title?: string; category?: string } | null>(null)
+  const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(null)
+  const [hoverSrc, setHoverSrc] = useState<string | null>(null)
+  const mousePosRef = useRef<{ x: number; y: number } | null>(null)
+  const rafMouseRef = useRef<number | null>(null)
 
-  useEffect(() => {
-    const handleMove = (e: MouseEvent) => {
-      const previewWidth = 300
-      const previewHeight = 300
-      const padding = 20
+  const onEnter = useCallback((item: HoverItem) => {
+    if (!enabled || item.mediaType === 'spacer') return
+    setHoverSrc(item.src ?? null)
+    setHoverInfo({ title: item.title, category: item.category })
+  }, [enabled])
 
-      const isNearRight = e.clientX > window.innerWidth - previewWidth - padding
-      const isNearBottom = e.clientY > window.innerHeight - previewHeight - padding
+  const onLeave = useCallback(() => {
+    if (!enabled) return
+    setHoverSrc(null)
+    setHoverInfo(null)
+  }, [enabled])
 
-      const newX = isNearRight ? e.clientX - previewWidth - padding : e.clientX + padding
-      const newY = isNearBottom ? e.clientY - previewHeight - padding : e.clientY + padding
+  const onMove: React.MouseEventHandler<HTMLDivElement> = useCallback((e) => {
+    if (!enabled) return
+    mousePosRef.current = { x: e.clientX, y: e.clientY }
+    if (rafMouseRef.current) return
+    rafMouseRef.current = requestAnimationFrame(() => {
+      setMousePos(mousePosRef.current)
+      rafMouseRef.current = null
+    })
+  }, [enabled])
 
-      setPosition({ x: newX, y: newY })
-    }
-
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
-
-    document.addEventListener('mousemove', handleMove)
-    window.addEventListener('resize', handleResize)
-
-    handleResize()
-
-    return () => {
-      document.removeEventListener('mousemove', handleMove)
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [])
-
-  return {
-    media,
-    position,
-    isMobile,
-    setMedia,
-    clearMedia: () => setMedia(null),
-  }
+  return { hoverInfo, mousePos, hoverSrc, onEnter, onLeave, onMove }
 }

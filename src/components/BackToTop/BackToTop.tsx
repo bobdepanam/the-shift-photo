@@ -1,10 +1,11 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 import styles from './BackToTop.module.scss'
 import { initLenis } from '@/utils/lenis'
 
-const SCROLL_THRESHOLD_VH = 0.65 // 65% of viewport height
+const SCROLL_THRESHOLD_VH = 0.65
 
 export default function BackToTop() {
   const [visible, setVisible] = useState(false)
@@ -36,13 +37,21 @@ export default function BackToTop() {
   }, [])
 
   return (
-    <button
-      type="button"
-      aria-label="Back to top"
-      className={`${styles.backToTop} ${visible ? styles.visible : ''}`}
-      onClick={handleClick}
-    >
-      Top
-    </button>
+    <AnimatePresence>
+      {visible && (
+        <motion.button
+          type="button"
+          aria-label="Back to top"
+          className={styles.backToTop}
+          initial={{ opacity: 0, y: 16, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 8, scale: 0.95 }}
+          transition={{ duration: 0.4, ease: [0.76, 0, 0.24, 1] }}
+          onClick={handleClick}
+        >
+          Top
+        </motion.button>
+      )}
+    </AnimatePresence>
   )
 }

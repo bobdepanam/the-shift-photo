@@ -22,6 +22,7 @@ export const getMotionTokens = () => {
       durationSlow: 0.4,
       easingOut: 'power3.out',
       easingInOut: 'power2.inOut',
+      easingSignature: [0.76, 0, 0.24, 1] as const,
     }
   }
 
@@ -29,6 +30,7 @@ export const getMotionTokens = () => {
 
   const easingOut = styles.getPropertyValue('--easing-out').trim() || 'power3.out'
   const easingInOut = styles.getPropertyValue('--easing-in-out').trim() || 'power2.inOut'
+  const easingSignature = [0.76, 0, 0.24, 1] as const
 
   return {
     durationFast: parseDuration(styles.getPropertyValue('--duration-fast'), 0.15),
@@ -36,6 +38,7 @@ export const getMotionTokens = () => {
     durationSlow: parseDuration(styles.getPropertyValue('--duration-slow'), 1),
     easingOut,
     easingInOut,
+    easingSignature,
   }
 }
 

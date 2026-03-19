@@ -12,8 +12,8 @@ export const metadata: Metadata = {
   description: 'Selected commissions and professional collaborations across image and design.',
 }
 
-export default function ArchivePage() {
-  const allProjects: Project[] = getAllProjects()
+export default async function ArchivePage() {
+  const allProjects: Project[] = await getAllProjects()
   const archiveProjects = allProjects.filter((project) => project.archive)
 
   const todaySeed = new Intl.DateTimeFormat('en-CA', {

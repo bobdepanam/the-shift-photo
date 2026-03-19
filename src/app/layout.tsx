@@ -5,6 +5,8 @@ import { ThemeProvider } from '@/context/ThemeContext';
 import HtmlThemeWrapper from '@/components/Theme/HtmlThemeWrapper';
 import BackToTop from '@/components/BackToTop/BackToTop';
 import ScrollRevealInit from '@/components/ScrollReveal/ScrollRevealInit';
+import PixelTransition from '@/components/Transition/PixelTransition';
+import CustomCursor from '@/components/Cursor/CustomCursor';
 
 export const metadata: Metadata = {
   title: {
@@ -42,6 +44,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider>
           <HtmlThemeWrapper>
             {children}
+            <PixelTransition />
+            <CustomCursor />
             <BackToTop />
             <ScrollRevealInit />
           </HtmlThemeWrapper>

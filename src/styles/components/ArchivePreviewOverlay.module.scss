@@ -9,14 +9,6 @@
   background: rgba(0, 0, 0, 0.85);
   cursor: zoom-out;
   overflow: auto;
-  opacity: 0;
-  transform: scale(0.98);
-  transition: opacity 180ms ease, transform 180ms ease;
-}
-
-.visible {
-  opacity: 1;
-  transform: scale(1);
 }
 
 .mediaWrapper {

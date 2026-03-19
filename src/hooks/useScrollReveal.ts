@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { prefersReducedMotion } from '@/utils/motionTokens'
 
 const ATTR = '[data-reveal]'
+const REVEAL_THRESHOLDS = Array.from({ length: 11 }, (_, i) => i / 10)
 
 export function useScrollReveal(): void {
   useEffect(() => {
@@ -27,7 +28,7 @@ export function useScrollReveal(): void {
       },
       {
         root: null,
-        threshold: Array.from({ length: 11 }, (_, i) => i / 10), // 0,0.1,...1
+        threshold: REVEAL_THRESHOLDS,
       }
     )
 

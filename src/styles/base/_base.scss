@@ -19,7 +19,7 @@ html.light-mode {
   --background-color: #fff;
   --text-color: #000;
   --link-color: #000;
-  --backdrop-bg: rgba(255, 255, 255, 0.5);
+  --backdrop-bg: rgba(255, 255, 255, 1);
 }
 
 // ==============================
@@ -44,6 +44,16 @@ body {
   line-height: inherit;
   scroll-behavior: smooth;
   transition: background-color 0.6s ease, color 0.6s ease;
+
+  @media (pointer: fine) {
+    cursor: none;
+  }
+}
+
+@media (pointer: fine) {
+  a, button, [role="button"], input, label, select, textarea, [data-cursor-hover] {
+    cursor: none !important;
+  }
 }
 
 // ==============================

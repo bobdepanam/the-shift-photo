@@ -4,13 +4,11 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { Project } from '@/types/project';
+import { unstable_cache } from 'next/cache';
 
 const PROJECTS_DIR = path.join(process.cwd(), 'src/data/projects');
 
-/**
- * Charge tous les projets en excluant 'archive.md'
- */
-export function getAllProjects(includeArchive = false): Project[] {
+const _getAllProjects = (includeArchive: boolean): Project[] => {
   const fileNames = fs.readdirSync(PROJECTS_DIR)
     .filter((file) => file.endsWith('.md') && (includeArchive || file !== 'archive.md'));
 
@@ -34,4 +32,10 @@ export function getAllProjects(includeArchive = false): Project[] {
           : null,
     };
   });
-}
+};
+
+export const getAllProjects = unstable_cache(
+  async (includeArchive = false) => _getAllProjects(includeArchive),
+  ['all-projects'],
+  { revalidate: false }
+);

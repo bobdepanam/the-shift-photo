@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState, type ReactElement } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactElement } from 'react'
+import { useHoverPreview } from '@/hooks/useHoverPreview'
 import Image from 'next/image'
 import { AnimatePresence, motion } from 'framer-motion'
 
@@ -12,10 +13,10 @@ import ProjectFilter from '@/components/ProjectGrid/ProjectFilter'
 import shuffleArray from '@/utils/shuffleArray'
 import { useRouter } from 'next/navigation'
 import ViewToggle from '@/components/ViewToggle/ViewToggle'
-import { useGsapScrollFade } from '@/hooks/useGsapScrollFade'
 import FilterOn from '@/icons/filter_on.svg'
 import FilterOff from '@/icons/filter_off.svg'
 import HoverInfo from '@/components/ProjectGrid/HoverInfo'
+import { BLUR_DATA_URL } from '@/utils/imageUtils'
 
 // Nombre d'items visibles au chargement et par step (inclut les spacers)
 const INITIAL_VISIBLE = 24
@@ -69,9 +70,7 @@ export default function ProjectGrid({
   const router = useRouter()
 
   const enableHoverInfo = layout === 'alt'
-  const [hoverInfo, setHoverInfo] = useState<{ title?: string; category?: string } | null>(null)
-  const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(null)
-  const [hoverSrc, setHoverSrc] = useState<string | null>(null)
+  const { hoverInfo, mousePos, hoverSrc, onEnter, onLeave, onMove } = useHoverPreview(enableHoverInfo)
 
   const [gridItems, setGridItems] = useState<GridItem[]>([])
   const [activeCategory, setActiveCategory] = useState<string>('all')
@@ -81,8 +80,6 @@ export default function ProjectGrid({
   const [activeSlug, setActiveSlug] = useState<string | null>(null)
   const loadMoreRef = useRef<HTMLDivElement | null>(null)
 
-  useGsapScrollFade(`.${stylesDefault.gridItem}`)
-  useGsapScrollFade(`.${stylesAlt.thumbItem}`)
 
   // ------------------------------
   // CATÉGORIES
@@ -232,38 +229,23 @@ export default function ProjectGrid({
   }, [filteredItems.length, visibleCount])
 
   // ------------------------------
-  // HOVER INFO
+  // NAVIGATION + ITEM EVENTS
   // ------------------------------
-  const onEnter = (item: GridItem) => {
-    if (!enableHoverInfo || item.mediaType === 'spacer') return
-    setHoverSrc(item.src ?? null)
-    setHoverInfo({ title: item.title, category: item.category })
-  }
-  const onLeave = () => {
-    if (!enableHoverInfo) return
-    setHoverSrc(null)
-    setHoverInfo(null)
-  }
-  const onMove: React.MouseEventHandler<HTMLDivElement> = (e) => {
-    if (!enableHoverInfo) return
-    setMousePos({ x: e.clientX, y: e.clientY })
-  }
-
-  const handleNavigate = (slug: string, mediaIndex?: number) => {
+  const handleNavigate = useCallback((slug: string, mediaIndex?: number) => {
     const hash = typeof mediaIndex === 'number' ? `#m-${mediaIndex}` : ''
     router.push(`/projects/${slug}${hash}`)
-  }
+  }, [router])
 
-  const handleItemEnter = (item: GridItem) => {
+  const handleItemEnter = useCallback((item: GridItem) => {
     if (item.mediaType === 'spacer') return
     setActiveSlug(item.slug)
     onEnter(item)
-  }
+  }, [onEnter])
 
-  const handleItemLeave = () => {
+  const handleItemLeave = useCallback(() => {
     setActiveSlug(null)
     onLeave()
-  }
+  }, [onLeave])
 
   // ---------------------------------------------------------
   // ------------------------ RENDER -------------------------
@@ -331,7 +313,6 @@ export default function ProjectGrid({
                       key={project.slug}
                     className={stylesDefault.gridItem}
                     data-active={activeSlug === project.slug ? 'true' : 'false'}
-                    data-reveal
                     initial={{ opacity: 0, scale: 0.98 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.98 }}
@@ -373,8 +354,10 @@ export default function ProjectGrid({
                                 width={400}
                                 height={500}
                                 style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                                sizes="(max-width: 768px) 50vw, 33vw"
                                 loading="lazy"
-                                unoptimized
+                                placeholder="blur"
+                                blurDataURL={BLUR_DATA_URL}
                               />
                             ) : (
                               <video
@@ -423,10 +406,11 @@ export default function ProjectGrid({
                       key={`${item.slug}-${item.src}-${index}`}
                       className={`${stylesAlt.thumbItem} string`}
                       data-reveal
+                      data-cursor-label="VIEW"
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
+                    transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1], delay: Math.min(index * 0.04, 0.6) }}
                     layout
                     onClick={() => handleNavigate(item.slug, item.mediaIndex)}
                     onMouseEnter={() => onEnter(item)}
@@ -440,8 +424,7 @@ export default function ProjectGrid({
                         width={72}
                         height={72}
                         className={stylesAlt.thumbMini}
-                        sizes="(max-width: 768px) 72px, 1px"
-                        unoptimized
+                        sizes="(max-width: 768px) 72px, 72px"
                         style={{ objectFit: 'cover' }}
                       />
                     ) : (

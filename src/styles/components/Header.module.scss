@@ -8,11 +8,16 @@
   position: fixed;
   top: 0px;
   width: 100%;
-  background-color: var(--background-color); 
+  background-color: var(--background-color);
   color: var(--text-color);
   z-index: 50;
   padding: var(--space-sm);
   box-sizing: border-box;
+  transition: background-color 0.4s var(--easing-out), backdrop-filter 0.4s var(--easing-out);
+
+  &[data-scrolled='true'] {
+    background-color: var(--backdrop-bg);
+  }
 
   .bar {
     display: flex;
@@ -112,7 +117,7 @@
       background-color: var(--text-color);
       position: relative;
       display: block;
-      transition: all 1s cubic-bezier(0.76, 0, 0.24, 1);
+      transition: all 0.4s cubic-bezier(0.76, 0, 0.24, 1);
     }
 
     &::after { top: -4px; }

@@ -1,0 +1,65 @@
+// Cursor.module.scss
+// Wrapper 0×0 positionné via JS transform
+// ::before = dot visible, centré via translate(-50%, -50%)
+// CSS vars (--text-color, --easing-out, etc.) disponibles globalement via main.scss
+
+@media (pointer: fine) {
+  .cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    z-index: 99999;
+    will-change: transform;
+
+    &::before {
+      content: '';
+      display: block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--text-color);
+      transform: translate(-50%, -50%);
+      transition:
+        width 0.3s var(--easing-out),
+        height 0.3s var(--easing-out),
+        background 0.3s var(--easing-out),
+        border 0.3s var(--easing-out),
+        opacity 0.3s var(--easing-out);
+      will-change: width, height;
+    }
+
+    &[data-state='hover']::before {
+      width: 28px;
+      height: 28px;
+      background: transparent;
+      border: 1.5px solid var(--text-color);
+    }
+
+    &[data-state='click']::before {
+      width: 4px;
+      height: 4px;
+    }
+
+    &[data-state='label']::before {
+      width: 0;
+      height: 0;
+      opacity: 0;
+    }
+
+    &[data-state='label']::after {
+      content: attr(data-label);
+      position: absolute;
+      top: -0.6em;
+      left: 10px;
+      font-size: var(--font-size-xs);
+      letter-spacing: var(--letter-spacing-wide);
+      text-transform: uppercase;
+      color: var(--text-color);
+      white-space: nowrap;
+      pointer-events: none;
+    }
+  }
+}

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 import styles from '@/styles/components/HoverInfo.module.scss'
 
 type Info = { title?: string; category?: string }
@@ -56,7 +57,15 @@ export default function HoverInfo({
     <div className={styles.tooltip} style={style} aria-hidden="true">
       {src ? (
         <div className={styles.preview}>
-          <img src={encodeURI(src)} alt="" className={styles.previewImg} />
+          <Image
+              src={src}
+              alt=""
+              width={380}
+              height={300}
+              className={styles.previewImg}
+              style={{ objectFit: 'cover' }}
+              sizes="380px"
+            />
         </div>
       ) : (
         <>

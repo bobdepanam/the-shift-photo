@@ -26,10 +26,5 @@
 @use './components/About.module.scss';
 @use './components/ArchivePage.module.scss';
 @use './components/ScrollReveal.module.scss';
+@use './components/Cursor.module.scss';
 
-/* -------------------------------
-   🧩 TAILWIND — toujours en dernier
---------------------------------- */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;

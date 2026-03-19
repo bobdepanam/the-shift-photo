@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import Image from 'next/image'
+import { motion } from 'framer-motion'
 import type { Media } from '@/types/project'
 import styles from '@/styles/components/ArchivePreviewOverlay.module.scss'
+import { BLUR_DATA_URL } from '@/utils/imageUtils'
 
 type Props = {
   image: Media
@@ -10,10 +12,7 @@ type Props = {
 }
 
 export default function ArchivePreviewOverlay({ image, onClose, onNext }: Props) {
-  const [visible, setVisible] = useState(false)
-
   useEffect(() => {
-    setVisible(true)
     document.body.style.overflow = 'hidden'
     return () => {
       document.body.style.overflow = ''
@@ -26,21 +25,35 @@ export default function ArchivePreviewOverlay({ image, onClose, onNext }: Props)
 
   return (
     <>
-      <button
+      <motion.button
         type="button"
         onClick={onClose}
         className={styles.closeButton}
         aria-label="Close"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
       >
         ×
-      </button>
-      <div
+      </motion.button>
+      <motion.div
         onClick={handleBackdropClick}
-        className={`${styles.overlay} ${visible ? styles.visible : ''}`}
+        className={styles.overlay}
         aria-modal="true"
         role="dialog"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.25, ease: [0.76, 0, 0.24, 1] }}
       >
-        <div className={styles.mediaWrapper}>
+        <motion.div
+          className={styles.mediaWrapper}
+          initial={{ opacity: 0, scale: 0.95, y: 12 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.97, y: 6 }}
+          transition={{ duration: 0.35, ease: [0.76, 0, 0.24, 1] }}
+        >
           <Image
             src={image.src}
             alt=""
@@ -48,10 +61,11 @@ export default function ArchivePreviewOverlay({ image, onClose, onNext }: Props)
             height={1200}
             sizes="(min-width: 1280px) 90vw, 100vw"
             className={styles.media}
-            unoptimized
+            placeholder="blur"
+            blurDataURL={BLUR_DATA_URL}
           />
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </>
   )
 }

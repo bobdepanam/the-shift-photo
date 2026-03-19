@@ -20,12 +20,7 @@
   letter-spacing: var(--letter-spacing-wide);
   text-transform: uppercase;
 
-  opacity: 0;
-  transform: translateY(12px);
-  transition: opacity var(--duration-slow) var(--easing-in-out),
-              transform var(--duration-slow) var(--easing-in-out),
-              background var(--duration-base) var(--easing-in-out);
-  pointer-events: none;
+  transition: background var(--duration-base) var(--easing-in-out);
 
   html.light-mode & {
     border-color: rgba(0, 0, 0, 0.12);
@@ -40,16 +35,11 @@
     }
   }
 
-  &.visible {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .backToTop {
-    transition: none;
+    transition: none !important;
   }
 }
 

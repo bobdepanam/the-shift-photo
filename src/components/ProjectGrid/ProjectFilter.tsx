@@ -45,9 +45,16 @@ const ProjectFilter: FC<Props> = ({ activeCategory, onSelect, categories }) => {
             type="button"
             onClick={() => onSelect(cat)}
             className={`${styles.filterBtn} ${isActive ? styles.active : ''}`}
-            aria-pressed={isActive}   // ✅ bouton toggle accessible, pas de rôle "tab"
+            aria-pressed={isActive}
           >
             {cat}
+            {isActive && (
+              <motion.span
+                layoutId="filter-indicator"
+                className={styles.indicator}
+                transition={{ duration: 0.4, ease: [0.76, 0, 0.24, 1] }}
+              />
+            )}
           </button>
         )
       })}

@@ -121,4 +121,12 @@
   }
 }
 
-/* … le reste de ton fichier inchangé … */
+@media (prefers-reduced-motion: reduce) {
+  .gridItem {
+    transition: none !important;
+  }
+
+  .thumb {
+    transition: none !important;
+  }
+}

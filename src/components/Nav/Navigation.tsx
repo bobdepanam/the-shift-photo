@@ -46,6 +46,15 @@ export default function Navigation({ onClose }: NavigationProps): ReactElement {
     isActive: false,
     index: 0
   })
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const r = e.currentTarget.getBoundingClientRect()
+    setMousePos({
+      x: (e.clientX - r.left) / r.width - 0.5,
+      y: (e.clientY - r.top) / r.height - 0.5,
+    })
+  }
 
   return (
     <motion.div
@@ -55,7 +64,7 @@ export default function Navigation({ onClose }: NavigationProps): ReactElement {
       exit="exit"
       className={styles.nav}
     >
-      <div className={styles.wrapper}>
+      <div className={styles.wrapper} onMouseMove={handleMouseMove}>
         <div className={styles.container}>
           <Body
             links={links}
@@ -68,6 +77,7 @@ export default function Navigation({ onClose }: NavigationProps): ReactElement {
         <Images
           src={links[selectedLink.index].src}
           isActive={selectedLink.isActive}
+          mousePos={mousePos}
         />
       </div>
     </motion.div>

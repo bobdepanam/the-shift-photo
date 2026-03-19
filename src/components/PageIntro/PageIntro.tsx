@@ -1,6 +1,7 @@
 // src/components/PageIntro/PageIntro.tsx
 import { type ReactElement, type ReactNode } from 'react'
 import styles from '@/styles/components/PageIntro.module.scss'
+import SplitReveal from '@/components/SplitReveal/SplitReveal'
 
 type PageIntroProps = {
   title: string
@@ -14,7 +15,7 @@ export default function PageIntro({ title, subtitle, breadcrumb, meta }: PageInt
     <div className={styles.wrapper}>
       <div className={styles.row}>
         <div className={styles.left}>
-          <h1>{title}</h1>
+          <h1><SplitReveal text={title} /></h1>
           {meta ? <p className={styles.meta}>{meta}</p> : null}
         </div>
         <div className={styles.right}>
