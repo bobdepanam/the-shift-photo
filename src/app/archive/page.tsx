@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import { getAllProjects } from '@/data/projects/getAllProjects'
-import PageIntro from '@/components/PageIntro/PageIntro'
-import ArchiveGrid from '@/components/Archive/ArchiveGrid'
+import Breadcrumb from '@/components/Beadcrumb/Breadcrumb'
+import ArchiveGrid, { type ArchiveProjectMeta } from '@/components/Archive/ArchiveGrid'
+import { getPublicImageSize } from '@/utils/imageSize'
 import Section from '@/components/Slow/Section/Section'
 import { seededShuffle } from '@/utils/seededShuffle'
 import type { Project } from '@/types/project'
@@ -26,7 +27,27 @@ export default async function ArchivePage() {
   const archiveMedia = archiveProjects.flatMap((project) =>
     (project.media ?? [])
       .filter((media) => media.type === 'image')
-      .map((media) => ({ ...media, __category: project.category }))
+      .map((media) => ({ ...media, __category: project.category, __slug: project.slug }))
+  )
+
+  // Une fiche par projet (pas de répétition par image) : infos + images dans l'ordre du .md
+  const archiveProjectsMeta: Record<string, ArchiveProjectMeta> = Object.fromEntries(
+    archiveProjects.map((project) => [
+      project.slug,
+      {
+        title: project.title,
+        category: project.category,
+        ...(project.year ? { year: project.year } : {}),
+        ...(project.summary ? { summary: project.summary } : {}),
+        ...(project.url ? { url: project.url } : {}),
+        images: (project.media ?? [])
+          .filter((media) => media.type === 'image')
+          .map((media) => {
+            const size = getPublicImageSize(media.src)
+            return size ? { src: media.src, ...size } : { src: media.src }
+          }),
+      },
+    ])
   )
 
   if (!archiveMedia.length) {
@@ -43,17 +64,19 @@ export default async function ArchivePage() {
 
   return (
     <div className={styles.archiveWrapper}>
-      {/* 🧾 Intro de section */}
-      <PageIntro
-        title="commissions"
-        breadcrumb="index . commissions"
-        subtitle={
-          <>Selected client work, directed with the same precision as the studio practice.</>
-        }
-      />
+      {/* 🧾 Intro discrète, même langage que /about (index . statement) */}
+      <h1 className={styles.visuallyHidden}>commissions</h1>
+      <div className={styles.intro}>
+        <div className={styles.introCrumb}>
+          <Breadcrumb path={['commissions']} />
+        </div>
+        <p className={styles.introText}>
+          Selected client work, directed with the same precision as the studio practice.
+        </p>
+      </div>
 
       {/* 🎞️ Grille immersive */}
-      <ArchiveGrid media={displayed} />
+      <ArchiveGrid media={displayed} projects={archiveProjectsMeta} />
 
       {/* 📜 Citation immersive */}
       <Section

@@ -1,58 +1,209 @@
+// src/styles/components/ArchivePreviewOverlay.module.scss
+// Galerie Commissions : un seul conteneur de scroll natif, fond opaque du thème,
+// infos sticky à gauche (desktop) / en tête (mobile), images dominantes à droite.
+
+$bp-preview: 900px;
+
+/* -------------------------------
+   Conteneur plein écran (scroll natif)
+--------------------------------- */
 .overlay {
   position: fixed;
   inset: 0;
   z-index: 2000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6vh 4vw;
-  background: rgba(0, 0, 0, 0.85);
-  cursor: zoom-out;
-  overflow: auto;
-  overscroll-behavior: contain; // empêche le scroll de se propager à la page (mobile)
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain; // le scroll ne passe jamais à la mosaïque
+  -webkit-overflow-scrolling: touch;
+  background: var(--background-color);
+  color: var(--text-color);
+  outline: none;
 }
 
-.mediaWrapper {
-  position: relative;
-  max-width: min(72vw, 1100px);
-  width: 100%;
-  height: auto;
-  overflow: visible;
-  border-radius: 0 !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* -------------------------------
+   Grille : infos | images
+--------------------------------- */
+.layout {
+  --gallery-top: 12vh;
+  --gallery-max-w: min(1100px, 62vw);
+  --gallery-max-h: 84vh;
 
-  @media (max-width: 768px) {
-    max-width: 92vw;
+  display: grid;
+  grid-template-columns: minmax(200px, 18vw) minmax(0, 1fr);
+  column-gap: clamp(32px, 4vw, 72px);
+  min-height: 100%;
+  padding: var(--gallery-top) var(--space-xl) 16vh;
+  box-sizing: border-box;
+
+  @media (max-width: ($bp-preview - 1px)) {
+    --gallery-max-w: 100%;
+    --gallery-max-h: 82vh;
+
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--space-xl);
+    padding: calc(var(--space-2xl) + var(--space-md)) var(--space-md) var(--space-2xl);
   }
+}
+
+/* -------------------------------
+   Infos du projet
+--------------------------------- */
+.info {
+  position: sticky;
+  top: var(--gallery-top);
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  min-width: 0;
+  max-width: 32ch;
+  overflow-wrap: anywhere;
+
+  @media (max-width: ($bp-preview - 1px)) {
+    position: static;
+    max-width: none;
+  }
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin: 0;
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-line);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-heading-size);
+  line-height: var(--text-heading-line);
+  letter-spacing: var(--text-heading-tracking);
+}
+
+.summary {
+  margin: 0;
+  font-size: var(--text-small-size);
+  line-height: var(--text-small-line);
+  opacity: 0.8;
+}
+
+.link {
+  align-self: flex-start;
+  margin-top: var(--space-xs);
+  font-size: var(--text-label-size);
+  letter-spacing: var(--letter-spacing-wide);
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+  opacity: 0.8;
+  transition: opacity var(--duration-fast) var(--easing-out);
+
+  &:hover,
+  &:focus-visible {
+    opacity: 1;
+  }
+}
+
+/* -------------------------------
+   Images
+--------------------------------- */
+.gallery {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(48px, 10vh, 120px);
+  min-width: 0;
+
+  @media (max-width: ($bp-preview - 1px)) {
+    gap: var(--space-lg);
+  }
+}
+
+// Boîte au ratio exact : la hauteur est réservée avant le chargement (aucun décalage)
+.frame {
+  position: relative;
+  width: min(100%, var(--gallery-max-w), calc(var(--gallery-max-h) * var(--ratio, 1.6)));
+  aspect-ratio: var(--ratio, 1.6);
+  flex-shrink: 0;
 }
 
 .media {
   object-fit: contain;
-  max-height: 55vh;
-  max-width: 100%;
-  width: auto;
-  height: auto;
-  border-radius: 0 !important;
-  background: transparent;
-  display: block;
+  opacity: 0;
+  transition: opacity var(--duration-slow) var(--easing-out);
+}
 
-  @media (max-width: 768px) {
-    max-height: 55vh;
-  }
+.isLoaded {
+  opacity: 1;
+}
+
+/* -------------------------------
+   Contrôles fixes
+--------------------------------- */
+// Lisible sur le fond comme sur une image claire ou sombre
+.closeButton,
+.mobileTitle {
+  position: fixed;
+  z-index: 1;
+  color: #fff;
+  mix-blend-mode: difference;
+  font-size: var(--text-label-size);
+  line-height: 1;
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
 }
 
 .closeButton {
-  position: fixed;
-  top: 1vh;
-  right: 1vh;
-  z-index: 2100;
-  font-size: clamp(20px, 2vw, 28px);
-  line-height: 1;
-  color: #fff;
+  top: var(--space-md);
+  right: var(--space-lg);
+  min-width: 44px; // cible tactile confortable
+  min-height: 44px;
+  padding: 0 var(--space-2xs);
   background: transparent;
   border: none;
-  padding: 8px;
   cursor: pointer;
+  opacity: 0.8;
+  transition: opacity var(--duration-fast) var(--easing-out);
+
+  &:hover,
+  &:focus-visible {
+    opacity: 1;
+  }
+
+  @media (max-width: ($bp-preview - 1px)) {
+    top: var(--space-xs);
+    right: var(--space-xs);
+  }
+}
+
+// Titre discret pendant le scroll : mobile uniquement (sur desktop, les infos sont sticky)
+.mobileTitle {
+  display: none;
+  pointer-events: none;
+
+  @media (max-width: ($bp-preview - 1px)) {
+    display: block;
+    top: var(--space-xs);
+    left: var(--space-md);
+    right: calc(44px + var(--space-md) * 2);
+    margin: 0;
+    // centré verticalement sur le bouton close (44px)
+    line-height: 44px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0.6;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .media,
+  .link,
+  .closeButton {
+    transition: none;
+  }
 }
