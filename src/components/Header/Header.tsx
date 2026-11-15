@@ -2,24 +2,38 @@
 
 import styles from '@/styles/components/Header.module.scss'
 import Link from 'next/link'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useLayoutEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { opacity, background } from '@/scripts/anim'
 import Navigation from '@/components/Nav/Navigation'
 import DarkToggle from '@/components/DarkToggle/DarkToggle'
 import type { ReactElement } from 'react'
 
+/** Seuil de scroll (px) au-delà duquel la signature passe de « the shift » à « s. » */
+const SIGNATURE_COMPACT_AT = 100
+
 export default function Header(): ReactElement {
   const [isActive, setIsActive] = useState<boolean>(false)
   const headerRef = useRef<HTMLDivElement>(null)
   const rafRef = useRef<number | null>(null)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    // Un seul écouteur (existant) : fond du header + signature « the shift » → « s. »
+    const sync = () => {
+      const el = headerRef.current
+      if (!el) return
+      const y = window.scrollY
+      el.dataset.scrolled = y > 10 ? 'true' : 'false'
+      el.dataset.compact = y > SIGNATURE_COMPACT_AT ? 'true' : 'false'
+    }
+
+    // État initial posé avant le premier affichage : aucune transition au chargement
+    sync()
+
     const onScroll = () => {
       if (rafRef.current) return
       rafRef.current = requestAnimationFrame(() => {
-        const el = headerRef.current
-        if (el) el.dataset.scrolled = window.scrollY > 10 ? 'true' : 'false'
+        sync()
         rafRef.current = null
       })
     }
@@ -34,8 +48,15 @@ export default function Header(): ReactElement {
     <div ref={headerRef} className={styles.header}>
       <div className={styles.bar}>
         <div className={styles.sideLeft}>
-                    <Link href="/">S</Link>
-
+          {/* Signature : les deux libellés partagent la même cellule → largeur fixe, aucun décalage */}
+          <Link href="/" className={styles.signature} aria-label="the shift — home">
+            <span className={styles.signatureFull} aria-hidden="true">
+              the shift
+            </span>
+            <span className={styles.signatureShort} aria-hidden="true">
+              s.
+            </span>
+          </Link>
         </div>
 
         <div className={styles.center}>

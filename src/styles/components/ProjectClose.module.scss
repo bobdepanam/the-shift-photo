@@ -1,0 +1,44 @@
+// CLOSE des pages projet — même langage que la galerie Commissions :
+// petites capitales, lisible sur fond comme sur image (difference), cible tactile 44px.
+// Placé sous le header fixe (le coin haut droit accueille déjà le toggle de thème),
+// et sous le menu de navigation lorsqu'il est ouvert (z-index < header).
+
+.close {
+  position: fixed;
+  top: calc(var(--space-2xl) + var(--space-md));
+  right: var(--space-sm);
+  z-index: 40;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 var(--space-2xs);
+  color: #fff;
+  mix-blend-mode: difference;
+  background: transparent;
+  border: none;
+  font-size: var(--text-label-size);
+  line-height: 1;
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity var(--duration-fast) var(--easing-out);
+  animation: projectCloseIn var(--duration-slow) var(--easing-out) 0.2s backwards;
+
+  &:hover,
+  &:focus-visible {
+    opacity: 1;
+  }
+}
+
+@keyframes projectCloseIn {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .close {
+    animation: none;
+    transition: none;
+  }
+}

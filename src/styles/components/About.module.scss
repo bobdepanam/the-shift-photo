@@ -16,48 +16,12 @@
 }
 
 /* -------------------------------
-   🏷️ HEADER HERO
---------------------------------- */
-.headerHero {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: end;
-  gap: var(--space-xl);
-
-  @include down(900px) {
-    grid-template-columns: 1fr;
-    align-items: start;
-  }
-}
-
-.heroTitle {
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: -0.02em;
-  line-height: 0.95;
-  font-weight: 700;
-  font-size: clamp(3rem, 12vw, 8rem); // très grand
-}
-
-.heroKicker {
-  justify-self: end;
-  max-width: 32rem;
-  text-align: right;
-  @include mix.text-base;
-
-  @include down(900px) {
-    justify-self: start;
-    text-align: left;
-  }
-}
-
-/* -------------------------------
    ➖ FILET
 --------------------------------- */
 .rule {
   border: 0;
   border-top: 0px solid var(--border-subtle);
-  margin: var(--space-xl) 0;
+  margin: 0; // séparateur invisible : l'espacement vient du gap du wrapper
 }
 
 /* -------------------------------

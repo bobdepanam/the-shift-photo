@@ -57,7 +57,7 @@
   flex: 0 0 auto;
 
   h1 {
-    font-size: 2rem;
+    font-size: var(--text-heading-size); // même échelle que classic / Commissions
     font-weight: bold;
     margin: 0 0 var(--space-2xs);
     color: var(--text-color);
@@ -142,6 +142,10 @@
   grid-column: span 2;
   overflow: hidden;
   margin: 8vh;
+  // Largeur plafonnée et centrée (avant : toute la largeur, ~1300px sur 1440)
+  justify-self: center;
+  width: calc(100% - 16vh);
+  max-width: 1100px;
 
   img,
   video {
@@ -150,6 +154,18 @@
     object-fit: contain;
     display: block;
     transition: transform var(--duration-slow) var(--easing-in-out);
+  }
+
+  // Images de galerie : hauteur limitée, ratio d'origine, jamais recadrées, centrées
+  img {
+    width: auto;
+    max-width: 100%;
+    max-height: 85vh; // avant : aucune limite (portraits jusqu'à ~150 % de l'écran)
+    margin-inline: auto;
+
+    @include down($bp-sm) {
+      max-height: 80vh;
+    }
   }
 }
 
@@ -165,6 +181,18 @@
     object-fit: contain;
     display: block;
     transition: transform var(--duration-slow) var(--easing-in-out);
+  }
+
+  // Images de galerie : hauteur limitée, ratio d'origine, jamais recadrées, centrées
+  img {
+    width: auto;
+    max-width: 100%;
+    max-height: 85vh; // avant : aucune limite (portraits jusqu'à ~150 % de l'écran)
+    margin-inline: auto;
+
+    @include down($bp-sm) {
+      max-height: 80vh;
+    }
   }
 }
 
@@ -198,5 +226,7 @@
   .mediaItemHalf {
     grid-column: auto;       // on n’utilise plus la grid
     margin: 4vh var(--space-md);        // marge verticale + légère marge horizontale
+    width: auto;             // mobile : pleine largeur disponible (plafond desktop levé)
+    max-width: none;
   }
 }

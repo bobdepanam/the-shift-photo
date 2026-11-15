@@ -1,29 +1,58 @@
+// src/styles/components/ArchivePage.module.scss
+// Page /archive (Commissions) : intro discrète alignée sur la mosaïque.
+// Les classes correspondent à celles utilisées dans src/app/archive/page.tsx.
 @use '@/styles/base/breakpoints' as *;
-@use 'mixins' as mix;
 
-/* ---------- WRAPPER DE PAGE (header + intro + sections) ---------- */
-.archivePageWrapper {
-  padding: calc(var(--space-xl) * 2) var(--space-xl);
-  max-width: 90rem; /* 1440px */
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column; /* ← corrige "flex" invalide */
-  gap: var(--space-xl);
+/* ---------- Wrapper de page : aucune mise en page propre (la mosaïque gère la sienne) ---------- */
+.archiveWrapper {
   color: inherit;
 }
 
-/* ---------- INTRO (titre + chapo) ---------- */
-.topSection {
-  text-align: left;
+/* ---------- Titre de page accessible, invisible ---------- */
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 
-  h1 {
-    @include mix.heading-xl;
-    margin: 0;
-  }
+/* ---------- Intro : index . commissions | description ---------- */
+// Même conteneur que la grille d'archive (ArchiveGrid.module.scss) pour partager ses bords.
+// Hauteur du fil d'Ariane alignée sur /about (marge de page + padding du breadcrumb).
+.intro {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-xl);
+  width: 100%;
+  max-width: min(1800px, 95vw);
+  margin-inline: auto;
+  padding: calc(var(--space-xl) * 2.5) calc(var(--space-xl) * 1.5) 0;
 
-  .intro {
-    @include mix.caption;
-    margin-top: var(--space-xs);
-    max-width: 37.5rem; /* 600px */
+  @include down($bp-sm) {
+    flex-direction: column;
+    gap: var(--space-sm);
+    max-width: 100%;
+    padding: calc(var(--space-xl) * 2.5) var(--space-md) 0; // même hauteur que /about
   }
+}
+
+// Le breadcrumb garde ses styles ; seul son padding interne est neutralisé
+// pour que « index » tombe sur le bord de la grille.
+.introCrumb > * {
+  padding: 0;
+}
+
+.introText {
+  max-width: 44ch;
+  margin: 0;
+  font-size: var(--text-small-size);
+  line-height: var(--text-small-line);
+  opacity: 0.75;
 }

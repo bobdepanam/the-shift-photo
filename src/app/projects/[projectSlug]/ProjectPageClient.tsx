@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState, useMemo } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState, useMemo } from 'react'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
 import Image from 'next/image'
@@ -10,12 +10,22 @@ import { Project } from '@/types/project'
 
 import Breadcrumb from '@/components/Beadcrumb/Breadcrumb'
 import ViewToggle from '@/components/ViewToggle/ViewToggle'
+import ProjectClose from '@/components/ProjectClose/ProjectClose'
 
 import { useGsapScrollFade } from '@/hooks/useGsapScrollFade'
 import { useGsapParallax } from '@/hooks/useGsapParallax'
 import { useGsapHorizontalScroll } from '@/hooks/useGsapHorizontalScroll'
 import { useIsDesktop } from '@/hooks/useIsDesktop'
+import {
+  PROJECT_IMAGE_FALLBACK,
+  isVideoSrc,
+  parseMediaHash,
+  projectImageSizes,
+  skipOptimizer,
+} from '@/utils/projectMedia'
 
+import { cancelHomeFlight, hasPendingHomeFlight, landHomeFlight } from '@/utils/thumbFlight'
+import { getLenis } from '@/utils/lenisInstance'
 import stylesClassic from '@/styles/components/ProjectPageClassic.module.scss'
 import stylesAlt from '@/styles/components/ProjectPageAlt.module.scss'
 
@@ -31,7 +41,59 @@ export default function ProjectPageClient({ project }: Props) {
   const sidebarRef = useRef<HTMLDivElement>(null)
   const loadMoreRef = useRef<HTMLDivElement | null>(null)
   const [layout, setLayout] = useState<'classic' | 'alt'>('classic')
-  const [visibleMediaCount, setVisibleMediaCount] = useState<number>(8)
+
+  // Média ciblé par #m-index (arrivée depuis une vignette) : lu dès le premier rendu.
+  // NB : ce composant n'est rendu que côté client (IntroLayoutWrapper), pas de risque d'hydratation.
+  const [targetIndex, setTargetIndex] = useState<number | null>(() =>
+    typeof window === 'undefined' ? null : parseMediaHash(window.location.hash)
+  )
+  // Cible au-delà des 8 premiers médias : montée directement, sans rendu intermédiaire
+  const [visibleMediaCount, setVisibleMediaCount] = useState<number>(() =>
+    Math.min(project.media.length, Math.max(8, (targetIndex ?? 0) + 1))
+  )
+  // Image à charger en priorité : la cible, sinon la première (hero)
+  const priorityIndex = targetIndex ?? 0
+
+  // ✈️ Vol Home → projet en attente pour CE média ? (décidé au premier rendu, synchrone)
+  const [arrivingByFlight] = useState(() => hasPendingHomeFlight(project.slug, targetIndex))
+  // Le défilement doux vers l'ancre et l'intro GSAP de la colonne sont sautés une fois
+  const skipAnchorScrollRef = useRef(false)
+  // Devient true dès que le mode change : l'intro GSAP habituelle reprend alors normalement
+  const layoutChangedRef = useRef(false)
+
+  useLayoutEffect(() => {
+    // Aucun vol pour cette page : un éventuel clone orphelin s'efface (navigation actuelle)
+    if (!arrivingByFlight || targetIndex === null) {
+      cancelHomeFlight()
+      return
+    }
+    const target = document.getElementById(`m-${targetIndex}`)
+    const column = mediaRef.current
+    if (!target || !column) {
+      cancelHomeFlight()
+      return
+    }
+
+    // Positionnement INSTANTANÉ sur la cible (même formule que le défilement doux habituel),
+    // avant le premier affichage, uniquement parce qu'un vol prend le relais
+    const offset = Math.max(0, column.getBoundingClientRect().top + window.scrollY)
+    const y = target.getBoundingClientRect().top + window.scrollY - offset
+    const lenis = getLenis()
+    lenis?.stop()
+    window.scrollTo({ top: Math.max(0, y), behavior: 'instant' })
+    lenis?.start()
+
+    const landed = landHomeFlight({
+      slug: project.slug,
+      index: targetIndex,
+      itemEl: target,
+      imgEl: target.querySelector('img'),
+    })
+    // (StrictMode rejoue l'effet en dev : on ne repasse jamais à false ici)
+    if (landed) skipAnchorScrollRef.current = true
+    // Montage unique : la décision est prise au premier rendu
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   const isDesktop = useIsDesktop()
 
   const visibleMedia = useMemo(
@@ -39,12 +101,27 @@ export default function ProjectPageClient({ project }: Props) {
     [project.media, visibleMediaCount]
   )
 
+  // Changement de projet dans la même instance : on repart de l'ancre courante.
+  // Le premier passage est ignoré (l'état initial tient déjà compte de l'ancre).
+  const isFirstSlugRef = useRef(true)
   useEffect(() => {
-    setVisibleMediaCount(8)
-  }, [project.slug])
+    if (isFirstSlugRef.current) {
+      isFirstSlugRef.current = false
+      return
+    }
+    const nextTarget = parseMediaHash(window.location.hash)
+    setTargetIndex(nextTarget)
+    setVisibleMediaCount(Math.min(project.media.length, Math.max(8, (nextTarget ?? 0) + 1)))
+  }, [project.slug, project.media.length])
 
   useEffect(() => {
     if (typeof window === 'undefined') return
+    // Arrivée par vol : déjà positionné instantanément (une seule fois ; un changement de mode
+    // classic/alt retrouve ensuite le comportement habituel)
+    if (skipAnchorScrollRef.current) {
+      skipAnchorScrollRef.current = false
+      return
+    }
     const containerTop = mediaRef.current?.getBoundingClientRect().top ?? 0
     const OFFSET = Math.max(0, containerTop + window.scrollY)
 
@@ -109,7 +186,10 @@ export default function ProjectPageClient({ project }: Props) {
 
   // ✅ Animation GSAP spécifique au layout "classic"
   useEffect(() => {
+    if (layout !== 'classic') layoutChangedRef.current = true
     if (!mediaRef.current || layout !== 'classic') return
+    // Arrivée par vol : la colonne est déjà en place sous le clone (pas d'intro qui la déplace)
+    if (arrivingByFlight && !layoutChangedRef.current) return
 
     const ctx = gsap.context(() => {
       gsap.fromTo(
@@ -127,7 +207,7 @@ export default function ProjectPageClient({ project }: Props) {
     }, mediaRef)
 
     return () => ctx.revert()
-  }, [layout])
+  }, [layout, arrivingByFlight])
 
   // ✅ Hooks personnalisés GSAP (animations génériques)
   useGsapScrollFade(`.${stylesClassic.sidebar}`)
@@ -136,6 +216,9 @@ export default function ProjectPageClient({ project }: Props) {
 
   return (
     <>
+      {/* CLOSE commun aux modes classic et alt : retour vers la grille d'origine */}
+      <ProjectClose slug={project.slug} />
+
       {(() => {
         if (!isDesktop) return null
         return (
@@ -201,17 +284,21 @@ export default function ProjectPageClient({ project }: Props) {
                         ? stylesClassic.mediaItemHalf
                         : stylesClassic.mediaItemFull
                     }
-                    initial={{ opacity: 0, y: 60 }}
+                    // Le média ciblé par l'ancre est visible d'emblée (pas de reveal qui le masque)
+                    initial={index === targetIndex ? false : { opacity: 0, y: 60 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, ease: 'easeOut' }}
                   >
-                    {media.type === 'image' ? (
+                    {media.type === 'image' && !isVideoSrc(media.src) ? (
                       <Image
                         src={media.src}
+                        unoptimized={skipOptimizer(media.src)}
                         alt={`${project.title} ${index + 1}`}
-                        width={1600}
-                        height={1000}
+                        width={media.width ?? PROJECT_IMAGE_FALLBACK.width}
+                        height={media.height ?? PROJECT_IMAGE_FALLBACK.height}
+                        sizes={projectImageSizes('classic', index)}
+                        priority={index === priorityIndex}
                         className={index === 0 ? stylesClassic.heroImage : undefined}
                       />
                     ) : (
@@ -284,17 +371,16 @@ export default function ProjectPageClient({ project }: Props) {
                         : stylesAlt.mediaItemHalf
                     }
                   >
-                    {media.type === 'image' ? (
+                    {media.type === 'image' && !isVideoSrc(media.src) ? (
                       <Image
                         src={media.src}
+                        unoptimized={skipOptimizer(media.src)}
                         alt={`${project.title} ${index + 1}`}
-                        width={1600}
-                        height={1000}
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'cover',
-                        }}
+                        width={media.width ?? PROJECT_IMAGE_FALLBACK.width}
+                        height={media.height ?? PROJECT_IMAGE_FALLBACK.height}
+                        sizes={projectImageSizes('alt', index)}
+                        priority={index === targetIndex}
+                        // Dimensions gérées par ProjectPageAlt.module.scss (limite 85vh, ratio d'origine)
                       />
                     ) : (
                       <video

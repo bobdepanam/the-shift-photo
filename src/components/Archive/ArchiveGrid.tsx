@@ -1,19 +1,38 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { AnimatePresence } from 'framer-motion'
 import ScrollImageItem from './ScrollImageItem'
 import ArchivePreviewOverlay from './ArchivePreviewOverlay'
 import styles from '@/styles/components/ArchiveGrid.module.scss'
 import ProjectFilter from '@/components/ProjectGrid/ProjectFilter'
+import { THUMB_FLIGHT_ENABLED, prepareThumbFlight, prepareThumbFlightWhenIdle } from '@/utils/thumbFlight'
 import type { Media } from '@/types/project'
 
-type ArchiveGridProps = {
-  media: (Media & { __category?: string })[]
+export type ArchiveImage = { src: string; width?: number; height?: number }
+
+/** Fiche d'un projet Commissions, partagée par toutes ses images */
+export type ArchiveProjectMeta = {
+  title: string
+  category: string
+  year?: string
+  summary?: string
+  url?: string
+  /** Images du projet, dans l'ordre du .md (navigation de l'aperçu) */
+  images: ArchiveImage[]
 }
 
+type ArchiveGridProps = {
+  media: GridMedia[]
+  projects: Record<string, ArchiveProjectMeta>
+}
+
+type ActivePreview = { slug: string; index: number }
+
+type GridMedia = Media & { __category?: string; __slug?: string }
+
 type Node =
-  | { kind: 'image'; id: string; media: Media; index: number }
+  | { kind: 'image'; id: string; media: GridMedia; index: number }
   | { kind: 'spacer'; span: number }
 
 /** RNG stable pour la répartition des spacers */
@@ -26,7 +45,7 @@ function makeRand(seedInit = 7331) {
   }
 }
 
-export default function ArchiveGrid({ media }: ArchiveGridProps) {
+export default function ArchiveGrid({ media, projects }: ArchiveGridProps) {
   /**
    * ✅ Toggle filters UI
    * - false: cache le composant ProjectFilter (pas assez de contenu / categories)
@@ -34,7 +53,7 @@ export default function ArchiveGrid({ media }: ArchiveGridProps) {
    */
   const filtersEnabled = false
 
-  const [activeIndex, setActiveIndex] = useState<number | null>(null)
+  const [active, setActive] = useState<ActivePreview | null>(null)
   const [activeCategory, setActiveCategory] = useState<string>('all')
 
   const STEP = 48
@@ -88,17 +107,40 @@ export default function ArchiveGrid({ media }: ArchiveGridProps) {
     return out
   }, [images])
 
-  const goNext = () => {
-    setActiveIndex((prev) => {
-      if (prev === null || images.length === 0) return prev
-      return (prev + 1) % images.length
-    })
+  // Vignette d'origine (point de départ/arrivée de la transition) — ref : aucun re-rendu
+  const sourceThumbRef = useRef<HTMLElement | null>(null)
+
+  // Transition prête avant le premier clic : chargement au repos du navigateur
+  useEffect(() => prepareThumbFlightWhenIdle(THUMB_FLIGHT_ENABLED), [])
+
+  // Ouverture : on retrouve le projet de l'image et sa position dans ce projet
+  const openPreview = useCallback(
+    (item: GridMedia, thumbBox: HTMLElement | null) => {
+      const slug = item.__slug
+      if (!slug || !projects[slug]) return
+      const index = projects[slug].images.findIndex((image) => image.src === item.src)
+      sourceThumbRef.current = thumbBox
+      setActive({ slug, index: Math.max(0, index) })
+    },
+    [projects]
+  )
+
+  const closePreview = useCallback(() => setActive(null), [])
+
+  const activeProject = active ? projects[active.slug] : null
+
+  const projectLabel = (item: GridMedia) => {
+    const project = item.__slug ? projects[item.__slug] : undefined
+    return project ? `Open ${project.title}` : 'Open preview'
   }
 
-  const activeMedia = activeIndex === null ? null : images[activeIndex]?.media
-
   return (
-    <div className={styles.archiveWrapper}>
+    // Secours si le repos n'est pas encore survenu : survol / pointerdown (idempotent)
+    <div
+      className={styles.archiveWrapper}
+      onPointerEnter={THUMB_FLIGHT_ENABLED ? () => void prepareThumbFlight() : undefined}
+      onPointerDownCapture={THUMB_FLIGHT_ENABLED ? () => void prepareThumbFlight() : undefined}
+    >
       {/* ✅ Filters UI (optionnel) */}
       {filtersEnabled && (
         <div>
@@ -127,7 +169,8 @@ export default function ArchiveGrid({ media }: ArchiveGridProps) {
             <div key={`img-${node.media.src}-${idx}`} className={styles.item}>
               <ScrollImageItem
                 src={node.media.src}
-                onClick={() => setActiveIndex(node.index)}
+                label={projectLabel(node.media)}
+                onClick={(thumbBox) => openPreview(node.media, thumbBox)}
               />
             </div>
           )
@@ -144,11 +187,13 @@ export default function ArchiveGrid({ media }: ArchiveGridProps) {
 
       {/* Preview centrale (click-to-preview) */}
       <AnimatePresence>
-        {activeMedia ? (
+        {active && activeProject ? (
           <ArchivePreviewOverlay
-            image={activeMedia}
-            onClose={() => setActiveIndex(null)}
-            onNext={goNext}
+            key={active.slug}
+            project={activeProject}
+            initialIndex={active.index}
+            sourceThumb={sourceThumbRef.current}
+            onClose={closePreview}
           />
         ) : null}
       </AnimatePresence>

@@ -8,7 +8,7 @@ import IntroLayoutWrapper from '@/components/LayoutWrapper/IntroLayoutWrapper';
 
 export default function BodyWithTheme({ children }: { children: React.ReactNode }) {
   return (
-    <body>
+    <>
       <IntroLayoutWrapper>
         <Header />
         <LenisWrapper />
@@ -17,6 +17,6 @@ export default function BodyWithTheme({ children }: { children: React.ReactNode 
         </div>
         <Footer />
       </IntroLayoutWrapper>
-    </body>
+    </>
   );
 }

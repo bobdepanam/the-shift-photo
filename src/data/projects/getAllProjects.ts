@@ -4,7 +4,6 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { Project } from '@/types/project';
-import { unstable_cache } from 'next/cache';
 
 const PROJECTS_DIR = path.join(process.cwd(), 'src/data/projects');
 
@@ -30,12 +29,19 @@ const _getAllProjects = (includeArchive: boolean): Project[] => {
         typeof data.homeOrder === 'number'
           ? data.homeOrder
           : null,
+      // Champs facultatifs (aperçu Commissions) — absents = non affichés
+      ...(typeof data.summary === 'string' && data.summary.trim()
+        ? { summary: data.summary.trim() }
+        : {}),
+      ...(typeof data.url === 'string' && data.url.trim() ? { url: data.url.trim() } : {}),
+      ...(data.year != null && String(data.year).trim() ? { year: String(data.year).trim() } : {}),
     };
   });
 };
 
-export const getAllProjects = unstable_cache(
-  async (includeArchive = false) => _getAllProjects(includeArchive),
-  ['all-projects'],
-  { revalidate: false }
-);
+// Pas de unstable_cache : sa clé fixe (['all-projects']) ne dépend pas du contenu
+// des .md, et le Data Cache persiste entre builds (.next/cache, restauré par Vercel).
+// Résultat : un projet ajouté ou modifié n'apparaissait pas. Les pages qui lisent
+// ces données sont statiques — la lecture des .md n'a lieu qu'au build.
+export const getAllProjects = async (includeArchive = false): Promise<Project[]> =>
+  _getAllProjects(includeArchive);
