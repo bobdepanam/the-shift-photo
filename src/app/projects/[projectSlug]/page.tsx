@@ -1,9 +1,16 @@
 // src/app/projects/[projectSlug]/page.tsx
 
 import { notFound } from 'next/navigation'
-import { getProjectBySlug } from '@/lib/project'
+import { getAllProjectSlugs, getProjectBySlug } from '@/lib/project'
 import { getPublicImageSize } from '@/utils/imageSize'
 import ProjectPageClient from './ProjectPageClient'
+
+// Pages projet générées au build : les dimensions des images (public/) sont lues à ce moment-là.
+// Un slug inconnu reste rendu à la demande et répond par notFound(), comme avant.
+export async function generateStaticParams() {
+  const slugs = await getAllProjectSlugs()
+  return slugs.map(({ slug }) => ({ projectSlug: slug }))
+}
 
 export default async function Page({ params }: { params: { projectSlug: string } }) {
   const project = await getProjectBySlug(params.projectSlug)
