@@ -5,7 +5,7 @@ import { destroyLenis, initLenis } from '@/utils/lenis'
 
 export default function useLenis() {
   useEffect(() => {
-    const lenis = initLenis()
+    initLenis()
 
     return () => {
       destroyLenis()

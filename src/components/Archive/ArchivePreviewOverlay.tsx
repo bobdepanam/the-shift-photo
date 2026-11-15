@@ -1,9 +1,10 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import type { Media } from '@/types/project'
 import styles from '@/styles/components/ArchivePreviewOverlay.module.scss'
 import { BLUR_DATA_URL } from '@/utils/imageUtils'
+import { getLenis } from '@/utils/lenisInstance'
 
 type Props = {
   image: Media
@@ -12,10 +13,26 @@ type Props = {
 }
 
 export default function ArchivePreviewOverlay({ image, onClose, onNext }: Props) {
+  // Ref pour ne pas relancer l'effet à chaque rendu du parent (onClose est une closure inline)
+  const onCloseRef = useRef(onClose)
+  onCloseRef.current = onClose
+
   useEffect(() => {
+    // 🔒 Blocage du scroll : overflow natif + arrêt de Lenis (qui scrolle via window.scrollTo)
+    const lenis = getLenis()
+    const previousOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
+    lenis?.stop()
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onCloseRef.current()
+    }
+    window.addEventListener('keydown', onKeyDown)
+
     return () => {
-      document.body.style.overflow = ''
+      window.removeEventListener('keydown', onKeyDown)
+      document.body.style.overflow = previousOverflow
+      lenis?.start()
     }
   }, [])
 
@@ -42,6 +59,7 @@ export default function ArchivePreviewOverlay({ image, onClose, onNext }: Props)
         className={styles.overlay}
         aria-modal="true"
         role="dialog"
+        data-lenis-prevent
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}

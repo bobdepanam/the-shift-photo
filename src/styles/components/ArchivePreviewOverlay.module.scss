@@ -9,6 +9,7 @@
   background: rgba(0, 0, 0, 0.85);
   cursor: zoom-out;
   overflow: auto;
+  overscroll-behavior: contain; // empêche le scroll de se propager à la page (mobile)
 }
 
 .mediaWrapper {

@@ -33,7 +33,7 @@ export default function ScrollImageItem({ src, onClick }: Props) {
           className={`${styles.thumb} ${isLoaded ? styles.isLoaded : ''}`}
           placeholder="blur"
           blurDataURL={BLUR_DATA_URL}
-          onLoadingComplete={() => setIsLoaded(true)}
+          onLoad={() => setIsLoaded(true)}
         />
       </div>
     </motion.div>
