@@ -20,7 +20,7 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: clamp(2.5rem, 5vw, 4rem);
+  gap: clamp(3rem, 6vw, 5rem); // avant : clamp(2.5rem, 5vw, 4rem)
   min-width: 0;
   width: 100%;
 }
@@ -95,7 +95,8 @@
   min-width: 0;
 
   display: grid;
-  gap: clamp(0.75rem, 1.5vw, 1.25rem);
+  column-gap: clamp(0.75rem, 1.5vw, 1.25rem); // inchangé : même nombre et largeur de colonnes
+  row-gap: clamp(1rem, 2.2vw, 1.75rem); // avant : clamp(0.75rem, 1.5vw, 1.25rem)
 
   /* ✅ wrap: auto-fill creates as many columns as fit */
   grid-template-columns: repeat(auto-fill, minmax(clamp(120px, 10vw, 180px), 1fr));
@@ -110,8 +111,10 @@
 
 .mediaThumb {
   aspect-ratio: 4 / 5;
-  max-height: 180px;
-  width: 100%;
+  // Desktop : vignette ~14 % plus petite dans sa cellule → plus d'air, colonnes inchangées
+  max-height: 155px; // avant : 180px
+  width: 86%; // avant : 100%
+  justify-self: start;
 
   overflow: hidden;
 
@@ -172,7 +175,6 @@
    MISC
 ---------------------------------- */
 
-.gridSpacer { display: none; }
 
 @media (prefers-reduced-motion: reduce) {
   .gridItem,
@@ -200,7 +202,10 @@
     grid-template-columns: repeat(auto-fill, minmax(clamp(140px, 18vw, 220px), 1fr));
   }
 
-  .mediaThumb { max-height: 200px; }
+  .mediaThumb {
+    max-height: 184px; // avant : 200px
+    width: 92%; // tablette : réduction plus légère
+  }
 }
 
 @include down($bp-sm) {
@@ -214,5 +219,8 @@
     grid-template-columns: repeat(auto-fill, minmax(clamp(160px, 45vw, 240px), 1fr));
   }
 
-  .mediaThumb { max-height: 180px; }
+  .mediaThumb {
+    max-height: 180px; // mobile : inchangé (lisibilité, zones tactiles)
+    width: 100%;
+  }
 }

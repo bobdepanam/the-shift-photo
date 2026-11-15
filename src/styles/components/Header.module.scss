@@ -19,6 +19,28 @@
     background-color: var(--backdrop-bg);
   }
 
+  /* Après ~100px de scroll : « s. » remplace « the shift » (réversible) */
+  &[data-compact='true'] {
+    .signatureFull {
+      opacity: 0;
+      transform: translateY(-35%);
+    }
+
+    .signatureShort {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .signatureFull,
+    .signatureShort {
+      transform: none !important;
+      transition-property: opacity;
+      transition-duration: 120ms;
+    }
+  }
+
   .bar {
     display: flex;
     align-items: center;
@@ -134,4 +156,28 @@
       top: 1px;
     }
   }
+}
+
+/* -------------------------------
+   SIGNATURE « the shift » ↔ « s. »
+   Superposées dans une même cellule (largeur fixe), opacity + transform uniquement.
+   Règles de base au premier niveau : la bascule .header[data-compact] reste prioritaire.
+--------------------------------- */
+.signature {
+  display: inline-grid;
+  text-transform: lowercase;
+  white-space: nowrap;
+}
+
+.signatureFull,
+.signatureShort {
+  grid-area: 1 / 1;
+  transition:
+    opacity 250ms var(--easing-out),
+    transform 250ms var(--easing-out);
+}
+
+.signatureShort {
+  opacity: 0;
+  transform: translateY(35%);
 }

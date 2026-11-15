@@ -13,37 +13,6 @@
 }
 
 // -------------------------
-// ✅ BREADCRUMB
-// -------------------------
-.breadcrumb {
-  display: flex;
-  align-items: center;
-  font-size: var(--font-size-sm);
-  gap: var(--space-2xs);
-  color: var(--text-color);
-  opacity: 0.65;
-  text-transform: lowercase;
-
-  a {
-    color: var(--text-color);
-    text-decoration: none;
-    transition: color var(--duration-base) var(--easing-in-out);
-
-    &:hover {
-      opacity: 0.8;
-    }
-  }
-
-  .active {
-    font-weight: 600;
-  }
-
-  span {
-    user-select: none;
-  }
-}
-
-// -------------------------
 // ✅ LAYOUT GRID (Sidebar + Media)
 // -------------------------
 .layout {
@@ -67,6 +36,11 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
+
+  // Titre du projet : même échelle que la galerie Commissions
+  h3 {
+    font-size: var(--text-heading-size);
+  }
 
   .category {
     font-style: italic;
@@ -152,6 +126,18 @@
     border-radius: 0;
     transition: transform var(--duration-slow) var(--easing-in-out);
   }
+
+  // Images de galerie : hauteur limitée, ratio d'origine, jamais recadrées, centrées
+  img {
+    width: auto;
+    max-width: 100%;
+    max-height: 85vh; // avant : aucune limite (portraits jusqu'à ~150 % de l'écran)
+    margin-inline: auto;
+
+    @include down($bp-sm) {
+      max-height: 80vh;
+    }
+  }
 }
 
 // -------------------------
@@ -184,6 +170,18 @@
     display: block;
     border-radius: 0;
     transition: transform var(--duration-slow) var(--easing-in-out);
+  }
+
+  // Images de galerie : hauteur limitée, ratio d'origine, jamais recadrées, centrées
+  img {
+    width: auto;
+    max-width: 100%;
+    max-height: 85vh; // avant : aucune limite (portraits jusqu'à ~150 % de l'écran)
+    margin-inline: auto;
+
+    @include down($bp-sm) {
+      max-height: 80vh;
+    }
   }
 }
 

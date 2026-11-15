@@ -1,0 +1,44 @@
+// src/styles/components/HoverPreview.module.scss
+// Aperçu flottant de la grille alt : même boîte que l'ancien HoverInfo (clamp 375–500px, 4:3),
+// entrée courte (fondu + légère montée), opacity/transform uniquement.
+
+.root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 12000;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.card {
+  width: clamp(375px, 22vw, 500px);
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--background-color);
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 150ms var(--easing-out),
+    transform 150ms var(--easing-out);
+
+  .root[data-visible='true'] & {
+    opacity: 1;
+    transform: none;
+    transition-duration: 220ms;
+  }
+}
+
+.img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transform: none !important;
+    transition-property: opacity;
+  }
+}
